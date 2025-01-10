@@ -20,10 +20,21 @@ class TabBarViewController: UITabBarController {
         let connect = UINavigationController(rootViewController: ConnectViewController())
         
         home.tabBarItem.image = UIImage(systemName: "house")
+        home.tabBarItem.selectedImage = UIImage(systemName: "house.fill")
+        
         search.tabBarItem.image = UIImage(systemName: "magnifyingglass")
+        search.tabBarItem.selectedImage = UIImage(systemName: "magnifyingglass.fill")
+        
         schedule.tabBarItem.image = UIImage(systemName: "calendar")
+        schedule.tabBarItem.selectedImage = UIImage(systemName: "calendar.fill")
+        
         progress.tabBarItem.image = UIImage(systemName: "clipboard")
+        progress.tabBarItem.selectedImage = UIImage(systemName: "clipboard.fill")
+        
         connect.tabBarItem.image = UIImage(systemName: "person")
+        connect.tabBarItem.selectedImage = UIImage(systemName: "person.fill")
+        
+        
         
         
         home.title = "Home"
