@@ -12,7 +12,6 @@ class ConnectViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
     
     }
     
