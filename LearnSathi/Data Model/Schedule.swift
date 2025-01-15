@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct Schedule {
     var tutorLogo, tutorName, duration, subjectLogo, subjectName: String
     var date : Date
@@ -29,10 +28,6 @@ struct Schedule {
     }
 }
 
-
-let scheduleData: [Schedule] = [
-    Schedule(tutorLogo: "tutor1", tutorName: "Tutor 1", duration: "1 hour", subjectLogo: "subject1", subjectName: "Subject 1", date: Date(), startTime: "10:00 AM", endTime: "11:00 AM", topicDescription: ["Topic 1", "Topic 2", "Topic    3"], lessonNumber: 1),
-]
 
 
 

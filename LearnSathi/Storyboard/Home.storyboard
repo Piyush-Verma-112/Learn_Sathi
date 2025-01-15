@@ -53,12 +53,30 @@
                                 <color key="textColor" red="0.42352941176470588" green="0.42352941176470588" blue="0.42352941176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Upcoming Classes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eZb-2Y-WZj">
-                                <rect key="frame" x="20" y="269.33333333333331" width="208.33333333333334" height="28.666666666666686"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Upcoming Classes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kmo-lR-S7y">
+                                <rect key="frame" x="20" y="274.33333333333331" width="208.33333333333334" height="28.666666666666686"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="uxM-VH-ds4">
+                                <rect key="frame" x="0.0" y="317" width="440" height="135"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="135" id="C9S-6P-Ndr"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="0.0" id="cHq-0k-N25">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="20" minY="0.0" maxX="30" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="a2G-Kr-OUr" id="G29-dg-fWp"/>
+                                    <outlet property="delegate" destination="a2G-Kr-OUr" id="CbD-hq-wLk"/>
+                                </connections>
+                            </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="5C1-NN-oSB"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -66,20 +84,26 @@
                             <constraint firstItem="MqZ-Q5-PF9" firstAttribute="leading" secondItem="5C1-NN-oSB" secondAttribute="leading" constant="20" id="0Y7-cH-GWg"/>
                             <constraint firstItem="j3b-7t-UrW" firstAttribute="leading" secondItem="5C1-NN-oSB" secondAttribute="leading" constant="20" id="1fj-Q9-PMp"/>
                             <constraint firstItem="MqZ-Q5-PF9" firstAttribute="top" secondItem="Qb3-I6-gfi" secondAttribute="bottom" constant="30" id="GJ8-tG-9rq"/>
-                            <constraint firstItem="eZb-2Y-WZj" firstAttribute="top" secondItem="j3b-7t-UrW" secondAttribute="bottom" constant="20" id="LqL-VA-V2F"/>
                             <constraint firstItem="5C1-NN-oSB" firstAttribute="trailing" secondItem="Qb3-I6-gfi" secondAttribute="trailing" constant="20" id="Oyc-DO-HvQ"/>
+                            <constraint firstItem="kmo-lR-S7y" firstAttribute="leading" secondItem="5C1-NN-oSB" secondAttribute="leading" constant="20" id="S3h-Ki-34J"/>
+                            <constraint firstItem="5C1-NN-oSB" firstAttribute="trailing" secondItem="uxM-VH-ds4" secondAttribute="trailing" id="SNy-TV-XfO"/>
+                            <constraint firstItem="uxM-VH-ds4" firstAttribute="leading" secondItem="5C1-NN-oSB" secondAttribute="leading" id="YGF-No-gbE"/>
+                            <constraint firstItem="uxM-VH-ds4" firstAttribute="top" secondItem="5C1-NN-oSB" secondAttribute="top" constant="255" id="YpO-QI-461"/>
                             <constraint firstItem="j3b-7t-UrW" firstAttribute="top" secondItem="MqZ-Q5-PF9" secondAttribute="bottom" constant="10" id="b8x-QU-i9Q"/>
-                            <constraint firstItem="eZb-2Y-WZj" firstAttribute="leading" secondItem="5C1-NN-oSB" secondAttribute="leading" constant="20" id="hJ4-u6-9xh"/>
+                            <constraint firstItem="kmo-lR-S7y" firstAttribute="top" secondItem="j3b-7t-UrW" secondAttribute="bottom" constant="25" id="jLK-XN-4L4"/>
                             <constraint firstItem="Qb3-I6-gfi" firstAttribute="top" secondItem="5C1-NN-oSB" secondAttribute="top" constant="36" id="mFP-Z9-OZ1"/>
                             <constraint firstItem="Qb3-I6-gfi" firstAttribute="leading" secondItem="5C1-NN-oSB" secondAttribute="leading" constant="20" id="nxv-Td-9Sw"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Home" image="house" catalog="system" selectedImage="house.fill" id="EJA-qc-SJz"/>
                     <navigationItem key="navigationItem" id="Kvv-z9-j3B"/>
+                    <connections>
+                        <outlet property="ScheduleCollectionView" destination="uxM-VH-ds4" id="ne2-ah-NKi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S3E-Hl-qFn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1876" y="-37"/>
+            <point key="canvasLocation" x="1875.0000000000002" y="-37.029288702928874"/>
         </scene>
     </scenes>
     <resources>
