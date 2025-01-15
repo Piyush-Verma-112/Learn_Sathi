@@ -8,10 +8,17 @@
 import UIKit
 
 class CalendarCollectionViewCell: UICollectionViewCell {
+    static let identifier = String(describing: CalendarCollectionViewCell.self)
+    
+    @IBOutlet var dayLabel: UILabel!
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    @IBOutlet var dateLabel: UILabel!
+
+    
+    func setup(calendar: CalendarData) {
+        dayLabel.text = calendar.day
+        dateLabel.text = calendar.date.formatted()
+        
     }
 
 }
