@@ -10,6 +10,7 @@ import UIKit
 class RequestTableViewCell: UITableViewCell {
     
     static let identifier = "RequestTableViewCell"
+    
     @IBOutlet weak var requestStatusBtn: UIButton!
     
     @IBOutlet var tutorProfileImageView: UIImageView!
