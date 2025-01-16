@@ -25,6 +25,10 @@ class RequestViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        title = "Requests"
+        
+        registerCells()
     }
 
     func registerCells() {

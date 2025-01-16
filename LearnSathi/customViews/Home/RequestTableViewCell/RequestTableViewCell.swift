@@ -10,9 +10,12 @@ import UIKit
 class RequestTableViewCell: UITableViewCell {
     
     static let identifier = "RequestTableViewCell"
+    @IBOutlet weak var requestStatusBtn: UIButton!
     
     @IBOutlet var tutorProfileImageView: UIImageView!
     @IBOutlet var tutorNameLbl: UILabel!
+    
+    
     
     func setup(request: Request) {
         tutorProfileImageView.image = request.tutorImage
