@@ -148,10 +148,10 @@
             </objects>
             <point key="canvasLocation" x="1701.5267175572519" y="-75.352112676056336"/>
         </scene>
-        <!--View Controller-->
+        <!--User Profile View Controller-->
         <scene sceneID="2VF-S2-7on">
             <objects>
-                <viewController id="jO2-At-fbW" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="UserProfileViewController" id="jO2-At-fbW" customClass="UserProfileViewController" customModule="LearnSathi" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="brV-Ot-aYQ">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

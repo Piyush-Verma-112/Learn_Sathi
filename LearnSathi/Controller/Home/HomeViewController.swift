@@ -10,6 +10,7 @@ import UIKit
 class HomeViewController: UIViewController {
 
     @IBOutlet weak var ScheduleCollectionView: UICollectionView!
+    @IBOutlet var profileImage: UIImageView!
     
     
     var schedule: [Schedule] = [
@@ -20,15 +21,33 @@ class HomeViewController: UIViewController {
     ]
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        addTapGesture()
         registerCells()
         
+    }
+    
+    private func addTapGesture() {
+        profileImage.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+        profileImage.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func imageTapped() {
+        let controller = storyboard?.instantiateViewController(identifier: "UserProfileViewController") as! UserProfileViewController
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     private func registerCells() {
         ScheduleCollectionView.register(UINib(nibName: ScheduleCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: ScheduleCollectionViewCell.identifier)
     }
 
+    @IBAction func seeMoreBtnClicked(_ sender: UIButton) {
+        
+        let controller = storyboard?.instantiateViewController(identifier: "RequestViewController") as! RequestViewController
+        
+        navigationController?.pushViewController(controller, animated: true)
+    }
 }
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
