@@ -6,9 +6,8 @@
 //
 
 import Foundation
-import UIKit
 
 struct Request {
-    var tutorImage: UIImage
+    var tutorImage: String
     var tutorName: String
 }

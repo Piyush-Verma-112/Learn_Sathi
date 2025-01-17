@@ -28,6 +28,4 @@ class TutorCollectionViewCell: UICollectionViewCell {
         tutorSubjectsLbl.text = search.tutorSubjects
         tutorDistance.text = search.tutorLocation
     }
-    
-
 }

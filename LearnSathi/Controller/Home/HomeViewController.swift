@@ -15,13 +15,11 @@ class HomeViewController: UIViewController {
     
     
     var requests: [Request] = [
-        
-        Request(tutorImage: #imageLiteral(resourceName: "profileImage.png"), tutorName: "Shahma Ansari"),
-        Request(tutorImage: #imageLiteral(resourceName: "profileImage.png"), tutorName: "Shahma Ansari"),
-        Request(tutorImage: #imageLiteral(resourceName: "profileImage.png"), tutorName: "Shahma Ansari"),
-        Request(tutorImage: #imageLiteral(resourceName: "profileImage.png"), tutorName: "Shahma Ansari"),
-        Request(tutorImage: #imageLiteral(resourceName: "profileImage.png"), tutorName: "Shahma Ansari"),
-        
+        Request(tutorImage: "profileImage", tutorName: "Shahma Ansari"),
+        Request(tutorImage: "profileImage", tutorName: "Shahma Ansari"),
+        Request(tutorImage: "profileImage", tutorName: "Shahma Ansari"),
+        Request(tutorImage: "profileImage", tutorName: "Shahma Ansari"),
+        Request(tutorImage: "profileImage", tutorName: "Shahma Ansari"),
     ]
     
     var schedule: [Schedule] = [
@@ -30,6 +28,7 @@ class HomeViewController: UIViewController {
         Schedule(tutorLogo: "person", tutorName: "Pradeep Gupta", duration: "1 hr", subjectLogo: "EnglishLogo", subjectName: "English Grammer", date: Date(), startTime: "10:00 AM", endTime: "11:00 AM", topicDescription: ["Topic 1", "Topic 2", "Topic    3"], lessonNumber: 1),
         Schedule(tutorLogo: "person", tutorName: "Pradeep Gupta", duration: "1 hr", subjectLogo: "EnglishLogo", subjectName: "English Grammer", date: Date(), startTime: "10:00 AM", endTime: "11:00 AM", topicDescription: ["Topic 1", "Topic 2", "Topic    3"], lessonNumber: 1),
     ]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

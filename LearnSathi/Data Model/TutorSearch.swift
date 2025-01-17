@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct TutorSearch: Codable {
+struct TutorSearch {
     var tutorProfile: String
     var tutorName: String
     var tutorRating: Float
