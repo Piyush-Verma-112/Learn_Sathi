@@ -135,7 +135,7 @@
         <scene sceneID="hQO-lH-dLC">
             <objects>
                 <tabBarController storyboardIdentifier="TabbarVC" id="rwT-20-DU5" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="EOI-I5-WN7">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="EOI-I5-WN7">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.15686274509803921" green="0.39215686274509803" blue="0.77254901960784317" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
