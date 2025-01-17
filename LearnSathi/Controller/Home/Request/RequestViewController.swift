@@ -14,11 +14,11 @@ class RequestViewController: UIViewController {
     
     var requests: [Request] = [
         
-        Request(tutorImage: #imageLiteral(resourceName: "profileImage.png"), tutorName: "Shahma Ansari"),
-        Request(tutorImage: #imageLiteral(resourceName: "profileImage.png"), tutorName: "Shahma Ansari"),
-        Request(tutorImage: #imageLiteral(resourceName: "profileImage.png"), tutorName: "Shahma Ansari"),
-        Request(tutorImage: #imageLiteral(resourceName: "profileImage.png"), tutorName: "Shahma Ansari"),
-        Request(tutorImage: #imageLiteral(resourceName: "profileImage.png"), tutorName: "Shahma Ansari"),
+        Request(tutorImage: "profileImage", tutorName: "Shahma Ansari"),
+        Request(tutorImage: "profileImage", tutorName: "Shahma Ansari"),
+        Request(tutorImage: "profileImage", tutorName: "Shahma Ansari"),
+        Request(tutorImage: "profileImage", tutorName: "Shahma Ansari"),
+        Request(tutorImage: "profileImage", tutorName: "Shahma Ansari"),
         
     ]
     
