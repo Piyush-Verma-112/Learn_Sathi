@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Whz-70-RYX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Rps-Ab-ThZ">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
@@ -8,20 +8,56 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Search-->
+        <!--Search Tutor-->
         <scene sceneID="sIt-mi-WPp">
             <objects>
                 <viewController storyboardIdentifier="SearchVC" id="Whz-70-RYX" customClass="SearchViewController" customModule="LearnSathi" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pEC-cm-c4k">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="urB-oI-FW5">
+                                <rect key="frame" x="0.0" y="103" width="393" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Whz-70-RYX" id="AJZ-Qd-qDW"/>
+                                </connections>
+                            </searchBar>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="SLc-wT-pBf"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="urB-oI-FW5" firstAttribute="trailing" secondItem="SLc-wT-pBf" secondAttribute="trailing" id="Sg1-qS-wMX"/>
+                            <constraint firstItem="urB-oI-FW5" firstAttribute="top" secondItem="SLc-wT-pBf" secondAttribute="top" id="isy-8E-Y9A"/>
+                            <constraint firstItem="urB-oI-FW5" firstAttribute="leading" secondItem="SLc-wT-pBf" secondAttribute="leading" id="mvg-35-0cH"/>
+                        </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Search" image="magnifyingglass" catalog="system" selectedImage="magnifyingglass" id="wk4-Lp-c6r"/>
-                    <navigationItem key="navigationItem" id="Uco-0o-8BY"/>
+                    <navigationItem key="navigationItem" title="Search Tutor" id="Uco-0o-8BY">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="sph-Hd-FlE">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M5p-kZ-ulq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3379.3893129770991" y="-37.323943661971832"/>
+        </scene>
+        <!--Search-->
+        <scene sceneID="HMj-3g-E0h">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Rps-Ab-ThZ" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Search" image="magnifyingglass" catalog="system" selectedImage="magnifyingglass" id="wk4-Lp-c6r"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="LfR-0t-hin">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Whz-70-RYX" kind="relationship" relationship="rootViewController" id="qeO-um-EVK"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GWP-Rt-Ysc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2452.6717557251909" y="-37.323943661971832"/>
         </scene>

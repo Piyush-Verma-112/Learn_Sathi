@@ -11,7 +11,18 @@ class HomeViewController: UIViewController {
 
     @IBOutlet weak var ScheduleCollectionView: UICollectionView!
     @IBOutlet var profileImage: UIImageView!
+    @IBOutlet weak var requestTableView: UITableView!
     
+    
+    var requests: [Request] = [
+        
+        Request(tutorImage: #imageLiteral(resourceName: "profileImage.png"), tutorName: "Shahma Ansari"),
+        Request(tutorImage: #imageLiteral(resourceName: "profileImage.png"), tutorName: "Shahma Ansari"),
+        Request(tutorImage: #imageLiteral(resourceName: "profileImage.png"), tutorName: "Shahma Ansari"),
+        Request(tutorImage: #imageLiteral(resourceName: "profileImage.png"), tutorName: "Shahma Ansari"),
+        Request(tutorImage: #imageLiteral(resourceName: "profileImage.png"), tutorName: "Shahma Ansari"),
+        
+    ]
     
     var schedule: [Schedule] = [
         Schedule(tutorLogo: "person", tutorName: "Pradeep Gupta", duration: "1 hr", subjectLogo: "EnglishLogo", subjectName: "English Grammer", date: Date(), startTime: "10:00 AM", endTime: "11:00 AM", topicDescription: ["Topic 1", "Topic 2", "Topic    3"], lessonNumber: 1),
@@ -21,8 +32,9 @@ class HomeViewController: UIViewController {
     ]
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         addTapGesture()
+        registerTableCells()
         registerCells()
         
     }
@@ -36,6 +48,10 @@ class HomeViewController: UIViewController {
     @objc func imageTapped() {
         let controller = storyboard?.instantiateViewController(identifier: "UserProfileViewController") as! UserProfileViewController
         navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    private func registerTableCells() {
+        requestTableView.register(UINib(nibName: RequestTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: RequestTableViewCell.identifier)
     }
     
     private func registerCells() {
@@ -60,6 +76,21 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ScheduleCollectionViewCell.identifier, for: indexPath) as! ScheduleCollectionViewCell
         
         cell.setup(schedule: schedule[indexPath.row])
+        
+        return cell
+    }
+}
+
+extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return requests.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = requestTableView.dequeueReusableCell(withIdentifier: RequestTableViewCell.identifier) as! RequestTableViewCell
+        
+        cell.setup(request: requests[indexPath.row])
         
         return cell
     }
