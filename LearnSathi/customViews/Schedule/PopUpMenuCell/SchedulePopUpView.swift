@@ -1,105 +1,238 @@
-//
-//  PoPUpView.swift
-//  LearnSathi
-//
-//  Created by Batch - 1 on 16/01/25.
-//
-
 import UIKit
-
 class SchedulePopUpView: UIView {
-
-
-        private let tutorLogoImageView = UIImageView()
-        private let tutorNameLabel = UILabel()
-        private let durationLabel = UILabel()
-        private let subjectLogoImageView = UIImageView()
-        private let subjectNameLabel = UILabel()
-        private let startTimeLabel = UILabel()
-        private let endTimeLabel = UILabel()
-        private let topicDescriptionLabel = UILabel()
-        private let lessonNumberLabel = UILabel()
-        
-        override init(frame: CGRect) {
-            super.init(frame: frame)
-            setupUI()
-        }
-        
-        required init?(coder: NSCoder) {
-            super.init(coder: coder)
-            setupUI()
-        }
-        
-        private func setupUI() {
-            self.backgroundColor = .white
-            self.layer.cornerRadius = 10
-            self.layer.shadowColor = UIColor.black.cgColor
-            self.layer.shadowOpacity = 0.2
-            self.layer.shadowOffset = CGSize(width: 0, height: 2)
-            
-            // Configure UI elements
-            configureLabels()
-            configureImageViews()
-            
-            // Add and layout subviews
-            let stackView = UIStackView(arrangedSubviews: [
-                tutorLogoImageView,
-                tutorNameLabel,
-                durationLabel,
-                subjectLogoImageView,
-                subjectNameLabel,
-                startTimeLabel,
-                endTimeLabel,
-                topicDescriptionLabel,
-                lessonNumberLabel
-            ])
-            stackView.axis = .vertical
-            stackView.spacing = 10
-            stackView.alignment = .center
-            stackView.translatesAutoresizingMaskIntoConstraints = false
-            self.addSubview(stackView)
-            
-            // Constraints for stack view
-            NSLayoutConstraint.activate([
-                stackView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-                stackView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-                stackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.9)
-            ])
-        }
-        
-        private func configureLabels() {
-            tutorNameLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-            durationLabel.font = UIFont.systemFont(ofSize: 16)
-            subjectNameLabel.font = UIFont.systemFont(ofSize: 16)
-            startTimeLabel.font = UIFont.systemFont(ofSize: 14)
-            endTimeLabel.font = UIFont.systemFont(ofSize: 14)
-            topicDescriptionLabel.font = UIFont.systemFont(ofSize: 14)
-            topicDescriptionLabel.numberOfLines = 0
-            lessonNumberLabel.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-        }
-        
-        private func configureImageViews() {
-            tutorLogoImageView.contentMode = .scaleAspectFit
-            tutorLogoImageView.layer.cornerRadius = 25
-            tutorLogoImageView.clipsToBounds = true
-            tutorLogoImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
-            tutorLogoImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-            
-            subjectLogoImageView.contentMode = .scaleAspectFit
-            subjectLogoImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
-            subjectLogoImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        }
-        
-    func configure(with schedule: Schedule) {
-        tutorLogoImageView.image = UIImage(named: schedule.tutorLogo)
-        tutorNameLabel.text = schedule.tutorName
-        durationLabel.text = "Duration: \(schedule.duration)"
-        subjectLogoImageView.image = UIImage(named: schedule.subjectLogo)
-        subjectNameLabel.text = "Subject: \(schedule.subjectName)"
-        startTimeLabel.text = "Start Time: \(schedule.startTime)"
-        endTimeLabel.text = "End Time: \(schedule.endTime)"
-        topicDescriptionLabel.text = "Topics: \(schedule.topicDescription.joined(separator: ", "))"
-        lessonNumberLabel.text = "Lesson \(schedule.lessonNumber)"
+    
+    private let tutorImageView = UIImageView()
+    private let tutorLabel = UILabel()
+    private let tutorNameLabel = UILabel()
+    private let durationView = UIImageView()
+    private let durationLabel = UILabel()
+    
+    private let subjectNameLabel = UILabel()
+    private let subjectLogoImageView = UIImageView()
+    
+    private let tasksLabel = UILabel()
+    private let topicNameLabel = UILabel()
+    private let lessonLabel = UILabel()
+    private let lessonNumberLabel = UILabel()
+    
+    private let topicsStackView = UIStackView()
+    
+    private let startTimeLabel = UILabel()
+    private let startTimeValueLabel = UILabel()
+    private let endTimeLabel = UILabel()
+    private let endTimeValueLabel = UILabel()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
     }
-
+    
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupUI()
+    }
+    
+    private func setupUI() {
+        backgroundColor = .white
+        layer.cornerRadius = 20
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.1
+        layer.shadowOffset = CGSize(width: 0, height: 2)
+        layer.shadowRadius = 10
+        
+        setupTutorSection()
+        setupSubjectSection()
+        setupTasksSection()
+        setupTimeSection()
+    }
+    
+    private func setupTutorSection() {
+        // Tutor section
+        let tutorStack = UIStackView()
+        tutorStack.axis = .horizontal
+        tutorStack.spacing = 8
+        tutorStack.alignment = .center
+        
+        tutorImageView.image = UIImage(systemName: "person.circle.fill")
+        tutorImageView.tintColor = .systemGray
+        tutorImageView.contentMode = .scaleAspectFit
+        tutorImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        tutorImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        tutorLabel.text = "Tutor"
+        tutorLabel.textColor = .gray
+        tutorLabel.font = .systemFont(ofSize: 16)
+        
+        tutorNameLabel.font = .systemFont(ofSize: 16, weight: .semibold)
+        
+        let durationStack = UIStackView()
+        durationStack.axis = .horizontal
+        durationStack.spacing = 5
+        
+        durationView.image = UIImage(systemName: "clock")
+        durationView.tintColor = .gray
+        durationView.contentMode = .scaleAspectFit
+        durationView.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        durationLabel.font = .systemFont(ofSize: 16)
+        durationLabel.textColor = .gray
+        
+        tutorStack.addArrangedSubview(tutorImageView)
+        tutorStack.addArrangedSubview(tutorLabel)
+        tutorStack.addArrangedSubview(tutorNameLabel)
+        
+        durationStack.addArrangedSubview(durationView)
+        durationStack.addArrangedSubview(durationLabel)
+        
+        let topStack = UIStackView(arrangedSubviews: [tutorStack, durationStack])
+        topStack.axis = .horizontal
+        topStack.distribution = .equalSpacing
+        topStack.translatesAutoresizingMaskIntoConstraints = false
+        
+        addSubview(topStack)
+        
+        NSLayoutConstraint.activate([
+            topStack.topAnchor.constraint(equalTo: topAnchor, constant: 20),
+            topStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            topStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
+        ])
+    }
+    
+    private func setupSubjectSection() {
+        // Subject section
+        subjectNameLabel.font = .systemFont(ofSize: 28, weight: .bold)
+        subjectNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        subjectLogoImageView.contentMode = .scaleAspectFit
+        subjectLogoImageView.tintColor = .systemGreen
+        subjectLogoImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        addSubview(subjectNameLabel)
+        addSubview(subjectLogoImageView)
+        
+        NSLayoutConstraint.activate([
+            subjectNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 80),
+            subjectNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            
+            subjectLogoImageView.centerYAnchor.constraint(equalTo: subjectNameLabel.centerYAnchor),
+            subjectLogoImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            subjectLogoImageView.widthAnchor.constraint(equalToConstant: 40),
+            subjectLogoImageView.heightAnchor.constraint(equalToConstant: 40)
+        ])
+    }
+    
+    private func setupTasksSection() {
+        // Tasks section
+        tasksLabel.text = "Today's tasks"
+        tasksLabel.font = .systemFont(ofSize: 18, weight: .medium)
+        tasksLabel.textColor = .gray
+        
+        topicNameLabel.font = .systemFont(ofSize: 24, weight: .bold)
+        
+        lessonLabel.text = "Lesson"
+        lessonLabel.font = .systemFont(ofSize: 16)
+        lessonLabel.textColor = .gray
+        
+        lessonNumberLabel.font = .systemFont(ofSize: 16)
+        
+        let lessonStack = UIStackView(arrangedSubviews: [lessonLabel, lessonNumberLabel])
+        lessonStack.axis = .horizontal
+        lessonStack.spacing = 5
+        
+        let topicHeaderStack = UIStackView(arrangedSubviews: [topicNameLabel, lessonStack])
+        topicHeaderStack.axis = .horizontal
+        topicHeaderStack.distribution = .equalSpacing
+        
+        topicsStackView.axis = .vertical
+        topicsStackView.spacing = 10
+        
+        let tasksStack = UIStackView(arrangedSubviews: [
+            tasksLabel,
+            topicHeaderStack,
+            topicsStackView
+        ])
+        tasksStack.axis = .vertical
+        tasksStack.spacing = 15
+        tasksStack.translatesAutoresizingMaskIntoConstraints = false
+        
+        addSubview(tasksStack)
+        
+        NSLayoutConstraint.activate([
+            tasksStack.topAnchor.constraint(equalTo: subjectNameLabel.bottomAnchor, constant: 30),
+            tasksStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            tasksStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
+        ])
+    }
+    
+    private func setupTimeSection() {
+        // Time section
+        startTimeLabel.text = "Start Time"
+        startTimeLabel.font = .systemFont(ofSize: 16)
+        startTimeLabel.textColor = .gray
+        
+        startTimeValueLabel.font = .systemFont(ofSize: 16, weight: .semibold)
+        
+        endTimeLabel.text = "End Time"
+        endTimeLabel.font = .systemFont(ofSize: 16)
+        endTimeLabel.textColor = .gray
+        
+        endTimeValueLabel.font = .systemFont(ofSize: 16, weight: .semibold)
+        
+        let timeStack = UIStackView(arrangedSubviews: [
+            startTimeLabel,
+            startTimeValueLabel,
+            endTimeLabel,
+            endTimeValueLabel
+        ])
+        timeStack.axis = .horizontal
+        timeStack.distribution = .equalSpacing
+        timeStack.translatesAutoresizingMaskIntoConstraints = false
+        
+        addSubview(timeStack)
+        
+        NSLayoutConstraint.activate([
+            timeStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
+            timeStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            timeStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
+        ])
+    }
+    
+    func configure(with schedule: Schedule) {
+        tutorNameLabel.text = schedule.tutorName
+        durationLabel.text = schedule.duration
+        
+        subjectNameLabel.text = schedule.subjectName
+        subjectLogoImageView.image = UIImage(named: schedule.subjectLogo)
+        
+        topicNameLabel.text = "Algebra"  // This should come from schedule
+        lessonNumberLabel.text = String(schedule.lessonNumber)
+        
+        // Clear existing topic views
+        topicsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
+        // Add topic bullet points
+        for topic in schedule.topicDescription {
+            let bulletPoint = UIImage(systemName: "circle.fill")
+            let topicImageView = UIImageView(image: bulletPoint)
+            topicImageView.tintColor = .black
+            topicImageView.contentMode = .scaleAspectFit
+            topicImageView.widthAnchor.constraint(equalToConstant: 5).isActive = true
+            topicImageView.heightAnchor.constraint(equalToConstant: 5).isActive = true
+            
+            let topicLabel = UILabel()
+            topicLabel.text = topic
+            topicLabel.font = .systemFont(ofSize: 16)
+            
+            let topicStack = UIStackView(arrangedSubviews: [topicImageView, topicLabel])
+            topicStack.axis = .horizontal
+            topicStack.spacing = 10
+            topicStack.alignment = .center
+            
+            topicsStackView.addArrangedSubview(topicStack)
+        }
+        
+        startTimeValueLabel.text = schedule.startTime
+        endTimeValueLabel.text = schedule.endTime
+    }
 }

@@ -17,7 +17,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="42" height="65"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MSy-tb-WbP" customClass="CardView" customModule="LearnSathi" customModuleProvider="target">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MSy-tb-WbP">
                         <rect key="frame" x="0.0" y="0.0" width="42" height="65"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SUN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Ue-eE-o2Q">
@@ -41,6 +41,11 @@
                             <constraint firstItem="0Ue-eE-o2Q" firstAttribute="top" secondItem="MSy-tb-WbP" secondAttribute="top" constant="12" id="Fex-li-wEo"/>
                             <constraint firstItem="0Ue-eE-o2Q" firstAttribute="centerX" secondItem="MSy-tb-WbP" secondAttribute="centerX" id="PCo-0a-hZN"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                <real key="value" value="10"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
             </view>

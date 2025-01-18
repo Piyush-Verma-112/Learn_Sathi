@@ -14,11 +14,4 @@ class CalendarCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet var dateLabel: UILabel!
 
-    
-    func setup(calendar: CalendarData) {
-        dayLabel.text = calendar.day
-        dateLabel.text = calendar.date.formatted()
-        
-    }
-
 }
