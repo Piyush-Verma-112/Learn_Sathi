@@ -18,8 +18,8 @@ class LessonsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var progressStatus: UILabel!
     @IBOutlet weak var percentageCompleted: UILabel!
     @IBOutlet weak var totalLessons: UILabel!
+    @IBOutlet var progressBar: UIProgressView!
     
-
     func setup(progress: LessonsProgress) {
         subjectName.text = progress.subject
         imageLogo.image = UIImage(named: progress.subjectLogo)
@@ -27,5 +27,6 @@ class LessonsCollectionViewCell: UICollectionViewCell {
         progressStatus.text = "/ " + progress.lessonStatus
         percentageCompleted.text = progress.completedPercentage.formatted() + "%"
         totalLessons.text = progress.totalLessons.formatted()
+        progressBar.progress = Float(progress.completedPercentage) / 100
     }
 }

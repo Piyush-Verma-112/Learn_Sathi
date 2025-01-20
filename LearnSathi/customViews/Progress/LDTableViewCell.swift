@@ -13,8 +13,6 @@ class LDTableViewCell: UITableViewCell {
     @IBOutlet var chapterName: UILabel!
     @IBOutlet var progressPercentage: UILabel!
     
-    
-    
     func setup(subjectDetails: SubjectDetails){
         chapterNum.text = "Lesson: " + subjectDetails.lessonCount.formatted()
         chapterName.text = subjectDetails.chapterName

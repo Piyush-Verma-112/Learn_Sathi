@@ -69,6 +69,7 @@
                 <outlet property="lessonName" destination="Ulc-CL-FCf" id="C9A-ga-yOj"/>
                 <outlet property="lessonNumber" destination="rMU-UT-8cf" id="nNY-Rf-5CT"/>
                 <outlet property="lessonProgress" destination="Ppe-9u-AWe" id="7Op-g4-UfF"/>
+                <outlet property="progressBar" destination="O6i-ba-1UT" id="PX2-oJ-HRf"/>
             </connections>
             <point key="canvasLocation" x="68.702290076335871" y="-27.464788732394368"/>
         </collectionViewCell>

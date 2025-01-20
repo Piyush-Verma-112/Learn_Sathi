@@ -120,6 +120,7 @@
                 <outlet property="imageLogo" destination="u0F-TR-GC2" id="0nb-gh-tP1"/>
                 <outlet property="ongoingLesson" destination="iDO-y4-LMu" id="1LD-qm-aWc"/>
                 <outlet property="percentageCompleted" destination="8Px-rK-ur7" id="9Zn-PZ-wdn"/>
+                <outlet property="progressBar" destination="v6p-8g-Xke" id="SUi-mM-JMv"/>
                 <outlet property="progressStatus" destination="0WU-uf-O1Q" id="cIh-sE-m8A"/>
                 <outlet property="subjectName" destination="5hI-Nw-AIh" id="dN2-GJ-hGF"/>
                 <outlet property="totalLessons" destination="bnv-sN-XpZ" id="Tzv-k5-1Vg"/>
@@ -133,7 +134,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

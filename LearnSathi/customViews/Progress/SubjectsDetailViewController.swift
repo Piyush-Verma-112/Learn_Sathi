@@ -1,44 +1,38 @@
 //
-//  DetailsViewController.swift
+//  SubjectsDetailViewController.swift
 //  LearnSathi
 //
-//  Created by Batch - 2 on 16/01/25.
+//  Created by Batch - 2 on 20/01/25.
 //
 
 import UIKit
 
-class DetailsViewController: UIViewController {
+class SubjectsDetailViewController: UIViewController {
     
+    static var identifier = String(describing: SubjectsDetailViewController.self)
     
-    static var identifier: String {String(describing: DetailsViewController.self)
-    }
-    
-    @IBOutlet var tableView: UITableView!
+    @IBOutlet var collectionView: UICollectionView!
     
     var subjectName: LessonsProgress?
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dataSource = self
-        tableView.delegate = self
+        collectionView.delegate = self
+        collectionView.dataSource = self
         registerCells()
         print("subjectName: \(subjectName?.subject ?? "No Subject")")
         navigationItem.title = subjectName?.subject ?? "Subject"
-        
-        //collectionView.reloadData()
-
+        navigationItem.largeTitleDisplayMode = .always
     }
     
     private func registerCells() {
-        let nib = UINib(nibName: "LDTableViewCell", bundle: nil)
-        tableView.register(nib, forCellReuseIdentifier: "Cell")
-        
+        let nib = UINib(nibName: "LessonDetailsCollectionViewCell", bundle: nil)
+        collectionView.register(nib, forCellWithReuseIdentifier: "LessonDetailsCollectionViewCell")
     }
-}
 
-extension DetailsViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+}
+extension SubjectsDetailViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch navigationItem.title {
         case "Mathematics" :
             return chapterDetailsMaths.count
@@ -54,8 +48,9 @@ extension DetailsViewController: UITableViewDataSource, UITableViewDelegate {
             return 0
         }
     }
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! LDTableViewCell
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LessonDetailsCollectionViewCell", for: indexPath) as! LessonDetailsCollectionViewCell
         switch navigationItem.title {
         case "Mathematics" :
             cell.setup(subjectDetails: chapterDetailsMaths[indexPath.row])
@@ -72,12 +67,4 @@ extension DetailsViewController: UITableViewDataSource, UITableViewDelegate {
         }
         return cell
     }
-    
-    func tableView(_ tableView: UITableView, widthForRowAt indexPath: IndexPath) -> CGFloat {
-        346
-    }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        96
-    }
 }
-

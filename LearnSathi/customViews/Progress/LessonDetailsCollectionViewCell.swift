@@ -14,12 +14,14 @@ class LessonDetailsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var lessonNumber: UILabel!
     @IBOutlet weak var lessonName: UILabel!
     @IBOutlet weak var lessonProgress: UILabel!
+    @IBOutlet var progressBar: UIProgressView!
     
     func setup(subjectDetails: SubjectDetails) {
         
-        lessonNumber.text = subjectDetails.lessonCount.formatted()
+        lessonNumber.text = "Lesson: " + subjectDetails.lessonCount.formatted()
         lessonName.text = subjectDetails.chapterName
-        lessonProgress.text = subjectDetails.progressPercentage.formatted()
+        lessonProgress.text = subjectDetails.progressPercentage.formatted() + "%"
+        progressBar.progress = Float(subjectDetails.progressPercentage)/100
     }
 
 }

@@ -37,7 +37,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="qVZ-QM-LtN">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="qVZ-QM-LtN" customClass="DetailsViewContorller">
                                         <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="91N-aT-5ab">
@@ -45,7 +45,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </collectionViewCellContentView>
                                         <connections>
-                                            <segue destination="kYI-eR-Azz" kind="show" identifier="ProgressToDetail" id="PcB-RD-yEt"/>
+                                            <segue destination="kYI-eR-Azz" kind="show" identifier="ProgressToDetail" id="adA-4W-Kko"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -63,7 +63,9 @@
                             <constraint firstItem="4r9-7X-bNz" firstAttribute="trailing" secondItem="eWc-kV-rNG" secondAttribute="trailing" id="riU-sg-6TY"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Progress" id="HAB-VU-jvt"/>
+                    <navigationItem key="navigationItem" title="Progress" id="HAB-VU-jvt">
+                        <barButtonItem key="rightBarButtonItem" image="person.fill" catalog="system" id="7oZ-vH-oAs"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="collectionViewOutlet" destination="4r9-7X-bNz" id="8fl-3U-EwJ"/>
                         <outlet property="segmentedControlOutlet" destination="wFW-eD-dIB" id="pVx-IX-j74"/>
@@ -73,10 +75,10 @@
             </objects>
             <point key="canvasLocation" x="4868" y="-89"/>
         </scene>
-        <!--DetailsViewController-->
+        <!--SubjectsDetailViewController-->
         <scene sceneID="1qd-4c-R85">
             <objects>
-                <viewControllerPlaceholder storyboardIdentifier="DetailsViewController" storyboardName="DetailsViewController" id="kYI-eR-Azz" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardIdentifier="DetailsViewController" storyboardName="SubjectsDetailViewController" id="kYI-eR-Azz" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="Mzu-io-v0E"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xDi-xd-JsZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -106,6 +108,7 @@
     <resources>
         <image name="clipboard" catalog="system" width="98" height="128"/>
         <image name="clipboard.fill" catalog="system" width="98" height="128"/>
+        <image name="person.fill" catalog="system" width="128" height="120"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

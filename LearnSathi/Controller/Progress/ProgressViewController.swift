@@ -70,7 +70,7 @@ extension ProgressViewController: UICollectionViewDelegate, UICollectionViewData
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ProgressToDetail",
-           let destinationVC = segue.destination as? DetailsViewController,
+           let destinationVC = segue.destination as? SubjectsDetailViewController,
            let selectedProgress = sender as? LessonsProgress {
             destinationVC.subjectName = selectedProgress
         }
