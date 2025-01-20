@@ -128,8 +128,6 @@ class ScheduleViewController: UIViewController {
         }
         return numberOfDays
     }
-    
-    
         
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
             let calendar = Calendar.current
@@ -140,8 +138,6 @@ class ScheduleViewController: UIViewController {
                 updateDatesForSelectedMonth()
             }
         }
-    
-
 }
 
 
@@ -160,13 +156,14 @@ extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewData
         if collectionView == scheduleCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ScheduleCollectionViewCell.identifier, for: indexPath) as! ScheduleCollectionViewCell
             cell.setup(schedule: filteredSchedules[indexPath.row])
+            print("date selected is \(String(describing: selectedDate))")
             return cell
         } else if collectionView == calendarCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionViewCell.identifier, for: indexPath) as! CalendarCollectionViewCell
             
             let calendar = Calendar.current
             let cellDate = currentMonthDates[indexPath.row]
-            let today = calendar.startOfDay(for: Date())
+            _ = calendar.startOfDay(for: Date())
             
             // Configure date label
             let day = calendar.component(.day, from: cellDate)
@@ -193,7 +190,8 @@ extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewData
                 cell.contentView.backgroundColor = .clear
             }
 
-            print("date selected is \(String(describing: selectedDate))")
+            
+            
             return cell
         }
         return UICollectionViewCell()
@@ -204,46 +202,75 @@ extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == scheduleCollectionView {
             let selectedSchedule = filteredSchedules[indexPath.row]
-
+            let selectedCell = collectionView.cellForItem(at: indexPath)
+            
+            // Create dimming view
             let dimmingView = UIView(frame: self.view.bounds)
-            dimmingView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            dimmingView.backgroundColor = .clear // Start clear
             dimmingView.tag = 999
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(closePopUp))
             dimmingView.addGestureRecognizer(tapGesture)
             self.view.addSubview(dimmingView)
-
-            let popUpView = SchedulePopUpView(frame: CGRect(x: 0, y: 0, width: 350, height: 502))
+            
+            // Create pop-up view
+            let popUpView = SchedulePopUpView(frame: CGRect(x: 0, y: 0, width: view.bounds.width - 40, height: 502))
             popUpView.center = self.view.center
             popUpView.configure(with: selectedSchedule)
-
-            let closeButton = UIButton(frame: CGRect(x: popUpView.bounds.width - 40, y: 5, width: 40, height: 40))
+            
+            // Add close button
+            let closeButton = UIButton(frame: CGRect(x: popUpView.bounds.width - 40, y: 10, width: 30, height: 30))
             closeButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
             closeButton.tintColor = .systemGray
             closeButton.addTarget(self, action: #selector(closePopUp), for: .touchUpInside)
             popUpView.addSubview(closeButton)
-
+            
+            // Get the starting frame from the selected cell
+            let startFrame = selectedCell?.convert(selectedCell?.bounds ?? .zero, to: self.view) ?? .zero
+            
+            // Set initial state of pop-up
+            popUpView.frame = startFrame
+            popUpView.layer.cornerRadius = 12
+            popUpView.clipsToBounds = true
             self.view.addSubview(popUpView)
-            self.view.bringSubviewToFront(popUpView)
-        } else if collectionView == calendarCollectionView {
+            
+            // Animate
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5, options: .curveEaseInOut) {
+                // Final state
+                popUpView.frame = CGRect(x: 20, y: self.view.center.y - 251,
+                                       width: self.view.bounds.width - 40, height: 502)
+                dimmingView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            }
+        }
+        
+        else if collectionView == calendarCollectionView {
             selectedDate = currentMonthDates[indexPath.row]
             filterSchedules(for: selectedDate!)
             collectionView.reloadData() // Trigger UI update
         }
+
     }
 
     @objc func closePopUp() {
         if let dimmingView = self.view.viewWithTag(999) {
-            dimmingView.removeFromSuperview()
+            // Fade out the dimming view
+            UIView.animate(withDuration: 0.3, animations: {
+                dimmingView.alpha = 0
+            }) { _ in
+                dimmingView.removeFromSuperview() // Remove the dimming view after the fade-out animation
+            }
         }
-        
+
         if let popUpView = self.view.subviews.first(where: { $0 is SchedulePopUpView }) {
-            popUpView.removeFromSuperview()
+            // Animate the pop-up view to scale down and fade out
+            UIView.animate(withDuration: 0.3, animations: {
+                popUpView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8) // Shrink the pop-up
+                popUpView.alpha = 0 // Fade out
+            }) { _ in
+                popUpView.removeFromSuperview() // Remove the pop-up view after the animation
+            }
         }
     }
 
-    
-    
-    
 }
 
 
