@@ -62,14 +62,14 @@
                                 </connections>
                             </collectionView>
                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" translatesAutoresizingMaskIntoConstraints="NO" id="pzE-57-fIj">
-                                <rect key="frame" x="14" y="161" width="127" height="34"/>
+                                <rect key="frame" x="0.0" y="161" width="141" height="34.333333333333343"/>
                             </datePicker>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="o3U-px-xCG"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="rUC-Q9-OXp" firstAttribute="top" secondItem="FSW-cg-hsN" secondAttribute="bottom" constant="15" id="07Y-TX-ABd"/>
-                            <constraint firstItem="pzE-57-fIj" firstAttribute="leading" secondItem="o3U-px-xCG" secondAttribute="leading" constant="14" id="0ya-QN-weC"/>
+                            <constraint firstItem="pzE-57-fIj" firstAttribute="leading" secondItem="o3U-px-xCG" secondAttribute="leading" id="0ya-QN-weC"/>
                             <constraint firstItem="GLS-GL-oPi" firstAttribute="top" secondItem="pzE-57-fIj" secondAttribute="bottom" constant="8.6699999999999999" id="CZr-VU-Zoh"/>
                             <constraint firstAttribute="trailing" secondItem="GLS-GL-oPi" secondAttribute="trailing" id="EFZ-pU-pAC"/>
                             <constraint firstItem="rUC-Q9-OXp" firstAttribute="trailing" secondItem="o3U-px-xCG" secondAttribute="trailing" id="Ref-7n-3eo"/>

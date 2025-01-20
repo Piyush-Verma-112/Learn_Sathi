@@ -7,7 +7,7 @@
 
 import UIKit
 import FSCalendar
-
+import EventKit
 
 class ScheduleViewController: UIViewController {
     
@@ -18,32 +18,31 @@ class ScheduleViewController: UIViewController {
     
     @IBOutlet var datePicker: UIDatePicker!
     
-    var isSelected : Bool = false
-    
-    var currentMonthDates: [Date] = [] // Store all dates of the selected month
+    var isSelected: Bool = false
+    var currentMonthDates: [Date] = []
     var lastSelectedMonth: Int = -1
     private var hasInitialScroll = false
-
     var filteredSchedules: [Schedule] = []
-
-    var selectedDate: Date? // Store the currently selected date
-
+    var selectedDate: Date?
+    var noScheduleLabel: UILabel?
+    
+    
     
 //  viewDidLoad
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         registerCalendarCells()
         registerCells()
         customizeCollectionView()
-        scrollToToday()
+        setupNoScheduleLabel()
         setupDatePicker()
         updateDatesForSelectedMonth()
         
-        filterSchedules(for: Calendar.current.startOfDay(for: Date()))
+        // Initialize with today's date
+        selectedDate = Calendar.current.startOfDay(for: Date())
+        filterSchedules(for: selectedDate!)
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -54,8 +53,21 @@ class ScheduleViewController: UIViewController {
         }
     }
     
+//    Setup Funcations
+    private func setupNoScheduleLabel() {
+        noScheduleLabel = UILabel()
+        noScheduleLabel?.text = "No classes scheduled for today"
+        noScheduleLabel?.textAlignment = .center
+        noScheduleLabel?.textColor = .gray
+        noScheduleLabel?.font = .systemFont(ofSize: 17, weight: .medium)
+        noScheduleLabel?.isHidden = true
+        
+        if let label = noScheduleLabel {
+            scheduleCollectionView.backgroundView = label
+        }
+    }
+ 
     private func setupDatePicker() {
-        // Set date picker to start of today
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
         datePicker.date = today
@@ -68,6 +80,9 @@ class ScheduleViewController: UIViewController {
         let calendar = Calendar.current
         filteredSchedules = schedule.filter { calendar.isDate($0.date, inSameDayAs: date) }
         scheduleCollectionView.reloadData()
+        
+        // Show/hide no schedule label
+        noScheduleLabel?.isHidden = !filteredSchedules.isEmpty
     }
     
     private func scrollToToday() {
@@ -96,21 +111,19 @@ class ScheduleViewController: UIViewController {
     }
     
     func updateDatesForSelectedMonth() {
-            let calendar = Calendar.current
-            
-            // Get start of the selected month, removing time components
-            let components = calendar.dateComponents([.year, .month], from: datePicker.date)
-            guard let monthStart = calendar.date(from: components) else { return }
-            
-            let range = calendar.range(of: .day, in: .month, for: monthStart) ?? 1..<32
-            
-            // Create dates for the entire month
-            currentMonthDates = range.map { day in
-                calendar.date(byAdding: .day, value: day - 1, to: monthStart)!
-            }
-            
-            calendarCollectionView.reloadData()
+        let calendar = Calendar.current
+        
+        let components = calendar.dateComponents([.year, .month], from: datePicker.date)
+        guard let monthStart = calendar.date(from: components) else { return }
+        
+        let range = calendar.range(of: .day, in: .month, for: monthStart) ?? 1..<32
+        
+        currentMonthDates = range.map { day in
+            calendar.date(byAdding: .day, value: day - 1, to: monthStart)!
         }
+        
+        calendarCollectionView.reloadData()
+    }
     
     private func registerCells() {
         scheduleCollectionView.register(UINib(nibName: ScheduleCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: ScheduleCollectionViewCell.identifier)
@@ -130,14 +143,31 @@ class ScheduleViewController: UIViewController {
     }
         
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
-            let calendar = Calendar.current
-            let selectedMonth = calendar.component(.month, from: sender.date)
-            
-            if selectedMonth != lastSelectedMonth {
-                lastSelectedMonth = selectedMonth
-                updateDatesForSelectedMonth()
-            }
+        let calendar = Calendar.current
+        let selectedMonth = calendar.component(.month, from: sender.date)
+        
+        // Update the selected date
+        selectedDate = calendar.startOfDay(for: sender.date)
+        
+        // Update month if changed
+        if selectedMonth != lastSelectedMonth {
+            lastSelectedMonth = selectedMonth
+            updateDatesForSelectedMonth()
         }
+        
+        // Find and scroll to the selected date in calendar
+        if let index = currentMonthDates.firstIndex(where: {
+            calendar.isDate($0, inSameDayAs: selectedDate!)
+        }) {
+            let indexPath = IndexPath(item: index, section: 0)
+            calendarCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        }
+        
+        // Update UI
+        calendarCollectionView.reloadData()
+        filterSchedules(for: selectedDate!)
+        
+    }
 }
 
 
@@ -165,11 +195,9 @@ extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewData
             let cellDate = currentMonthDates[indexPath.row]
             _ = calendar.startOfDay(for: Date())
             
-            // Configure date label
             let day = calendar.component(.day, from: cellDate)
             cell.dateLabel.text = String(day)
             
-            // Configure day label
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "EEE"
             let dayName = dateFormatter.string(from: cellDate).uppercased()
@@ -189,9 +217,7 @@ extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewData
                 cell.contentView.layer.cornerRadius = 0
                 cell.contentView.backgroundColor = .clear
             }
-
-            
-            
+       
             return cell
         }
         return UICollectionViewCell()
