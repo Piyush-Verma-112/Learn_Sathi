@@ -9,21 +9,60 @@ import UIKit
 
 class ConnectViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+    var selectedIndexPath: IndexPath?
     
-    }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        
+        
+        @IBOutlet weak var collectionView: UICollectionView!
+        
+        override func viewDidLoad() {
+            super.viewDidLoad()
+            registerConnectCells()
+            
+        }
+        
+        private func registerConnectCells() {
+            collectionView?.register(UINib(nibName: ConnectCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: ConnectCollectionViewCell.identifier)
+            collectionView?.dataSource = self
+            collectionView?.delegate = self
+        }
     }
-    */
 
+
+        extension ConnectViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+            return tutors.count
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ConnectCollectionViewCell.identifier, for: indexPath) as! ConnectCollectionViewCell
+            cell.setup(tutor: tutors[indexPath.row])
+            return cell
+        }
+            
+            
+        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            selectedIndexPath = indexPath
+            let selectedTutor = tutors[indexPath.row]
+            let storyboard = UIStoryboard(name: "CustomOptions", bundle: nil)
+            if let secondaryVc = storyboard.instantiateViewController(withIdentifier: "CustomOptions") as? CustomOptionsTableViewController {
+                secondaryVc.tutorProfileImage = UIImage(named: selectedTutor.tutorProfileImage)
+                secondaryVc.tutorName = selectedTutor.tutorName
+                secondaryVc.subjectName = selectedTutor.subject
+                            navigationController?.pushViewController(secondaryVc, animated: true)
+            }
+            
+           
+            
+//            let selectedTutor = tutorsData[indexPath.row]
+//            
+//            let vc = storyboard?.instantiateViewController(withIdentifier: CustomOptionsTableViewController.identifier) as? CustomOptionsTableViewController
+//            
+//            
+//            vc?.tutorProfileImage = UIImage(named: selectedTutor.imageName)
+//            vc?.tutorName = selectedTutor.name
+//            vc?.subjectName = selectedTutor.subjects
+//            print("tapped")
+        }
 }
