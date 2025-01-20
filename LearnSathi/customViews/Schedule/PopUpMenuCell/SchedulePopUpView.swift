@@ -57,26 +57,27 @@ class SchedulePopUpView: UIView {
         tutorImageView.image = UIImage(systemName: "person.circle.fill")
         tutorImageView.tintColor = .systemGray
         tutorImageView.contentMode = .scaleAspectFit
-        tutorImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        tutorImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        tutorImageView.widthAnchor.constraint(equalToConstant: 23).isActive = true
+        tutorImageView.heightAnchor.constraint(equalToConstant: 23).isActive = true
         
         tutorLabel.text = "Tutor"
         tutorLabel.textColor = .gray
-        tutorLabel.font = .systemFont(ofSize: 16)
+        tutorLabel.font = .systemFont(ofSize: 17)
         
-        tutorNameLabel.font = .systemFont(ofSize: 16, weight: .semibold)
+        tutorNameLabel.font = .systemFont(ofSize: 17, weight: .semibold)
         
         let durationStack = UIStackView()
         durationStack.axis = .horizontal
         durationStack.spacing = 5
         
-        durationView.image = UIImage(systemName: "clock")
-        durationView.tintColor = .gray
+        durationView.image = UIImage(systemName: "clock.fill")
+        durationView.tintColor = .systemGray
         durationView.contentMode = .scaleAspectFit
         durationView.widthAnchor.constraint(equalToConstant: 20).isActive = true
         
-        durationLabel.font = .systemFont(ofSize: 16)
-        durationLabel.textColor = .gray
+        durationLabel.font = .systemFont(ofSize: 14, weight: .semibold)
+        durationLabel.textColor = .black
+        
         
         tutorStack.addArrangedSubview(tutorImageView)
         tutorStack.addArrangedSubview(tutorLabel)
@@ -93,7 +94,7 @@ class SchedulePopUpView: UIView {
         addSubview(topStack)
         
         NSLayoutConstraint.activate([
-            topStack.topAnchor.constraint(equalTo: topAnchor, constant: 20),
+            topStack.topAnchor.constraint(equalTo: topAnchor, constant: 48),
             topStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             topStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
         ])
@@ -101,18 +102,17 @@ class SchedulePopUpView: UIView {
     
     private func setupSubjectSection() {
         // Subject section
-        subjectNameLabel.font = .systemFont(ofSize: 28, weight: .bold)
+        subjectNameLabel.font = .systemFont(ofSize: 24, weight: .bold)
         subjectNameLabel.translatesAutoresizingMaskIntoConstraints = false
         
         subjectLogoImageView.contentMode = .scaleAspectFit
-        subjectLogoImageView.tintColor = .systemGreen
         subjectLogoImageView.translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(subjectNameLabel)
         addSubview(subjectLogoImageView)
         
         NSLayoutConstraint.activate([
-            subjectNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 80),
+            subjectNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 110),
             subjectNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             
             subjectLogoImageView.centerYAnchor.constraint(equalTo: subjectNameLabel.centerYAnchor),
@@ -128,13 +128,13 @@ class SchedulePopUpView: UIView {
         tasksLabel.font = .systemFont(ofSize: 18, weight: .medium)
         tasksLabel.textColor = .gray
         
-        topicNameLabel.font = .systemFont(ofSize: 24, weight: .bold)
+        topicNameLabel.font = .systemFont(ofSize: 22, weight: .bold)
         
-        lessonLabel.text = "Lesson"
-        lessonLabel.font = .systemFont(ofSize: 16)
+        lessonLabel.text = "Lesson:"
+        lessonLabel.font = .systemFont(ofSize: 15)
         lessonLabel.textColor = .gray
         
-        lessonNumberLabel.font = .systemFont(ofSize: 16)
+        lessonNumberLabel.font = .systemFont(ofSize: 15, weight: .medium)
         
         let lessonStack = UIStackView(arrangedSubviews: [lessonLabel, lessonNumberLabel])
         lessonStack.axis = .horizontal
@@ -145,7 +145,7 @@ class SchedulePopUpView: UIView {
         topicHeaderStack.distribution = .equalSpacing
         
         topicsStackView.axis = .vertical
-        topicsStackView.spacing = 10
+        topicsStackView.spacing = 8
         
         let tasksStack = UIStackView(arrangedSubviews: [
             tasksLabel,
@@ -168,16 +168,16 @@ class SchedulePopUpView: UIView {
     private func setupTimeSection() {
         // Time section
         startTimeLabel.text = "Start Time"
-        startTimeLabel.font = .systemFont(ofSize: 16)
+        startTimeLabel.font = .systemFont(ofSize: 14)
         startTimeLabel.textColor = .gray
         
-        startTimeValueLabel.font = .systemFont(ofSize: 16, weight: .semibold)
+        startTimeValueLabel.font = .systemFont(ofSize: 14, weight: .semibold)
         
         endTimeLabel.text = "End Time"
-        endTimeLabel.font = .systemFont(ofSize: 16)
+        endTimeLabel.font = .systemFont(ofSize: 14)
         endTimeLabel.textColor = .gray
         
-        endTimeValueLabel.font = .systemFont(ofSize: 16, weight: .semibold)
+        endTimeValueLabel.font = .systemFont(ofSize: 14, weight: .semibold)
         
         let timeStack = UIStackView(arrangedSubviews: [
             startTimeLabel,
@@ -205,7 +205,7 @@ class SchedulePopUpView: UIView {
         subjectNameLabel.text = schedule.subjectName
         subjectLogoImageView.image = UIImage(named: schedule.subjectLogo)
         
-        topicNameLabel.text = "Algebra"  // This should come from schedule
+        topicNameLabel.text = schedule.chapterName
         lessonNumberLabel.text = String(schedule.lessonNumber)
         
         // Clear existing topic views
