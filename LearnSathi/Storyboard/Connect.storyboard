@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="uPo-0W-jMM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="uHq-d6-Dft">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -11,28 +12,81 @@
         <!--Connect-->
         <scene sceneID="vh2-V2-jF5">
             <objects>
-                <viewController storyboardIdentifier="ConnectVC" id="uPo-0W-jMM" customClass="ConnectViewController" customModule="LearnSathi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="uPo-0W-jMM" customClass="ConnectViewController" customModule="LearnSathi" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KXW-dI-WAf">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="i4N-0p-Rk2">
+                                <rect key="frame" x="0.0" y="155" width="393" height="663"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="rK4-Ci-WY3">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="st5-HX-Z5C"/>
-                        <color key="backgroundColor" systemColor="systemGreenColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="i4N-0p-Rk2" firstAttribute="top" secondItem="st5-HX-Z5C" secondAttribute="top" id="5vX-J2-pqs"/>
+                            <constraint firstItem="st5-HX-Z5C" firstAttribute="bottom" secondItem="i4N-0p-Rk2" secondAttribute="bottom" id="BTg-UH-ufZ"/>
+                            <constraint firstItem="i4N-0p-Rk2" firstAttribute="leading" secondItem="st5-HX-Z5C" secondAttribute="leading" id="p0f-1s-wWb"/>
+                            <constraint firstItem="st5-HX-Z5C" firstAttribute="trailing" secondItem="i4N-0p-Rk2" secondAttribute="trailing" id="rju-7J-ORe"/>
+                        </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Connect" image="person" catalog="system" selectedImage="person.fill" id="9g3-pS-24d">
-                        <color key="badgeColor" red="0.15686274510000001" green="0.3921568627" blue="0.7725490196" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </tabBarItem>
-                    <navigationItem key="navigationItem" id="NkE-eb-9gM"/>
+                    <navigationItem key="navigationItem" title="Connect" largeTitleDisplayMode="always" id="NkE-eb-9gM">
+                        <barButtonItem key="rightBarButtonItem" title="Profile" image="person.crop.circle.fill" catalog="system" id="Kcc-Bg-pBw"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="collectionView" destination="i4N-0p-Rk2" id="pOK-4P-zts"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LCW-6E-RPE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1356.4885496183206" y="-83.098591549295776"/>
+            <point key="canvasLocation" x="430" y="-59"/>
+        </scene>
+        <!--Storyboard Reference-->
+        <scene sceneID="ePz-E9-4cj">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="CustomOptions" id="BOg-4A-1NG" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="6ED-US-Mtw"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7Bu-uK-8lW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1258" y="-146"/>
+        </scene>
+        <!--Connect-->
+        <scene sceneID="Dpx-yG-TXc">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="uHq-d6-Dft" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Connect" image="person" catalog="system" selectedImage="person.fill" id="9g3-pS-24d">
+                        <color key="badgeColor" red="0.15686274510000001" green="0.3921568627" blue="0.7725490196" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </tabBarItem>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="nO6-JZ-fNZ">
+                        <rect key="frame" x="0.0" y="59" width="393" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="uPo-0W-jMM" kind="relationship" relationship="rootViewController" id="cXG-ey-WAV"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="diE-D0-rHA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-425" y="-53"/>
         </scene>
     </scenes>
     <resources>
         <image name="person" catalog="system" width="128" height="121"/>
+        <image name="person.crop.circle.fill" catalog="system" width="128" height="123"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
-        <systemColor name="systemGreenColor">
-            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>
