@@ -28,7 +28,7 @@ class ScheduleViewController: UIViewController {
     
     
     
-//  viewDidLoad
+//  MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -53,7 +53,7 @@ class ScheduleViewController: UIViewController {
         }
     }
     
-//    Setup Funcations
+    //MARK: -  setUp function
     private func setupNoScheduleLabel() {
         noScheduleLabel = UILabel()
         noScheduleLabel?.text = "No classes scheduled for today"
@@ -168,10 +168,31 @@ class ScheduleViewController: UIViewController {
         filterSchedules(for: selectedDate!)
         
     }
+    
+    @objc func closePopUp() {
+        if let dimmingView = self.view.viewWithTag(999) {
+            // Fade out the dimming view
+            UIView.animate(withDuration: 0.3, animations: {
+                dimmingView.alpha = 0
+            }) { _ in
+                dimmingView.removeFromSuperview() // Remove the dimming view after the fade-out animation
+            }
+        }
+
+        if let popUpView = self.view.subviews.first(where: { $0 is SchedulePopUpView }) {
+            // Animate the pop-up view to scale down and fade out
+            UIView.animate(withDuration: 0.3, animations: {
+                popUpView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8) // Shrink the pop-up
+                popUpView.alpha = 0 // Fade out
+            }) { _ in
+                popUpView.removeFromSuperview() // Remove the pop-up view after the animation
+            }
+        }
+    }
 }
 
 
-//Extension function
+//MARK: -  Extension function
 extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -186,8 +207,9 @@ extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewData
         if collectionView == scheduleCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ScheduleCollectionViewCell.identifier, for: indexPath) as! ScheduleCollectionViewCell
             cell.setup(schedule: filteredSchedules[indexPath.row])
-            print("date selected is \(String(describing: selectedDate))")
+            
             return cell
+            
         } else if collectionView == calendarCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionViewCell.identifier, for: indexPath) as! CalendarCollectionViewCell
             
@@ -223,7 +245,6 @@ extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewData
         return UICollectionViewCell()
         
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == scheduleCollectionView {
@@ -266,37 +287,19 @@ extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewData
                                        width: self.view.bounds.width - 40, height: 502)
                 dimmingView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
             }
-        }
-        
-        else if collectionView == calendarCollectionView {
+            
+        } else if collectionView == calendarCollectionView {
             selectedDate = currentMonthDates[indexPath.row]
+            // Update the date picker to match the selected date
+            datePicker.setDate(selectedDate!, animated: true)
             filterSchedules(for: selectedDate!)
-            collectionView.reloadData() // Trigger UI update
+            collectionView.reloadData()
         }
+
 
     }
 
-    @objc func closePopUp() {
-        if let dimmingView = self.view.viewWithTag(999) {
-            // Fade out the dimming view
-            UIView.animate(withDuration: 0.3, animations: {
-                dimmingView.alpha = 0
-            }) { _ in
-                dimmingView.removeFromSuperview() // Remove the dimming view after the fade-out animation
-            }
-        }
-
-        if let popUpView = self.view.subviews.first(where: { $0 is SchedulePopUpView }) {
-            // Animate the pop-up view to scale down and fade out
-            UIView.animate(withDuration: 0.3, animations: {
-                popUpView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8) // Shrink the pop-up
-                popUpView.alpha = 0 // Fade out
-            }) { _ in
-                popUpView.removeFromSuperview() // Remove the pop-up view after the animation
-            }
-        }
-    }
+    
 
 }
-
 
