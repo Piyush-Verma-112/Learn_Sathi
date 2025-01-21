@@ -27,7 +27,6 @@ class ScheduleViewController: UIViewController {
     var noScheduleLabel: UILabel?
     
     
-    
 //  MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -295,11 +294,8 @@ extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewData
             filterSchedules(for: selectedDate!)
             collectionView.reloadData()
         }
-
-
+        
     }
-
-    
 
 }
 
