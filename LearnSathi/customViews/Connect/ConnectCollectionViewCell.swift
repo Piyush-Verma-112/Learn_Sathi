@@ -27,4 +27,8 @@ class ConnectCollectionViewCell: UICollectionViewCell {
         
     }
    
-}
+    @IBAction func chevronAction(_ sender: UIButton) {
+    
+        }
+    }
+
