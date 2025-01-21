@@ -19,6 +19,10 @@ class ConnectViewController: UIViewController {
         override func viewDidLoad() {
             super.viewDidLoad()
             registerConnectCells()
+            self.tabBarController?.tabBar.scrollEdgeAppearance = .init()
+            self.tabBarController?.tabBar.barTintColor = .white
+            
+//            self.tabBarController?.tabBar.isTranslucent = false
             
         }
         
@@ -52,8 +56,8 @@ class ConnectViewController: UIViewController {
                 secondaryVc.subjectName = selectedTutor.subject
                             navigationController?.pushViewController(secondaryVc, animated: true)
             }
-            
-           
+//
+         
             
 //            let selectedTutor = tutorsData[indexPath.row]
 //            
