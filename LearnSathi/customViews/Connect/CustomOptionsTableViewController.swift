@@ -29,7 +29,6 @@ class CustomOptionsTableViewController: UITableViewController {
         tableView.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
         tableView.contentInsetAdjustmentBehavior = .never
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.separatorStyle = .none
         updateUi()
         connectTableView.delegate = self
         connectTableView.dataSource = self
@@ -37,12 +36,6 @@ class CustomOptionsTableViewController: UITableViewController {
         
     }
     
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 1 {
-            return nil
-        }
-        return super.tableView(tableView, viewForHeaderInSection: section)
-    }
 
     func updateUi() {
         tutorProfileImageView.image = tutorProfileImage
