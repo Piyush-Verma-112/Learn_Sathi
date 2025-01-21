@@ -38,7 +38,7 @@ class HomeViewController: UIViewController {
     }
     
     @objc func imageTapped() {
-        let controller = storyboard?.instantiateViewController(identifier: "UserProfileViewController") as! UserProfileViewController
+        let controller = storyboard?.instantiateViewController(identifier: "UserProfileTableViewController") as! UserProfileTableViewController
         navigationController?.pushViewController(controller, animated: true)
     }
     
