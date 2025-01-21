@@ -10,14 +10,14 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="ProgressCollectionViewCell" customModule="LearnSathi" customModuleProvider="target">
+        <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="LessonsCollectionViewCell" id="gTV-IL-0wX" customClass="LessonsCollectionViewCell" customModule="LearnSathi" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="342" height="135"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="342" height="135"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oLf-xN-d86">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oLf-xN-d86" customClass="CardView" customModule="LearnSathi" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="342" height="135"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mathematics" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5hI-Nw-AIh">
@@ -45,20 +45,14 @@
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Lessons:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pvV-za-9Xv">
-                                <rect key="frame" x="218.66666666666666" y="98" width="94.666666666666657" height="17"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
-                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iDO-y4-LMu">
                                 <rect key="frame" x="72" y="49" width="16" height="17"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bnv-sN-XpZ">
-                                <rect key="frame" x="316" y="98" width="16" height="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="18" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bnv-sN-XpZ">
+                                <rect key="frame" x="315.33333333333331" y="98" width="16.666666666666686" height="17"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -76,29 +70,39 @@
                                 <color key="textColor" systemColor="systemGreenColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Lessons:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pvV-za-9Xv">
+                                <rect key="frame" x="215.66666666666666" y="98" width="94.666666666666657" height="17"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstAttribute="width" constant="342" id="19y-BL-DPE"/>
                             <constraint firstItem="0WU-uf-O1Q" firstAttribute="top" secondItem="5hI-Nw-AIh" secondAttribute="bottom" constant="10" id="1sB-mi-nVK"/>
                             <constraint firstItem="uPc-Xc-y03" firstAttribute="top" secondItem="5hI-Nw-AIh" secondAttribute="bottom" constant="10" id="7jH-5G-28Z"/>
                             <constraint firstAttribute="bottom" secondItem="bnv-sN-XpZ" secondAttribute="bottom" constant="20" id="8Ue-zi-HpU"/>
+                            <constraint firstItem="8Px-rK-ur7" firstAttribute="centerY" secondItem="pvV-za-9Xv" secondAttribute="centerY" id="9pV-3O-thR"/>
+                            <constraint firstItem="pvV-za-9Xv" firstAttribute="centerY" secondItem="bnv-sN-XpZ" secondAttribute="centerY" id="Dci-do-Y3e"/>
                             <constraint firstAttribute="trailing" secondItem="u0F-TR-GC2" secondAttribute="trailing" constant="20" id="Hh3-5N-GOe"/>
                             <constraint firstItem="iDO-y4-LMu" firstAttribute="leading" secondItem="uPc-Xc-y03" secondAttribute="trailing" constant="5" id="Ksv-ld-OqA"/>
                             <constraint firstItem="8Px-rK-ur7" firstAttribute="leading" secondItem="v6p-8g-Xke" secondAttribute="trailing" constant="5" id="POe-x8-wAR"/>
+                            <constraint firstAttribute="trailing" secondItem="bnv-sN-XpZ" secondAttribute="trailing" constant="10" id="Q4c-LC-Z48"/>
                             <constraint firstItem="iDO-y4-LMu" firstAttribute="top" secondItem="5hI-Nw-AIh" secondAttribute="bottom" constant="10" id="SKy-Cf-wIm"/>
                             <constraint firstAttribute="bottom" secondItem="8Px-rK-ur7" secondAttribute="bottom" constant="20" id="SOb-C2-Ye8"/>
+                            <constraint firstAttribute="height" constant="135" id="T9a-jy-fDr"/>
                             <constraint firstItem="v6p-8g-Xke" firstAttribute="leading" secondItem="oLf-xN-d86" secondAttribute="leading" constant="20" id="TGf-ma-SH0"/>
-                            <constraint firstAttribute="trailing" secondItem="bnv-sN-XpZ" secondAttribute="trailing" constant="10" id="Vbo-hH-H0u"/>
                             <constraint firstItem="v6p-8g-Xke" firstAttribute="centerY" secondItem="8Px-rK-ur7" secondAttribute="centerY" id="YTI-2e-eQ3"/>
-                            <constraint firstItem="pvV-za-9Xv" firstAttribute="leading" secondItem="8Px-rK-ur7" secondAttribute="trailing" constant="20" id="Z0Z-de-ARx"/>
                             <constraint firstItem="0WU-uf-O1Q" firstAttribute="leading" secondItem="iDO-y4-LMu" secondAttribute="trailing" constant="5" id="aa9-gC-ydW"/>
+                            <constraint firstItem="bnv-sN-XpZ" firstAttribute="leading" secondItem="pvV-za-9Xv" secondAttribute="trailing" constant="5" id="bbv-4F-xN7"/>
                             <constraint firstItem="u0F-TR-GC2" firstAttribute="top" secondItem="oLf-xN-d86" secondAttribute="top" constant="20" id="dUk-GP-Aqn"/>
                             <constraint firstItem="5hI-Nw-AIh" firstAttribute="top" secondItem="oLf-xN-d86" secondAttribute="top" constant="10" id="eL1-UX-fFm"/>
-                            <constraint firstItem="pvV-za-9Xv" firstAttribute="centerY" secondItem="8Px-rK-ur7" secondAttribute="centerY" id="etm-ji-8ab"/>
                             <constraint firstItem="0WU-uf-O1Q" firstAttribute="leading" secondItem="iDO-y4-LMu" secondAttribute="trailing" constant="5" id="fTg-xG-s4d"/>
                             <constraint firstItem="uPc-Xc-y03" firstAttribute="leading" secondItem="oLf-xN-d86" secondAttribute="leading" constant="20" id="gcw-B6-KvA"/>
                             <constraint firstItem="iDO-y4-LMu" firstAttribute="leading" secondItem="uPc-Xc-y03" secondAttribute="trailing" constant="5" id="hDn-Yt-kf2"/>
                             <constraint firstItem="5hI-Nw-AIh" firstAttribute="leading" secondItem="oLf-xN-d86" secondAttribute="leading" constant="20" id="tiA-af-SRX"/>
+                            <constraint firstAttribute="bottom" secondItem="bnv-sN-XpZ" secondAttribute="bottom" constant="20" id="tjX-DE-wtW"/>
                             <constraint firstItem="uPc-Xc-y03" firstAttribute="top" secondItem="5hI-Nw-AIh" secondAttribute="bottom" constant="10" id="vLI-cj-n04"/>
                         </constraints>
                     </view>
@@ -112,6 +116,15 @@
                 <constraint firstAttribute="trailing" secondItem="oLf-xN-d86" secondAttribute="trailing" id="z5B-hm-pGN"/>
             </constraints>
             <size key="customSize" width="342" height="134"/>
+            <connections>
+                <outlet property="imageLogo" destination="u0F-TR-GC2" id="0nb-gh-tP1"/>
+                <outlet property="ongoingLesson" destination="iDO-y4-LMu" id="1LD-qm-aWc"/>
+                <outlet property="percentageCompleted" destination="8Px-rK-ur7" id="9Zn-PZ-wdn"/>
+                <outlet property="progressBar" destination="v6p-8g-Xke" id="SUi-mM-JMv"/>
+                <outlet property="progressStatus" destination="0WU-uf-O1Q" id="cIh-sE-m8A"/>
+                <outlet property="subjectName" destination="5hI-Nw-AIh" id="dN2-GJ-hGF"/>
+                <outlet property="totalLessons" destination="bnv-sN-XpZ" id="Tzv-k5-1Vg"/>
+            </connections>
             <point key="canvasLocation" x="247.32824427480915" y="13.028169014084508"/>
         </collectionViewCell>
     </objects>
