@@ -22,6 +22,10 @@ class UserProfileTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.tabBarController?.tabBar.scrollEdgeAppearance = .init()
+        self.tabBarController?.tabBar.barTintColor = .white
+                    
+        self.tabBarController?.tabBar.isTranslucent = false
         title = "User Profile"
         
 

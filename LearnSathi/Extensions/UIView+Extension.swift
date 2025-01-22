@@ -9,7 +9,9 @@ import UIKit
 
 extension UIView {
     @IBInspectable var cornarRadius: CGFloat {
-        get{ return cornarRadius}
+        get{
+            return self.layer.cornerRadius
+        }
         set{
             self.layer.cornerRadius = newValue
         }

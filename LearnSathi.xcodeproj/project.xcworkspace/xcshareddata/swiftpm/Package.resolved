@@ -1,6 +1,15 @@
 {
-  "originHash" : "2210fcafa6e02a3f16f3c2d3cc45e0b8bfbabcff7a5be6325d5d2194bc31f854",
+  "originHash" : "9468e7559986fd8e012edc2ad64aaa5c641e330504e5ab8028bfc679511a0d0d",
   "pins" : [
+    {
+      "identity" : "charts",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ChartsOrg/Charts.git",
+      "state" : {
+        "revision" : "dd9c72e3d7e751e769971092a6bd72d39198ae63",
+        "version" : "5.1.0"
+      }
+    },
     {
       "identity" : "fscalendar",
       "kind" : "remoteSourceControl",

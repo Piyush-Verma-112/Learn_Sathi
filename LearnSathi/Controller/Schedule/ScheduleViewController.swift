@@ -252,7 +252,7 @@ extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewData
             
             // Create dimming view
             let dimmingView = UIView(frame: self.view.bounds)
-            dimmingView.backgroundColor = .clear // Start clear
+            dimmingView.backgroundColor = .clear 
             dimmingView.tag = 999
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(closePopUp))
             dimmingView.addGestureRecognizer(tapGesture)
@@ -281,6 +281,7 @@ extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewData
             
             // Animate
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5, options: .curveEaseInOut) {
+                
                 // Final state
                 popUpView.frame = CGRect(x: 20, y: self.view.center.y - 251,
                                        width: self.view.bounds.width - 40, height: 502)

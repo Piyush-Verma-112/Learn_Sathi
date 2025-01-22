@@ -32,9 +32,6 @@ let tutors: [Tutor] = [
     Tutor(id: 3, tutorName: "Rohit Yadav", tutorProfileImage: "profileImage", subject: "Science", subjectIcon: "Maths"),
     Tutor(id: 4, tutorName: "Kuldeep Yadav", tutorProfileImage: "profileImage", subject: "Mathematics", subjectIcon: "Maths"),
     Tutor(id: 5, tutorName: "Shivam Gupta", tutorProfileImage: "profileImage", subject: "Hindi", subjectIcon: "Maths"),
-    Tutor(id: 6, tutorName: "Rohit Yadav", tutorProfileImage: "profileImage", subject: "Science", subjectIcon: "Maths"),
-    Tutor(id: 1, tutorName: "Kuldeep Yadav", tutorProfileImage: "profileImage", subject: "Mathematics", subjectIcon: "Maths"),
-    Tutor(id: 2, tutorName: "Shivam Gupta", tutorProfileImage: "profileImage", subject: "Hindi", subjectIcon: "Maths"),
-    Tutor(id: 3, tutorName: "Rohit Yadav", tutorProfileImage: "profileImage", subject: "Science", subjectIcon: "Maths")
+    Tutor(id: 6, tutorName: "Rohit Yadav", tutorProfileImage: "profileImage", subject: "Science", subjectIcon: "Maths")
 ]
 

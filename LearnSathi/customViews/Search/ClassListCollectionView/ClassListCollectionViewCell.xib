@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="ClassListCollectionViewCell" customModule="LearnSathi" customModuleProvider="target">
+        <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="ClassListCollectionViewCell" customModule="LearnSathi" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="70" height="25"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -31,7 +31,9 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="lgh-QE-OqA" firstAttribute="centerX" secondItem="A4P-YI-E5c" secondAttribute="centerX" id="8p3-Rr-qzV"/>
+                            <constraint firstAttribute="height" constant="25" id="Lsz-oe-M4E"/>
                             <constraint firstItem="lgh-QE-OqA" firstAttribute="centerY" secondItem="A4P-YI-E5c" secondAttribute="centerY" id="aEW-hb-29q"/>
+                            <constraint firstAttribute="width" constant="70" id="gqm-1O-nbs"/>
                         </constraints>
                     </view>
                 </subviews>
