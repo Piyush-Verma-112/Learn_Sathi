@@ -30,9 +30,10 @@ class OnboardingViewController: UIViewController {
         super.viewDidLoad()
         
         slides = [
-            OnboardingSlide(title: "Delicious DIshes", description: "Experience a variety of amazing dishes from different cultures around the world.", image: UIImage(named: "slide2") ?? UIImage()),
-            OnboardingSlide(title: "World-Class Chefs", description: "Our dishes are prepared by only the best", image: UIImage(named: "slide1") ?? UIImage()),
-            OnboardingSlide(title: "Instant WorldWide delivery", description: "Your order will be delivered instantly irrespective of your location around the world", image: UIImage(named: "slide3") ?? UIImage())
+            OnboardingSlide(title: "Find Tutors", description: "Search for home tutors nearby you at your doorstep based on your interests.", image: UIImage(named: "searchTutor") ?? UIImage()),
+            OnboardingSlide(title: "Daily Schedules", description: "Track daily scheduled classes", image: UIImage(named: "schedule") ?? UIImage()),
+            OnboardingSlide(title: "Progress Tracking", description: "Track your childs daily  progrees according to their test performances.", image: UIImage(named: "progress") ?? UIImage())
+            
         ]
         
         
