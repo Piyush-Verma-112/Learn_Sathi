@@ -23,6 +23,7 @@ struct LessonsProgress {
         self.subjectLogo = subjectLogo
     }
 }
+
 let progressData : [LessonsProgress] = [
     LessonsProgress(subject: "Mathematics", lessonOngoing: 12, lessonStatus: "In Progress", totalLessons: 18, completedPercentage: 66.6, subjectLogo: "Maths"),
     LessonsProgress(subject: "Science", lessonOngoing: 2, lessonStatus: "Completed", totalLessons: 10, completedPercentage: 20.0, subjectLogo: "ScienceLogo"),
@@ -111,3 +112,66 @@ let chapterDetailsHindi : [SubjectDetails] = [
     SubjectDetails(chapterName: "भोर और बरखा", lessonCount: 4, progressPercentage: 34),
     SubjectDetails(chapterName: "शाम एक किशान", lessonCount: 5, progressPercentage: 45.6)
     ]
+
+
+struct TestDetails {
+    var chapterName: String
+    var lessonCount: Int
+    var testDate: Date
+    var totalQuestions: Int
+    var correctAnswers: Int
+    var attemptedQuestions: Int
+    var score: Float
+
+    init(chapterName: String, lessonCount: Int, testDate: Date, totalQuestions: Int, correctAnswers: Int, attemptedQuestions: Int) {
+        self.chapterName = chapterName
+        self.lessonCount = lessonCount
+        self.testDate = testDate
+        self.totalQuestions = totalQuestions
+        self.correctAnswers = correctAnswers
+        self.attemptedQuestions = attemptedQuestions
+        if totalQuestions > 0 {
+            self.score = (Float(correctAnswers) / Float(totalQuestions)) * 100
+        } else {
+            self.score = 0.0
+        }
+        func formattedScore() -> String {
+                return String(format: "%.2f", score)
+            }
+    }
+}
+
+let testDetailsMaths : [TestDetails] = [
+    TestDetails(chapterName: "Algebra", lessonCount: 1, testDate: Date(), totalQuestions: 15, correctAnswers: 14, attemptedQuestions: 15),
+    TestDetails(chapterName: "Geometry", lessonCount: 2, testDate: Date(), totalQuestions: 15, correctAnswers: 9, attemptedQuestions: 20),
+    TestDetails(chapterName: "Simple Equations", lessonCount: 3, testDate: Date(), totalQuestions: 10, correctAnswers: 9, attemptedQuestions: 10),
+    TestDetails(chapterName: "Lines and Angles", lessonCount: 4, testDate: Date(), totalQuestions: 12, correctAnswers: 11, attemptedQuestions: 12)
+]
+
+let testDetailsScience : [TestDetails] = [
+    TestDetails(chapterName: "Nutrition in Plants", lessonCount: 1, testDate: Date(), totalQuestions: 15, correctAnswers: 13, attemptedQuestions: 15),
+    TestDetails(chapterName: "Nutrition in Animals", lessonCount: 2, testDate: Date(), totalQuestions: 20, correctAnswers: 18, attemptedQuestions: 20),
+    TestDetails(chapterName: "Fibre to Fabric", lessonCount: 3, testDate: Date(), totalQuestions: 10, correctAnswers: 9, attemptedQuestions: 10),
+    TestDetails(chapterName: "Water Cycle", lessonCount: 4, testDate: Date(), totalQuestions: 12, correctAnswers: 11, attemptedQuestions: 12)
+]
+
+let testDetailsSocialStudies : [TestDetails] = [
+    TestDetails(chapterName: "Ancient Civilizations", lessonCount: 1, testDate: Date(), totalQuestions: 15, correctAnswers: 13, attemptedQuestions: 15),
+    TestDetails(chapterName: "World History", lessonCount: 2, testDate: Date(), totalQuestions: 20, correctAnswers: 18, attemptedQuestions: 20),
+    TestDetails(chapterName: "Air", lessonCount: 3, testDate: Date(), totalQuestions: 10, correctAnswers: 9, attemptedQuestions: 10),
+    TestDetails(chapterName: "Water", lessonCount: 4, testDate: Date(), totalQuestions: 12, correctAnswers: 11, attemptedQuestions: 12)
+]
+
+let testDetailsEnglish : [TestDetails] = [
+    TestDetails(chapterName: "A gift of Chappals the Rebel", lessonCount: 1, testDate: Date(), totalQuestions: 15, correctAnswers: 13, attemptedQuestions: 15),
+    TestDetails(chapterName: "Quality Trees", lessonCount: 2, testDate: Date(), totalQuestions: 20, correctAnswers: 18, attemptedQuestions: 20),
+    TestDetails(chapterName: "A Story of Cricket", lessonCount: 3, testDate: Date(), totalQuestions: 10, correctAnswers: 9, attemptedQuestions: 10),
+    TestDetails(chapterName: "Three questions", lessonCount: 4, testDate: Date(), totalQuestions: 12, correctAnswers: 11, attemptedQuestions: 12)
+]
+
+let testDetailsHindi : [TestDetails] = [
+    TestDetails(chapterName: "हम पंछी उन्मुक्त गगन के", lessonCount: 1, testDate: Date(), totalQuestions: 15, correctAnswers: 13, attemptedQuestions: 15),
+    TestDetails(chapterName: "शाम एक किशान", lessonCount: 2, testDate: Date(), totalQuestions: 20, correctAnswers: 18, attemptedQuestions: 20),
+    TestDetails(chapterName: "भोर और बरखा", lessonCount: 3, testDate: Date(), totalQuestions: 10, correctAnswers: 9, attemptedQuestions: 10),
+    TestDetails(chapterName: "रक्त और हमारा शरीर", lessonCount: 4, testDate: Date(), totalQuestions: 12, correctAnswers: 11, attemptedQuestions: 12)
+]

@@ -61,21 +61,36 @@ extension ProgressViewController: UICollectionViewDelegate, UICollectionViewData
             return cell
         }
     }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if segmentedControlOutlet.selectedSegmentIndex == 0 {
-            let selectedProgress = progressData[indexPath.row]
-            performSegue(withIdentifier: "ProgressToDetail", sender: selectedProgress)
+            let storyboard = UIStoryboard(name: "SubjectsDetailViewController", bundle: nil)
+            if let primaryVC = storyboard.instantiateViewController(withIdentifier: "SubjectsDetailViewController") as? SubjectsDetailViewController {
+                primaryVC.updateNavigationTitle(with: indexPath)
+                navigationController?.pushViewController(primaryVC, animated: true)
+            }
+            //            let selectedProgress = progressData[indexPath.row]
+            //            performSegue(withIdentifier: "ProgressToDetail", sender: selectedProgress)
         }
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ProgressToDetail",
-           let destinationVC = segue.destination as? SubjectsDetailViewController,
-           let selectedProgress = sender as? LessonsProgress {
-            destinationVC.subjectName = selectedProgress
+        else {
+            let storyboard = UIStoryboard(name: "TestDetailsViewController", bundle: nil)
+            if let secondaryVC = storyboard.instantiateViewController(withIdentifier: "TestDetailsViewController") as? TestDetailsViewController {
+                secondaryVC.updateData(with: indexPath)
+                navigationController?.pushViewController(secondaryVC, animated: true)
+            }
         }
     }
 }
+    
+
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "ProgressToDetail",
+//           let destinationVC = segue.destination as? SubjectsDetailViewController,
+//           let selectedProgress = sender as? LessonsProgress {
+//            destinationVC.subjectName = selectedProgress
+//        }
+//    }
+
     
 
 //func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

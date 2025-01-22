@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Bm9-AH-ddw">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -44,9 +45,6 @@
                                             <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </collectionViewCellContentView>
-                                        <connections>
-                                            <segue destination="kYI-eR-Azz" kind="show" identifier="ProgressToDetail" id="adA-4W-Kko"/>
-                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -74,16 +72,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6n2-Tg-wvm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4868" y="-89"/>
-        </scene>
-        <!--SubjectsDetailViewController-->
-        <scene sceneID="1qd-4c-R85">
-            <objects>
-                <viewControllerPlaceholder storyboardIdentifier="DetailsViewController" storyboardName="SubjectsDetailViewController" id="kYI-eR-Azz" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="Mzu-io-v0E"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xDi-xd-JsZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5547" y="-207"/>
         </scene>
         <!--Progress-->
         <scene sceneID="S1A-zH-9HA">
