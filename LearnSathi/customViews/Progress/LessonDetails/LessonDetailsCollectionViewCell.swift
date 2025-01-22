@@ -10,7 +10,7 @@ import UIKit
 class LessonDetailsCollectionViewCell: UICollectionViewCell {
 
     static let identifier = String(describing: LessonDetailsCollectionViewCell.self)
-    
+                                   
     @IBOutlet weak var lessonNumber: UILabel!
     @IBOutlet weak var lessonName: UILabel!
     @IBOutlet weak var lessonProgress: UILabel!
