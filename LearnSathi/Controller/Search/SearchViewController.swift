@@ -20,12 +20,15 @@ class SearchViewController: UIViewController {
     
     @IBOutlet weak var subjectTextField: UITextField!
     @IBOutlet weak var subjectTableView: UITableView!
+    
     @IBOutlet var searchResultcollectionView: UICollectionView!
-    @IBOutlet weak var subjectBubbleCollectionView: UICollectionView!
+    @IBOutlet var classCollectionView: UICollectionView!
+    
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        classCollectionViewConfig()
         subjectTableViewDelegates()
         subjectTableViewConfig()
         registerCells()
@@ -35,6 +38,7 @@ class SearchViewController: UIViewController {
     
     private func registerCells() {
         searchResultcollectionView.register(UINib(nibName: TutorCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: TutorCollectionViewCell.identifier)
+        classCollectionView.register(UINib(nibName: ClassListCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: ClassListCollectionViewCell.identifier)
     }
     
     
@@ -49,11 +53,31 @@ class SearchViewController: UIViewController {
 
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
+    private func classCollectionViewConfig() {
+        classCollectionView.layer.cornerRadius = 10
+        classCollectionView.layer.shadowColor = UIColor.black.cgColor
+        classCollectionView.layer.shadowOpacity = 0.1
+        classCollectionView.layer.shadowOffset = .zero
+        classCollectionView.layer.masksToBounds = false
+        classCollectionView.layer.cornerRadius = 10
+    }
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        if collectionView == classCollectionView {
+            return standards.count
+        }
         return searchResults.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if collectionView == classCollectionView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ClassListCollectionViewCell.identifier, for: indexPath) as! ClassListCollectionViewCell
+            
+            cell.setup(standard: standards[indexPath.row])
+            
+            return cell
+        }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TutorCollectionViewCell.identifier, for: indexPath) as! TutorCollectionViewCell
         
         cell.setup(search: searchResults[indexPath.row])

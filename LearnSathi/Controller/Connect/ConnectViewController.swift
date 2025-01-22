@@ -19,11 +19,6 @@ class ConnectViewController: UIViewController {
         override func viewDidLoad() {
             super.viewDidLoad()
             registerConnectCells()
-            self.tabBarController?.tabBar.scrollEdgeAppearance = .init()
-            self.tabBarController?.tabBar.barTintColor = .white
-            
-//            self.tabBarController?.tabBar.isTranslucent = false
-            
         }
         
         private func registerConnectCells() {
