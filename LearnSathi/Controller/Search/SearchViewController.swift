@@ -17,17 +17,23 @@ class SearchViewController: UIViewController {
     ]
     var allSubjects = ["Mathematics", "Science", "History", "Geography", "English", "Computer Science", "Biology", "Physics", "Chemistry"]
     var filteredSubjects: [String] = []
+    var selectedSubjects: [String] = []
     
     @IBOutlet weak var subjectTextField: UITextField!
     @IBOutlet weak var subjectTableView: UITableView!
     
     @IBOutlet var searchResultcollectionView: UICollectionView!
     @IBOutlet var classCollectionView: UICollectionView!
+    @IBOutlet var subjectBubbleCollectionView: UICollectionView!
     
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
+        configureCollectionViewLayout()
         classCollectionViewConfig()
         subjectTableViewDelegates()
         subjectTableViewConfig()
@@ -36,13 +42,40 @@ class SearchViewController: UIViewController {
         
     }
     
+    private func configureCollectionViewLayout() {
+        if let layout = subjectBubbleCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.itemSize = CGSize(width: 110, height: 33) // Bubble size
+            layout.minimumInteritemSpacing = 10 // Horizontal spacing
+            layout.minimumLineSpacing = 10 // Vertical spacing
+            layout.estimatedItemSize = .zero // Disable automatic sizing
+        }
+    }
+
+    private func updateCollectionViewSize() {
+        let bubbleWidth: CGFloat = 110
+        let bubbleHeight: CGFloat = 33
+        let spacing: CGFloat = 0 // Adjust as per your collection view's layout spacing
+        let maxWidth = view.frame.width - 20 // Adjust for padding/margin if needed
+
+        // Calculate the number of items in one row
+        let itemsInRow = Int((maxWidth + spacing) / (bubbleWidth + spacing))
+        
+        // Calculate rows needed
+        let rows = ceil(CGFloat(selectedSubjects.count) / CGFloat(itemsInRow))
+        
+        // Calculate required height
+        let requiredHeight = rows * bubbleHeight + (rows - 1) * spacing
+        
+        // Update the height constraint
+        subjectBubbleCollectionView.heightAnchor.constraint(equalToConstant: requiredHeight).isActive = true
+        subjectBubbleCollectionView.layoutIfNeeded()
+    }
+    
     private func registerCells() {
         searchResultcollectionView.register(UINib(nibName: TutorCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: TutorCollectionViewCell.identifier)
         classCollectionView.register(UINib(nibName: ClassListCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: ClassListCollectionViewCell.identifier)
+        subjectBubbleCollectionView.register(UINib(nibName: SubjectBubbleCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: SubjectBubbleCollectionViewCell.identifier)
     }
-    
-    
-
     
     @IBAction func DoneBtnClicked(_ sender: UIButton) {
         let controller = storyboard?.instantiateViewController(identifier: "TutorListViewController") as! TutorListViewController
@@ -64,29 +97,37 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        if collectionView == classCollectionView {
+        switch collectionView {
+        case classCollectionView:
             return standards.count
+        case subjectBubbleCollectionView:
+            return selectedSubjects.count
+        default:
+            return searchResults.count
         }
-        return searchResults.count
+
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == classCollectionView {
+        switch collectionView {
+        case classCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ClassListCollectionViewCell.identifier, for: indexPath) as! ClassListCollectionViewCell
-            
             cell.setup(standard: standards[indexPath.row])
-            
+            return cell
+
+        case subjectBubbleCollectionView:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SubjectBubbleCollectionViewCell.identifier, for: indexPath) as! SubjectBubbleCollectionViewCell
+            cell.setup(subject: selectedSubjects[indexPath.row])
+            return cell
+
+        default:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TutorCollectionViewCell.identifier, for: indexPath) as! TutorCollectionViewCell
+            cell.setup(search: searchResults[indexPath.row])
             return cell
         }
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TutorCollectionViewCell.identifier, for: indexPath) as! TutorCollectionViewCell
-        
-        cell.setup(search: searchResults[indexPath.row])
-        
-        return cell
     }
+
 }
-
-
 
 extension SearchViewController: UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     
@@ -107,7 +148,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, UITe
         subjectTableView.layer.shadowOffset = CGSize(width: 0, height: 2)
         subjectTableView.layer.shadowRadius = 5
         subjectTableView.layer.masksToBounds = false
-        subjectTableView.cornarRadius = 20
+        subjectTableView.layer.cornerRadius = 10
     }
     
     
@@ -163,18 +204,37 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, UITe
             return filteredSubjects.count
         }
         
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "suggestionCell", for: indexPath)
-            cell.textLabel?.text = filteredSubjects[indexPath.row]
-            return cell
-        }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "suggestionCell", for: indexPath)
+        cell.textLabel?.text = filteredSubjects[indexPath.row]
+        return cell
+    }
+    
+    // MARK: - UITableViewDelegate
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        subjectTextField.text = filteredSubjects[indexPath.row]
+//        selectedSubjects.append(subjectTextField.text ?? "")
+//        print(selectedSubjects.count) // This should now print the updated count.
+//        tableView.isHidden = true
+//        subjectBubbleCollectionView.reloadData() // Reload the collection view to reflect the updated data.
         
-        // MARK: - UITableViewDelegate
-        
-        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            // Set the selected subject in the text field
-            subjectTextField.text = filteredSubjects[indexPath.row]
-            tableView.isHidden = true
+        let selectedSubject = filteredSubjects[indexPath.row]
+        if !selectedSubjects.contains(selectedSubject) {
+            selectedSubjects.append(selectedSubject)
         }
+        subjectTextField.text = selectedSubject
+        tableView.isHidden = true
+        subjectBubbleCollectionView.reloadData()
+        updateCollectionViewSize()
+    }
+//
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        // Set the selected subject in the text field
+//        subjectTextField.text = filteredSubjects[indexPath.row]
+//        selectedSubjects.append(subjectTextField.text ?? "")
+//        print(selectedSubjects)
+//        tableView.isHidden = true
+//    }
 }
 

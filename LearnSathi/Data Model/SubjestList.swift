@@ -16,3 +16,4 @@ var allSubjects = [
     SubjectList(subjectName: "English"),
     SubjectList(subjectName: "Hindi")
 ]
+

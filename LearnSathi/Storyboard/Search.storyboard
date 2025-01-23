@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -60,10 +61,19 @@
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="10" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
-                                <cells/>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="TutorCollectionViewCell" id="oje-PR-ohN">
+                                        <rect key="frame" x="0.0" y="10" width="127.99999999999997" height="128"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="AUq-bG-BOA">
+                                            <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
                                 <connections>
-                                    <outlet property="dataSource" destination="Whz-70-RYX" id="f6z-84-CHj"/>
-                                    <outlet property="delegate" destination="Whz-70-RYX" id="wA3-6C-wqE"/>
+                                    <outlet property="dataSource" destination="Whz-70-RYX" id="nCM-0c-JVP"/>
+                                    <outlet property="delegate" destination="Whz-70-RYX" id="2hc-gF-FVo"/>
                                 </connections>
                             </collectionView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recents" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zeU-R5-XkU">
@@ -128,11 +138,30 @@
                                     <outlet property="delegate" destination="Whz-70-RYX" id="IXj-hq-nfA"/>
                                 </connections>
                             </collectionView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="xn4-S7-eL1">
+                                <rect key="frame" x="40" y="267.66666666666669" width="337" height="75"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="75" id="3PQ-8L-7SD"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="zsb-8k-Ntf">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Whz-70-RYX" id="WxC-x3-FgH"/>
+                                    <outlet property="delegate" destination="Whz-70-RYX" id="9MP-cf-NJX"/>
+                                </connections>
+                            </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="SLc-wT-pBf"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="d3v-v0-7GQ" firstAttribute="trailing" secondItem="SLc-wT-pBf" secondAttribute="trailing" id="0D9-66-pv1"/>
+                            <constraint firstItem="SLc-wT-pBf" firstAttribute="trailing" secondItem="xn4-S7-eL1" secondAttribute="trailing" constant="16" id="0cE-y9-20s"/>
                             <constraint firstItem="wrj-39-T80" firstAttribute="leading" secondItem="SLc-wT-pBf" secondAttribute="leading" constant="16" id="1Hr-Ok-vAg"/>
                             <constraint firstItem="SLc-wT-pBf" firstAttribute="trailing" secondItem="MuA-Tx-roa" secondAttribute="trailing" constant="16" id="1dt-S3-jjh"/>
                             <constraint firstAttribute="bottom" secondItem="d3v-v0-7GQ" secondAttribute="bottom" id="8Y9-xr-0en"/>
@@ -140,6 +169,7 @@
                             <constraint firstItem="ILg-Qn-SKs" firstAttribute="top" secondItem="ln1-a1-hUB" secondAttribute="bottom" constant="7.3300000000000001" id="BcP-l3-ql2"/>
                             <constraint firstItem="d3v-v0-7GQ" firstAttribute="leading" secondItem="SLc-wT-pBf" secondAttribute="leading" id="ETW-YQ-9r0"/>
                             <constraint firstItem="jS7-hH-8Fx" firstAttribute="leading" secondItem="SLc-wT-pBf" secondAttribute="leading" constant="17" id="FEX-oS-Pzc"/>
+                            <constraint firstItem="xn4-S7-eL1" firstAttribute="leading" secondItem="pEC-cm-c4k" secondAttribute="leading" constant="40" id="Hiu-IW-hKK"/>
                             <constraint firstItem="SLc-wT-pBf" firstAttribute="trailing" secondItem="rKx-3j-bCg" secondAttribute="trailing" id="L7D-0E-ZH4"/>
                             <constraint firstItem="dd9-bN-d5e" firstAttribute="centerY" secondItem="MuA-Tx-roa" secondAttribute="centerY" id="Len-mD-is6"/>
                             <constraint firstItem="umH-Uy-Iir" firstAttribute="top" secondItem="MuA-Tx-roa" secondAttribute="bottom" id="Lse-Ua-8Iu"/>
@@ -152,6 +182,7 @@
                             <constraint firstItem="urB-oI-FW5" firstAttribute="trailing" secondItem="SLc-wT-pBf" secondAttribute="trailing" id="Sg1-qS-wMX"/>
                             <constraint firstItem="umH-Uy-Iir" firstAttribute="leading" secondItem="SLc-wT-pBf" secondAttribute="leading" constant="41" id="cfs-Wr-ATh"/>
                             <constraint firstItem="wrj-39-T80" firstAttribute="top" secondItem="MuA-Tx-roa" secondAttribute="bottom" constant="80" id="fD6-Mo-koK"/>
+                            <constraint firstItem="xn4-S7-eL1" firstAttribute="top" secondItem="MuA-Tx-roa" secondAttribute="bottom" id="gzW-Q1-bb9"/>
                             <constraint firstItem="rKx-3j-bCg" firstAttribute="top" secondItem="urB-oI-FW5" secondAttribute="bottom" id="hHd-5c-2Ka"/>
                             <constraint firstItem="urB-oI-FW5" firstAttribute="top" secondItem="SLc-wT-pBf" secondAttribute="top" id="isy-8E-Y9A"/>
                             <constraint firstItem="rKx-3j-bCg" firstAttribute="leading" secondItem="SLc-wT-pBf" secondAttribute="leading" id="lHM-SB-6fg"/>
@@ -176,6 +207,7 @@
                     <connections>
                         <outlet property="classCollectionView" destination="jS7-hH-8Fx" id="tKk-Vw-Gc1"/>
                         <outlet property="searchResultcollectionView" destination="d3v-v0-7GQ" id="cke-5T-0qk"/>
+                        <outlet property="subjectBubbleCollectionView" destination="xn4-S7-eL1" id="tC7-Nl-s2A"/>
                         <outlet property="subjectTableView" destination="umH-Uy-Iir" id="qCc-5e-YVt"/>
                         <outlet property="subjectTextField" destination="MuA-Tx-roa" id="bfx-lj-9bR"/>
                         <outlet property="tableViewHeight" destination="ulE-s7-wJS" id="NWP-eB-8N4"/>

@@ -9,12 +9,12 @@ import UIKit
 
 class SubjectBubbleCollectionViewCell: UICollectionViewCell {
     
-    static let identifier: String = "subjectBubbleCollectionViewCell"
+    static let identifier: String = "SubjectBubbleCollectionViewCell"
     
     @IBOutlet weak var subjectNameLbl: UILabel!
     
-    func setup(subject: SubjectDetails) {
-        subjectNameLbl.text = subject.chapterName
+    func setup(subject: String) {
+        subjectNameLbl.text = subject
     }
     
 }
