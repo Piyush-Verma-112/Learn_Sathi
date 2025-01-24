@@ -134,7 +134,6 @@ class ScheduleViewController: UIViewController {
         let calendar = Calendar.current
         var numberOfDays: Int = 0
         
-        
         if let range = calendar.range(of: .day, in: .month, for: selectedDate) {
             numberOfDays = range.count
         }
@@ -229,16 +228,21 @@ extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewData
                 cell.contentView.layer.shadowOffset = .zero
                 cell.contentView.layer.cornerRadius = 10
                 cell.contentView.layer.shadowOpacity = 0.1
-                cell.contentView.backgroundColor = .systemBlue.withAlphaComponent(0.1)
+                cell.contentView.backgroundColor = .black.withAlphaComponent(0.1)
+                cell.dayLabel.textColor = .systemBlue
+                cell.dateLabel.textColor = .systemBlue
             } else {
                 // Reset cell styling
-                cell.contentView.layer.shadowColor = UIColor.clear.cgColor
+                cell.contentView.layer.shadowColor = UIColor.black.cgColor
                 cell.contentView.layer.shadowOffset = .zero
                 cell.contentView.layer.shadowOpacity = 0
                 cell.contentView.layer.cornerRadius = 0
                 cell.contentView.backgroundColor = .clear
+                cell.dayLabel.textColor = UIColor(named: "DefaultLableColor")
+                cell.dateLabel.textColor = .systemGray
             }
        
+            
             return cell
         }
         return UICollectionViewCell()
@@ -252,7 +256,7 @@ extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewData
             
             // Create dimming view
             let dimmingView = UIView(frame: self.view.bounds)
-            dimmingView.backgroundColor = .clear 
+            dimmingView.backgroundColor = .systemBackground
             dimmingView.tag = 999
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(closePopUp))
             dimmingView.addGestureRecognizer(tapGesture)
@@ -280,11 +284,11 @@ extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewData
             self.view.addSubview(popUpView)
             
             // Animate
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5, options: .curveEaseInOut) {
+            UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.7, options: .beginFromCurrentState) {
                 
                 // Final state
-                popUpView.frame = CGRect(x: 20, y: self.view.center.y - 251,
-                                       width: self.view.bounds.width - 40, height: 502)
+                popUpView.frame = CGRect(x: 20, y: self.view.center.y - 220,
+                                       width: self.view.bounds.width - 40, height: 440)
                 dimmingView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
             }
             

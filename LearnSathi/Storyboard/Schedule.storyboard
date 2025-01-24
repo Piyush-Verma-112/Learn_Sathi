@@ -84,7 +84,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Schedule" id="xgB-D3-ulu">
                         <rightBarButtonItems>
-                            <barButtonItem title="Item" image="person.fill" catalog="system" id="Kch-bW-unn"/>
+                            <barButtonItem title="Item" image="person.circle" catalog="system" id="Kch-bW-unn"/>
                             <barButtonItem title="Item" image="calendar" catalog="system" id="muW-lI-b8B">
                                 <connections>
                                     <segue destination="3hu-W0-VVP" kind="show" id="C9g-2t-WNS"/>
@@ -100,7 +100,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Esg-KW-3rE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2484.7328244274809" y="-75.352112676056336"/>
+            <point key="canvasLocation" x="2595" y="-75"/>
         </scene>
         <!--Classes-->
         <scene sceneID="GNX-dz-u9M">
@@ -127,7 +127,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SE4-kn-mjq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3630" y="26"/>
+            <point key="canvasLocation" x="3506" y="12"/>
         </scene>
         <!--Schedule-->
         <scene sceneID="QvY-e7-PAa">
@@ -151,7 +151,7 @@
     </scenes>
     <resources>
         <image name="calendar" catalog="system" width="128" height="107"/>
-        <image name="person.fill" catalog="system" width="128" height="120"/>
+        <image name="person.circle" catalog="system" width="128" height="123"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
