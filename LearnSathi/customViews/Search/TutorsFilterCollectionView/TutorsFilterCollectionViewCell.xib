@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="TutorsFilterCollectionViewCell" customModule="LearnSathi" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="80" height="28"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="80" height="28"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IJg-OQ-GuC">
+                        <rect key="frame" x="0.0" y="0.0" width="80" height="28"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Ew-qf-shC" customClass="BubbleCardView" customModule="LearnSathi" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="80" height="28"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ud-E3-7ae">
+                                        <rect key="frame" x="23.666666666666671" y="6" width="33" height="16"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" red="0.15686274510000001" green="0.3921568627" blue="0.73333333329999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="7ud-E3-7ae" firstAttribute="centerY" secondItem="2Ew-qf-shC" secondAttribute="centerY" id="Kco-NE-KH4"/>
+                                    <constraint firstItem="7ud-E3-7ae" firstAttribute="centerX" secondItem="2Ew-qf-shC" secondAttribute="centerX" id="v1z-3H-GHE"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="2Ew-qf-shC" firstAttribute="top" secondItem="IJg-OQ-GuC" secondAttribute="top" id="7qV-7A-R80"/>
+                            <constraint firstAttribute="width" constant="80" id="ATJ-bi-OU7"/>
+                            <constraint firstItem="2Ew-qf-shC" firstAttribute="leading" secondItem="IJg-OQ-GuC" secondAttribute="leading" id="KiA-L6-SS0"/>
+                            <constraint firstAttribute="height" constant="28" id="MyU-oh-DqA"/>
+                            <constraint firstAttribute="trailing" secondItem="2Ew-qf-shC" secondAttribute="trailing" id="ZHY-WL-GVy"/>
+                            <constraint firstAttribute="bottom" secondItem="2Ew-qf-shC" secondAttribute="bottom" id="wBB-8M-Rcm"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="IJg-OQ-GuC" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="UQP-4u-sXt"/>
+                <constraint firstItem="IJg-OQ-GuC" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="g7U-rs-ngk"/>
+                <constraint firstAttribute="bottom" secondItem="IJg-OQ-GuC" secondAttribute="bottom" id="hp1-C9-abX"/>
+                <constraint firstItem="IJg-OQ-GuC" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="kYI-ZT-dOl"/>
+                <constraint firstAttribute="trailing" secondItem="IJg-OQ-GuC" secondAttribute="trailing" id="nO7-7l-CE8"/>
+                <constraint firstItem="IJg-OQ-GuC" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="rvA-tU-418"/>
+            </constraints>
+            <size key="customSize" width="80" height="29"/>
+            <connections>
+                <outlet property="tutorFilterLbl" destination="7ud-E3-7ae" id="NvT-zb-Q6c"/>
+            </connections>
+            <point key="canvasLocation" x="138.93129770992365" y="20.774647887323944"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

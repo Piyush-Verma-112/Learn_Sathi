@@ -225,21 +225,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="sYC-DG-BtM">
-                                <rect key="frame" x="0.0" y="115" width="393" height="703"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Iss-WG-5rk">
-                                    <size key="itemSize" width="128" height="128"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells/>
-                                <connections>
-                                    <outlet property="dataSource" destination="Q2B-eX-q7K" id="Oiz-Ez-2i2"/>
-                                    <outlet property="delegate" destination="Q2B-eX-q7K" id="f6j-k5-j32"/>
-                                </connections>
-                            </collectionView>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="qU9-M8-abb">
                                 <rect key="frame" x="0.0" y="59" width="393" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -247,14 +232,50 @@
                                     <outlet property="delegate" destination="Q2B-eX-q7K" id="pL7-k1-L2x"/>
                                 </connections>
                             </searchBar>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="sYC-DG-BtM">
+                                <rect key="frame" x="0.0" y="165" width="393" height="653"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Iss-WG-5rk">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="3" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Q2B-eX-q7K" id="Oiz-Ez-2i2"/>
+                                    <outlet property="delegate" destination="Q2B-eX-q7K" id="f6j-k5-j32"/>
+                                </connections>
+                            </collectionView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="tBR-8G-0KC">
+                                <rect key="frame" x="0.0" y="115" width="393" height="50"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="0B5-DX-Iua"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="kJk-4E-0UD">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Q2B-eX-q7K" id="K4C-pJ-CIY"/>
+                                    <outlet property="delegate" destination="Q2B-eX-q7K" id="22B-kj-jmG"/>
+                                </connections>
+                            </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Dea-HF-3Or"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="sYC-DG-BtM" firstAttribute="leading" secondItem="Dea-HF-3Or" secondAttribute="leading" id="0b4-oe-mp6"/>
+                            <constraint firstItem="Dea-HF-3Or" firstAttribute="trailing" secondItem="tBR-8G-0KC" secondAttribute="trailing" id="9Gi-WF-6MW"/>
+                            <constraint firstItem="tBR-8G-0KC" firstAttribute="top" secondItem="qU9-M8-abb" secondAttribute="bottom" id="CGZ-Ym-O1y"/>
                             <constraint firstItem="Dea-HF-3Or" firstAttribute="bottom" secondItem="sYC-DG-BtM" secondAttribute="bottom" id="Jwf-Ab-tU1"/>
+                            <constraint firstItem="sYC-DG-BtM" firstAttribute="top" secondItem="tBR-8G-0KC" secondAttribute="bottom" id="Klf-2p-1HR"/>
                             <constraint firstItem="sYC-DG-BtM" firstAttribute="trailing" secondItem="Dea-HF-3Or" secondAttribute="trailing" id="Oah-vf-4YG"/>
-                            <constraint firstItem="sYC-DG-BtM" firstAttribute="top" secondItem="qU9-M8-abb" secondAttribute="bottom" id="XSp-Zw-mv5"/>
+                            <constraint firstItem="tBR-8G-0KC" firstAttribute="leading" secondItem="Dea-HF-3Or" secondAttribute="leading" id="PiD-Hp-5yD"/>
                             <constraint firstItem="qU9-M8-abb" firstAttribute="trailing" secondItem="Dea-HF-3Or" secondAttribute="trailing" id="b3L-ss-08f"/>
                             <constraint firstItem="qU9-M8-abb" firstAttribute="leading" secondItem="Dea-HF-3Or" secondAttribute="leading" id="ib8-Kv-GRb"/>
                             <constraint firstItem="qU9-M8-abb" firstAttribute="top" secondItem="Dea-HF-3Or" secondAttribute="top" id="opl-VD-lCn"/>
@@ -262,6 +283,8 @@
                     </view>
                     <connections>
                         <outlet property="tutorListCollectionView" destination="sYC-DG-BtM" id="ruG-qd-7CQ"/>
+                        <outlet property="tutorSearchBar" destination="qU9-M8-abb" id="ElD-cy-uRY"/>
+                        <outlet property="tutorsFilterCollectionView" destination="tBR-8G-0KC" id="DjE-u9-FVt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qm2-wL-LMg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
