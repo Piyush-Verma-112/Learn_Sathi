@@ -62,7 +62,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Progress" id="HAB-VU-jvt">
-                        <barButtonItem key="rightBarButtonItem" image="person.fill" catalog="system" id="7oZ-vH-oAs"/>
+                        <barButtonItem key="rightBarButtonItem" image="person.fill" catalog="system" id="7oZ-vH-oAs">
+                            <connections>
+                                <action selector="profileButtonAction:" destination="E1g-CN-h3n" id="O3I-6a-Fp7"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionViewOutlet" destination="4r9-7X-bNz" id="8fl-3U-EwJ"/>

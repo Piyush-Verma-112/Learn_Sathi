@@ -12,15 +12,17 @@ class ProgressViewController: UIViewController {
     @IBOutlet weak var collectionViewOutlet: UICollectionView!
     @IBOutlet weak var segmentedControlOutlet: UISegmentedControl!
     
-    
-    //var selectedIndexPath:IndexPath?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         registerCells()
         loadInitialData()
         
     }
+    
+    @IBAction func profileButtonAction(_ sender: UIBarButtonItem) {
+        
+    }
+    
     
     private func registerCells() {
         collectionViewOutlet.register(UINib(nibName: LessonsCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: LessonsCollectionViewCell.identifier)
