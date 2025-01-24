@@ -30,63 +30,65 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eQn-8R-xB1">
                                 <rect key="frame" x="10" y="58" width="34.333333333333336" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.64313725490196072" green="0.65098039215686276" blue="0.65098039215686276" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="highlightedColor" systemColor="labelColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Questions:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Gj-d1-tAL">
                                 <rect key="frame" x="10" y="95" width="69.333333333333329" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.64313725489999995" green="0.65098039220000004" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="highlightedColor" systemColor="labelColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XDA-sv-Gqu">
-                                <rect key="frame" x="49.333333333333343" y="58" width="36" height="17"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <rect key="frame" x="49.333333333333343" y="58" width="37.666666666666657" height="17"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="253" verticalHuggingPriority="251" text="12" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R1a-Js-Agg">
-                                <rect key="frame" x="186.33333333333334" y="95" width="15" height="17"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <rect key="frame" x="187.66666666666666" y="95" width="16" height="17"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gLY-3u-xwW">
-                                <rect key="frame" x="84.333333333333329" y="95" width="15" height="17"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <rect key="frame" x="84.333333333333329" y="95" width="16.333333333333329" height="17"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Correct: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MFu-ff-bPV">
-                                <rect key="frame" x="124.33333333333331" y="95" width="57" height="17"/>
+                                <rect key="frame" x="125.66666666666669" y="95" width="57" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.64313725489999995" green="0.65098039220000004" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="highlightedColor" systemColor="labelColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="253" verticalHuggingPriority="251" text="Attempted:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mou-In-Pyz">
-                                <rect key="frame" x="226.33333333333334" y="95" width="72.333333333333343" height="17"/>
+                                <rect key="frame" x="228.66666666666666" y="95" width="72.333333333333343" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.64313725489999995" green="0.65098039220000004" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="highlightedColor" systemColor="labelColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="15" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ecq-fn-ooU">
-                                <rect key="frame" x="303.66666666666669" y="95" width="15" height="17"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <rect key="frame" x="306" y="95" width="16.333333333333314" height="17"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TWd-qH-sLY">
-                                <rect key="frame" x="289" y="58.666666666666664" width="33" height="15.666666666666664"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kOJ-Tt-Hh2" customClass="CustomPieChartView" customModule="LearnSathi" customModuleProvider="target">
+                                <rect key="frame" x="240" y="0.0" width="102" height="80"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="ELK-Yu-tSQ"/>
+                                    <constraint firstAttribute="width" constant="102" id="cBo-8X-neN"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Ecq-fn-ooU" firstAttribute="centerY" secondItem="Mou-In-Pyz" secondAttribute="centerY" id="1be-up-dQO"/>
                             <constraint firstItem="MFu-ff-bPV" firstAttribute="centerY" secondItem="gLY-3u-xwW" secondAttribute="centerY" id="5IK-bw-aAI"/>
-                            <constraint firstItem="TWd-qH-sLY" firstAttribute="centerY" secondItem="XDA-sv-Gqu" secondAttribute="centerY" id="5MX-gA-51a"/>
+                            <constraint firstAttribute="trailing" secondItem="kOJ-Tt-Hh2" secondAttribute="trailing" id="62j-6Z-Wvp"/>
                             <constraint firstItem="6nC-28-k8S" firstAttribute="top" secondItem="yag-jX-vKB" secondAttribute="top" constant="15" id="DwM-m8-OYz"/>
                             <constraint firstItem="Mou-In-Pyz" firstAttribute="leading" secondItem="R1a-Js-Agg" secondAttribute="trailing" constant="25" id="EDw-J7-3Yg"/>
                             <constraint firstItem="Mou-In-Pyz" firstAttribute="centerY" secondItem="R1a-Js-Agg" secondAttribute="centerY" id="F7h-SO-1hn"/>
@@ -99,7 +101,7 @@
                             <constraint firstItem="gLY-3u-xwW" firstAttribute="leading" secondItem="3Gj-d1-tAL" secondAttribute="trailing" constant="5" id="e4L-1g-gM6"/>
                             <constraint firstItem="eQn-8R-xB1" firstAttribute="top" secondItem="6nC-28-k8S" secondAttribute="bottom" constant="15" id="foc-B3-Aby"/>
                             <constraint firstItem="Ecq-fn-ooU" firstAttribute="leading" secondItem="Mou-In-Pyz" secondAttribute="trailing" constant="5" id="iml-aW-lAZ"/>
-                            <constraint firstAttribute="trailing" secondItem="TWd-qH-sLY" secondAttribute="trailing" constant="20" id="maj-n8-WkS"/>
+                            <constraint firstItem="kOJ-Tt-Hh2" firstAttribute="top" secondItem="yag-jX-vKB" secondAttribute="top" id="ix2-xF-qGC"/>
                             <constraint firstAttribute="width" constant="342" id="nh6-Y5-hyP"/>
                             <constraint firstItem="MFu-ff-bPV" firstAttribute="leading" secondItem="gLY-3u-xwW" secondAttribute="trailing" constant="25" id="oIg-HU-mlz"/>
                             <constraint firstItem="XDA-sv-Gqu" firstAttribute="leading" secondItem="eQn-8R-xB1" secondAttribute="trailing" constant="5" id="oYb-o8-iXZ"/>
@@ -119,10 +121,10 @@
             </constraints>
             <connections>
                 <outlet property="attemptedQuestions" destination="Ecq-fn-ooU" id="lFe-fn-5rJ"/>
-                <outlet property="averageScore" destination="TWd-qH-sLY" id="kJJ-Jp-4Yh"/>
                 <outlet property="chapterName" destination="6nC-28-k8S" id="pTu-qm-eHc"/>
                 <outlet property="correctAnswers" destination="R1a-Js-Agg" id="ggz-S1-gg1"/>
                 <outlet property="date" destination="XDA-sv-Gqu" id="6Gt-ts-6ge"/>
+                <outlet property="pieChartView" destination="kOJ-Tt-Hh2" id="pDB-d4-dmf"/>
                 <outlet property="totalQuestions" destination="gLY-3u-xwW" id="fe7-8s-00x"/>
             </connections>
             <point key="canvasLocation" x="138.93129770992365" y="-1.0563380281690142"/>

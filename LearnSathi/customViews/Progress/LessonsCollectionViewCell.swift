@@ -26,7 +26,9 @@ class LessonsCollectionViewCell: UICollectionViewCell {
         ongoingLesson.text = progress.lessonOngoing.formatted()
         progressStatus.text = "/ " + progress.lessonStatus
         percentageCompleted.text = progress.completedPercentage.formatted() + "%"
+        percentageCompleted.textColor = progress.color
         totalLessons.text = progress.totalLessons.formatted()
         progressBar.progress = Float(progress.completedPercentage) / 100
+        progressBar.tintColor = progress.color
     }
 }

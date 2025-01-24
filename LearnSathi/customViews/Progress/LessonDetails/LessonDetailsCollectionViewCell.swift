@@ -15,6 +15,7 @@ class LessonDetailsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var lessonName: UILabel!
     @IBOutlet weak var lessonProgress: UILabel!
     @IBOutlet var progressBar: UIProgressView!
+    @IBOutlet var chapterStatus: UILabel!
     
     func setup(subjectDetails: SubjectDetails) {
         
@@ -22,6 +23,17 @@ class LessonDetailsCollectionViewCell: UICollectionViewCell {
         lessonName.text = subjectDetails.chapterName
         lessonProgress.text = subjectDetails.progressPercentage.formatted() + "%"
         progressBar.progress = Float(subjectDetails.progressPercentage)/100
+        if progressBar.progress == 1 {
+            chapterStatus.text = "Completed"
+            chapterStatus.textColor = .systemGreen
+        }
+        else if progressBar.progress == 0 {
+            chapterStatus.text = "UpComing"
+            chapterStatus.textColor = .red
+        } else {
+            chapterStatus.text = "In Progress"
+            chapterStatus.textColor = .systemOrange
+        }
     }
 
 }
