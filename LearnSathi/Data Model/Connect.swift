@@ -35,3 +35,9 @@ let tutors: [Tutor] = [
     Tutor(id: 6, tutorName: "Rohit Yadav", tutorProfileImage: "profileImage", subject: "Science", subjectIcon: "Maths")
 ]
 
+struct Doubt {
+    let subject: String
+    let lesson: String
+    let question: String
+    let status: String
+}
