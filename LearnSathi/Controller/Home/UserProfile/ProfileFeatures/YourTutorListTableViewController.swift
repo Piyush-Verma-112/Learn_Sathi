@@ -7,7 +7,7 @@
 
 import UIKit
 
-class YouTutorListTableViewController: UITableViewController {
+class YourTutorListTableViewController: UITableViewController {
 
     @IBOutlet var tutorListTableView: UITableView!
     
