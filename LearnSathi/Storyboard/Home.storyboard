@@ -539,10 +539,10 @@
             </objects>
             <point key="canvasLocation" x="3840" y="-380"/>
         </scene>
-        <!--You Tutor List Table View Controller-->
+        <!--Your Tutor List Table View Controller-->
         <scene sceneID="tMQ-Nf-ESi">
             <objects>
-                <tableViewController id="cPN-Bg-h0c" customClass="YouTutorListTableViewController" customModule="LearnSathi" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="cPN-Bg-h0c" customClass="YourTutorListTableViewController" customModule="LearnSathi" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="30" estimatedSectionHeaderHeight="-1" sectionFooterHeight="10" estimatedSectionFooterHeight="-1" id="OGs-PM-88S">
                         <rect key="frame" x="0.0" y="0.0" width="440" height="946"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -569,7 +569,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rnc-Bd-0fU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6454" y="-258"/>
+            <point key="canvasLocation" x="5015" y="-614"/>
         </scene>
         <!--Personal Information Table View Controller-->
         <scene sceneID="vI6-a3-HrS">
@@ -807,7 +807,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uQ9-AM-wXF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5038.636363636364" y="209.62343096234309"/>
+            <point key="canvasLocation" x="5036" y="74"/>
         </scene>
     </scenes>
     <resources>
