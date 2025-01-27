@@ -18,7 +18,7 @@ class ScheduleViewController: UIViewController {
     
     @IBOutlet var datePicker: UIDatePicker!
     
-    var isSelected: Bool = false
+    var isSelected: Bool = true
     var currentMonthDates: [Date] = []
     var lastSelectedMonth: Int = -1
     private var hasInitialScroll = false
@@ -213,8 +213,20 @@ extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewData
             
             let calendar = Calendar.current
             let cellDate = currentMonthDates[indexPath.row]
-            _ = calendar.startOfDay(for: Date())
-            
+            let currentMonth = calendar.component(.month, from: datePicker.date)
+            let cellMonth = calendar.component(.month, from: cellDate)
+            let isToday = calendar.isDate(cellDate, inSameDayAs: Date())
+            let isSelectedDate = calendar.isDate(cellDate, inSameDayAs: selectedDate ?? Date())
+
+            // Reset cell styles
+            cell.contentView.alpha = 1.0
+            cell.contentView.backgroundColor = .clear
+            cell.contentView.layer.shadowOpacity = 0
+            cell.contentView.layer.cornerRadius = 0
+            cell.dayLabel.textColor = UIColor(named: "DefaultLabelColor")
+            cell.dateLabel.textColor = .systemGray
+
+            // Set day and date labels
             let day = calendar.component(.day, from: cellDate)
             cell.dateLabel.text = String(day)
             
@@ -222,27 +234,33 @@ extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewData
             dateFormatter.dateFormat = "EEE"
             let dayName = dateFormatter.string(from: cellDate).uppercased()
             cell.dayLabel.text = dayName
-       
-            if calendar.isDate(cellDate, inSameDayAs: selectedDate ?? Date()) {
+
+            // Style based on conditions
+            if cellMonth != currentMonth {
+                // Dim cells not in the current month
+                cell.contentView.alpha = 0.3
+            } else if isSelectedDate {
+                // Highlight the selected date
                 cell.contentView.layer.shadowColor = UIColor.black.cgColor
                 cell.contentView.layer.shadowOffset = .zero
-                cell.contentView.layer.cornerRadius = 10
                 cell.contentView.layer.shadowOpacity = 0.1
+                cell.contentView.layer.cornerRadius = 10
                 cell.contentView.backgroundColor = .black.withAlphaComponent(0.1)
                 cell.dayLabel.textColor = .systemBlue
                 cell.dateLabel.textColor = .systemBlue
-            } else {
-                // Reset cell styling
-                cell.contentView.layer.shadowColor = UIColor.black.cgColor
-                cell.contentView.layer.shadowOffset = .zero
-                cell.contentView.layer.shadowOpacity = 0
-                cell.contentView.layer.cornerRadius = 0
-                cell.contentView.backgroundColor = .clear
-                cell.dayLabel.textColor = UIColor(named: "DefaultLableColor")
-                cell.dateLabel.textColor = .systemGray
+            } else if isToday {
+                // Highlight today's date (optional)
+                cell.dayLabel.textColor = .systemGreen
+                cell.dateLabel.textColor = .systemGreen
+            } else if isSelected {
+                // Dim future dates
+                if cellDate > (selectedDate ?? Date()) {
+                    cell.contentView.alpha = 0.5
+                    cell.dayLabel.textColor = .gray
+                    cell.dateLabel.textColor = .gray
+                }
             }
-       
-            
+
             return cell
         }
         return UICollectionViewCell()
