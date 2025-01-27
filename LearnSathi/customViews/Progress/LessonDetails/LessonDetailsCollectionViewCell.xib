@@ -46,6 +46,12 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gui-ic-FUg">
+                                <rect key="frame" x="295" y="10" width="33" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
@@ -56,9 +62,11 @@
                             <constraint firstAttribute="height" constant="96" id="Hk0-yx-08M"/>
                             <constraint firstItem="hqF-pv-cuf" firstAttribute="leading" secondItem="aLj-P9-8hb" secondAttribute="leading" constant="20" id="esq-b6-hHp"/>
                             <constraint firstItem="hqF-pv-cuf" firstAttribute="top" secondItem="Gfm-bp-0pI" secondAttribute="bottom" constant="20" id="hxN-g2-VtL"/>
+                            <constraint firstAttribute="trailing" secondItem="Gui-ic-FUg" secondAttribute="trailing" constant="20" id="oqE-Rg-8bN"/>
                             <constraint firstItem="fpL-9G-UYS" firstAttribute="leading" secondItem="hqF-pv-cuf" secondAttribute="trailing" constant="5" id="q8P-SP-F62"/>
                             <constraint firstAttribute="width" constant="348" id="qDS-j9-61Q"/>
                             <constraint firstItem="fpL-9G-UYS" firstAttribute="centerY" secondItem="hqF-pv-cuf" secondAttribute="centerY" id="snD-m1-Q1I"/>
+                            <constraint firstItem="Gui-ic-FUg" firstAttribute="top" secondItem="aLj-P9-8hb" secondAttribute="top" constant="10" id="vqA-dy-UwG"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -71,6 +79,7 @@
                 <constraint firstAttribute="bottom" secondItem="aLj-P9-8hb" secondAttribute="bottom" id="yUs-zB-PTQ"/>
             </constraints>
             <connections>
+                <outlet property="chapterStatus" destination="Gui-ic-FUg" id="taO-mM-UKU"/>
                 <outlet property="lessonName" destination="Gfm-bp-0pI" id="II8-8x-Nj7"/>
                 <outlet property="lessonNumber" destination="ryt-AR-Uo4" id="gpd-St-nCJ"/>
                 <outlet property="lessonProgress" destination="fpL-9G-UYS" id="lPe-9p-483"/>
