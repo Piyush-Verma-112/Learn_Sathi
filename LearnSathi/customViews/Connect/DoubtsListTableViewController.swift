@@ -8,7 +8,7 @@
 import UIKit
 
 class DoubtsListTableViewController: UITableViewController, DoubtDelegate {
-
+    
     // MARK: - Subject Struct
     struct Subject {
         let image: String
@@ -22,96 +22,193 @@ class DoubtsListTableViewController: UITableViewController, DoubtDelegate {
     }
     
     var subjects: [Subject] = [
-        Subject(image: "Maths", subjectName: "Mathematics", lessonName: "Algebra Basics", status: "Pending", date: "2025-01-22", question: "What is the value of x in 2x + 3 = 7?", solution: "x = 2", solutionImage: nil),
-        Subject(image: "science", subjectName: "Science", lessonName: "Newton's Laws", status: "Complete", date: "2025-01-21", question: "Explain Newton's third law of motion.", solution: "For every action, there is an equal and opposite reaction.", solutionImage: "newtons_law_image"),
-        Subject(image: "subjects", subjectName: "History", lessonName: "Ancient Civilizations", status: "Pending", date: "2025-01-20", question: "Who was the first president of the United States?", solution: "George Washington", solutionImage: nil),
-        Subject(image: "EnglishLogo", subjectName: "Geography", lessonName: "Countries of the World", status: "Complete", date: "2025-01-19", question: "What is the capital of France?", solution: "Paris", solutionImage: nil)
+        Subject(image: "profileImage", subjectName: "English", lessonName: "Aman", status: "Complete", date: "22/01/2024", question: "Hownare ypu", solution: "jnjkkjvjhjhvhjvhvhjhvhjvhjvhvjhvjv", solutionImage: nil)
     ]
-    // MARK: - Data
     
+    var filteredSubjects: [Subject] = []
+    var filterStatus: String = "All"
+    
+    private let placeholderView: UIView = {
+        let view = UIView()
+        let label = UILabel()
+        label.tag = 1001
+        label.text = "No doubt asked, add a doubt."
+        label.textColor = .gray
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(label)
+
+        NSLayoutConstraint.activate([
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+        ])
+
+        return view
+    }()
+
+    // MARK: - View Lifecycle
     override func viewDidLoad() {
-            super.viewDidLoad()
-            tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCustomCell")
-        }
+        super.viewDidLoad()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCustomCell")
+        setupFilterSegmentedControl()
+        applyFilter()
+    }
 
-        // MARK: - Table View Data Source
-        override func numberOfSections(in tableView: UITableView) -> Int {
-            return 1
+    
+    // MARK: - Segmented Control
+    private func setupFilterSegmentedControl() {
+        let segmentedControl = UISegmentedControl(items: ["All", "Complete", "Pending"])
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.addTarget(self, action: #selector(filterChanged(_:)), for: .valueChanged)
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        
+        let font = UIFont.systemFont(ofSize: 14)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
+        
+        // Create a container view for the segmented control
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 60))
+        headerView.backgroundColor = tableView.backgroundColor
+        
+        headerView.addSubview(segmentedControl)
+        
+        
+        NSLayoutConstraint.activate([
+            segmentedControl.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),
+            segmentedControl.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+            segmentedControl.widthAnchor.constraint(equalTo: headerView.widthAnchor, multiplier: 0.9)
+        ])
+        
+       
+        tableView.tableHeaderView = headerView
+    }
+    
+    @objc private func filterChanged(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 1:
+            filterStatus = "Complete"
+        case 2:
+            filterStatus = "Pending"
+        default:
+            filterStatus = "All"
         }
-
-        override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return subjects.count
-        }
-
-        override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "MyCustomTableViewCell", for: indexPath) as! MyCustomTableViewCell
-            
-            let subject = subjects[indexPath.row]
-            cell.subjectNameLabel.text = subject.subjectName
-            cell.lessonNameLabel.text = "\(subject.lessonName)"
-            cell.statusLabel.text = subject.status
-            cell.subjectImageView.image = UIImage(named: subject.image)
-            cell.dateLabel.text = "Date: \(subject.date)"
-            
-            if subject.status.lowercased() == "pending" {
-                cell.statusLabel.textColor = UIColor.systemOrange
-            } else if subject.status.lowercased() == "complete" {
-                cell.statusLabel.textColor = UIColor.systemGreen
-            }
-            
-            return cell
+        applyFilter()
+    }
+    
+    private func applyFilter() {
+        if filterStatus == "All" {
+            filteredSubjects = subjects
+        } else {
+            filteredSubjects = subjects.filter { $0.status == filterStatus }
         }
         
-        // MARK: - Table View Delegate
-        override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            let selectedSubject = subjects[indexPath.row]
-            
-            // Create and configure the popup view
-            let popupView = DoubtPopupView()
-            popupView.translatesAutoresizingMaskIntoConstraints = false
-            popupView.configure(with: selectedSubject)
-            
-            // Add the popup view to the main view
-            if let window = UIApplication.shared.keyWindow {
-                window.addSubview(popupView)
-                
-                NSLayoutConstraint.activate([
-                    popupView.centerXAnchor.constraint(equalTo: window.centerXAnchor),
-                    popupView.centerYAnchor.constraint(equalTo: window.centerYAnchor),
-                    popupView.widthAnchor.constraint(equalTo: window.widthAnchor, multiplier: 0.8),
-                    popupView.heightAnchor.constraint(equalToConstant: 400)
-                ])
-            }
-            
-            // Add a dimmed background effect
-            let dimmedView = UIView()
-            dimmedView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-            dimmedView.translatesAutoresizingMaskIntoConstraints = false
-            if let window = UIApplication.shared.keyWindow {
-                window.insertSubview(dimmedView, belowSubview: popupView)
-                NSLayoutConstraint.activate([
-                    dimmedView.topAnchor.constraint(equalTo: window.topAnchor),
-                    dimmedView.bottomAnchor.constraint(equalTo: window.bottomAnchor),
-                    dimmedView.leadingAnchor.constraint(equalTo: window.leadingAnchor),
-                    dimmedView.trailingAnchor.constraint(equalTo: window.trailingAnchor)
-                ])
-            }
+        updatePlaceholderMessage()
+        // Show placeholder if no doubts match the filter
+        if filteredSubjects.isEmpty {
+            tableView.backgroundView = placeholderView
+        } else {
+            tableView.backgroundView = nil
         }
+        
+        tableView.reloadData()
+    }
+    private func updatePlaceholderMessage() {
+          let message: String
+          switch filterStatus {
+          case "Complete":
+              message = "No doubts have been resolved yet."
+          case "Pending":
+              message = "No doubts are pending yet."
+          default:
+              message = "No doubt asked, add a doubt."
+          }
+          
+          if let label = placeholderView.viewWithTag(1001) as? UILabel {
+              label.text = message
+          }
+      }
 
-        // MARK: - DoubtDelegate
-        func didAddDoubt(_ newDoubt: Subject) {
-            print("Adding new doubt: \(newDoubt)")
-            subjects.insert(newDoubt, at: 0)
-            print("Subjects count after addition: \(subjects.count)")
-
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                print("Table view reloaded.")
-            }
+    
+    // MARK: - Table View Data Source
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return filteredSubjects.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MyCustomTableViewCell", for: indexPath) as! MyCustomTableViewCell
+        
+        let subject = filteredSubjects[indexPath.row]
+        cell.subjectNameLabel.text = subject.subjectName
+        cell.lessonNameLabel.text = "\(subject.lessonName)"
+        cell.statusLabel.text = subject.status
+        cell.dateLabel.text = "Date: \(subject.date)"
+        cell.questionLabel.text = subject.question
+        
+        if subject.status.lowercased() == "pending" {
+            cell.statusLabel.textColor = UIColor.systemOrange
+        } else if subject.status.lowercased() == "complete" {
+            cell.statusLabel.textColor = UIColor.systemGreen
         }
+        
+        return cell
+    }
+    
+    // MARK: - DoubtDelegate
+    func didAddDoubt(_ newDoubt: Subject) {
+        subjects.insert(newDoubt, at: 0)
+        applyFilter()
+        print("New doubt added: \(newDoubt.question)")  // Debugging statement to check question
+            tableView.reloadData() // Reapply the filter to include the new doubt
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedDoubt = filteredSubjects[indexPath.row]
+        
+        if selectedDoubt.status.lowercased() == "pending" {
+            // Show alert for "Pending" doubts and do nothing else
+            let alert = UIAlertController(
+                title: "Pending",
+                message: "This doubt is not yet resolved.",
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+        } else {
+            // Perform segue only for "Complete" doubts
+            performSegue(withIdentifier: "ShowSolutionSegue", sender: selectedDoubt)
+        }
+    }
+
+    // Updated prepare(for:sender:) to ensure proper data handling
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let doubtVC = segue.destination as? DoubtTableViewController {
-            doubtVC.delegate = self
+        if segue.identifier == "AddDoubtSegue" {
+            if let destination = segue.destination as? DoubtTableViewController {
+                destination.delegate = self
+            }
+        } else  if segue.identifier == "ShowSolutionSegue" {
+            if let destination = segue.destination as? SolutionTableViewController,
+               let selectedDoubt = sender as? Subject {
+                destination.doubt = SolutionTableViewController.Doubt(
+                    subject: selectedDoubt.subjectName,
+                    lesson: selectedDoubt.lessonName,
+                    question: selectedDoubt.question,
+                    status: selectedDoubt.status,
+                    solution: selectedDoubt.solution,
+                    solutionImages: selectedDoubt.solutionImage.flatMap {
+                        if let imageName = UIImage(named: $0) {
+                            return [imageName]
+                        }
+                        return []
+                    } ?? [] 
+                )
+            }
         }
     }
-    }
+
+}
