@@ -31,44 +31,12 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
-        configureCollectionViewLayout()
         classCollectionViewConfig()
         subjectTableViewDelegates()
         subjectTableViewConfig()
         registerCells()
         
         
-    }
-    
-    private func configureCollectionViewLayout() {
-        if let layout = subjectBubbleCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.itemSize = CGSize(width: 110, height: 33) // Bubble size
-            layout.minimumInteritemSpacing = 10 // Horizontal spacing
-            layout.minimumLineSpacing = 10 // Vertical spacing
-            layout.estimatedItemSize = .zero // Disable automatic sizing
-        }
-    }
-
-    private func updateCollectionViewSize() {
-        let bubbleWidth: CGFloat = 110
-        let bubbleHeight: CGFloat = 33
-        let spacing: CGFloat = 0 // Adjust as per your collection view's layout spacing
-        let maxWidth = view.frame.width - 20 // Adjust for padding/margin if needed
-
-        // Calculate the number of items in one row
-        let itemsInRow = Int((maxWidth + spacing) / (bubbleWidth + spacing))
-        
-        // Calculate rows needed
-        let rows = ceil(CGFloat(selectedSubjects.count) / CGFloat(itemsInRow))
-        
-        // Calculate required height
-        let requiredHeight = rows * bubbleHeight + (rows - 1) * spacing
-        
-        // Update the height constraint
-        subjectBubbleCollectionView.heightAnchor.constraint(equalToConstant: requiredHeight).isActive = true
-        subjectBubbleCollectionView.layoutIfNeeded()
     }
     
     private func registerCells() {
@@ -213,11 +181,6 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, UITe
     // MARK: - UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        subjectTextField.text = filteredSubjects[indexPath.row]
-//        selectedSubjects.append(subjectTextField.text ?? "")
-//        print(selectedSubjects.count) // This should now print the updated count.
-//        tableView.isHidden = true
-//        subjectBubbleCollectionView.reloadData() // Reload the collection view to reflect the updated data.
         
         let selectedSubject = filteredSubjects[indexPath.row]
         if !selectedSubjects.contains(selectedSubject) {
@@ -226,15 +189,6 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, UITe
         subjectTextField.text = selectedSubject
         tableView.isHidden = true
         subjectBubbleCollectionView.reloadData()
-        updateCollectionViewSize()
     }
-//
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        // Set the selected subject in the text field
-//        subjectTextField.text = filteredSubjects[indexPath.row]
-//        selectedSubjects.append(subjectTextField.text ?? "")
-//        print(selectedSubjects)
-//        tableView.isHidden = true
-//    }
 }
 
