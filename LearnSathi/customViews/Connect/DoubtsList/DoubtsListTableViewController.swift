@@ -18,11 +18,11 @@ class DoubtsListTableViewController: UITableViewController, DoubtDelegate {
         let date: String
         let question: String
         let solution: String
-        let solutionImage: String? // Optional image name for the solution
+        let solutionImage: String?
     }
     
     var subjects: [Subject] = [
-        Subject(image: "profileImage", subjectName: "English", lessonName: "Aman", status: "Complete", date: "22/01/2024", question: "Hownare ypu", solution: "jnjkkjvjhjhvhjvhvhjhvhjvhjvhvjhvjv", solutionImage: nil)
+        Subject(image: "profileImage", subjectName: "Mathematics", lessonName: "Addition", status: "Complete", date: "22/01/2024", question: "3 + 4 = ?", solution: "3 + 4 = 7", solutionImage: nil)
     ]
     
     var filteredSubjects: [Subject] = []
@@ -68,7 +68,6 @@ class DoubtsListTableViewController: UITableViewController, DoubtDelegate {
         let font = UIFont.systemFont(ofSize: 14)
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
         
-        // Create a container view for the segmented control
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 60))
         headerView.backgroundColor = tableView.backgroundColor
         
@@ -105,7 +104,7 @@ class DoubtsListTableViewController: UITableViewController, DoubtDelegate {
         }
         
         updatePlaceholderMessage()
-        // Show placeholder if no doubts match the filter
+
         if filteredSubjects.isEmpty {
             tableView.backgroundView = placeholderView
         } else {
@@ -141,7 +140,7 @@ class DoubtsListTableViewController: UITableViewController, DoubtDelegate {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MyCustomTableViewCell", for: indexPath) as! MyCustomTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DoubtListCardTableViewCell", for: indexPath) as! DoubtListCardTableViewCell
         
         let subject = filteredSubjects[indexPath.row]
         cell.subjectNameLabel.text = subject.subjectName
@@ -163,15 +162,14 @@ class DoubtsListTableViewController: UITableViewController, DoubtDelegate {
     func didAddDoubt(_ newDoubt: Subject) {
         subjects.insert(newDoubt, at: 0)
         applyFilter()
-        print("New doubt added: \(newDoubt.question)")  // Debugging statement to check question
-            tableView.reloadData() // Reapply the filter to include the new doubt
+        print("New doubt added: \(newDoubt.question)")
+            tableView.reloadData()
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedDoubt = filteredSubjects[indexPath.row]
         
         if selectedDoubt.status.lowercased() == "pending" {
-            // Show alert for "Pending" doubts and do nothing else
             let alert = UIAlertController(
                 title: "Pending",
                 message: "This doubt is not yet resolved.",
@@ -180,15 +178,13 @@ class DoubtsListTableViewController: UITableViewController, DoubtDelegate {
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             present(alert, animated: true, completion: nil)
         } else {
-            // Perform segue only for "Complete" doubts
             performSegue(withIdentifier: "ShowSolutionSegue", sender: selectedDoubt)
         }
     }
 
-    // Updated prepare(for:sender:) to ensure proper data handling
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "AddDoubtSegue" {
-            if let destination = segue.destination as? DoubtTableViewController {
+            if let destination = segue.destination as? AskDoubtTableViewController {
                 destination.delegate = self
             }
         } else  if segue.identifier == "ShowSolutionSegue" {

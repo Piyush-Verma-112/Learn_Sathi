@@ -36,9 +36,8 @@ class RescheduleTableViewController: UITableViewController{
         }
    
         
-        // Reduce footer height between sections
         override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-            return 0.3 // Use a very small value to minimize the gap
+            return 0.3 
         }
     // MARK: - Setup Menus
     private func setupMenus() {

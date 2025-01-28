@@ -39,7 +39,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Connect" largeTitleDisplayMode="always" id="NkE-eb-9gM">
-                        <barButtonItem key="rightBarButtonItem" title="Profile" image="person.fill" catalog="system" id="Kcc-Bg-pBw"/>
+                        <barButtonItem key="rightBarButtonItem" title="Profile" image="person.crop.circle.fill" catalog="system" id="Kcc-Bg-pBw"/>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="i4N-0p-Rk2" id="pOK-4P-zts"/>
@@ -73,6 +73,7 @@
     </scenes>
     <resources>
         <image name="person" catalog="system" width="128" height="121"/>
+        <image name="person.crop.circle.fill" catalog="system" width="128" height="123"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
