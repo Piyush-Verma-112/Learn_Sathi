@@ -27,10 +27,14 @@ class SearchViewController: UIViewController {
     @IBOutlet var subjectBubbleCollectionView: UICollectionView!
     
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var standardTop: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        subjectBubbleCollectionView.isHidden = true
+        
+        configureCollectionViewLayout()
         classCollectionViewConfig()
         subjectTableViewDelegates()
         subjectTableViewConfig()
@@ -38,6 +42,25 @@ class SearchViewController: UIViewController {
         
         
     }
+    
+    private func configureCollectionViewLayout() {
+        // Create and configure the flow layout
+        let layout = UICollectionViewFlowLayout()
+        
+        // Set the spacing between items and sections
+        layout.minimumInteritemSpacing = 25
+        layout.minimumLineSpacing = 10
+        
+        // Set the section insets to start from the left edge
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        
+        // Set the scroll direction to horizontal
+        layout.scrollDirection = .vertical
+        
+        // Apply the layout to the collection view
+        subjectBubbleCollectionView.collectionViewLayout = layout
+    }
+
     
     private func registerCells() {
         searchResultcollectionView.register(UINib(nibName: TutorCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: TutorCollectionViewCell.identifier)
@@ -144,7 +167,6 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, UITe
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        // Add the new subject if it's not already in the list
         if let text = textField.text, !text.isEmpty, !allSubjects.contains(text) {
             allSubjects.append(text)
             textField.text = ""
@@ -189,6 +211,14 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, UITe
         subjectTextField.text = selectedSubject
         tableView.isHidden = true
         subjectBubbleCollectionView.reloadData()
+        
+        subjectBubbleCollectionView.isHidden = false
+        let collectionViewHeight = subjectBubbleCollectionView.frame.height
+        
+        UIView.animate(withDuration: 0.3) {
+            self.standardTop.constant = collectionViewHeight + 10
+            self.view.layoutIfNeeded()
+        }
     }
 }
 
