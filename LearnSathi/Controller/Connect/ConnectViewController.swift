@@ -22,7 +22,7 @@ class ConnectViewController: UIViewController {
         }
         
         private func registerConnectCells() {
-            collectionView?.register(UINib(nibName: ConnectCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: ConnectCollectionViewCell.identifier)
+            collectionView?.register(UINib(nibName: TutorListCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: TutorListCollectionViewCell.identifier)
             collectionView?.dataSource = self
             collectionView?.delegate = self
         }
@@ -35,7 +35,7 @@ class ConnectViewController: UIViewController {
         }
         
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ConnectCollectionViewCell.identifier, for: indexPath) as! ConnectCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TutorListCollectionViewCell.identifier, for: indexPath) as! TutorListCollectionViewCell
             cell.setup(tutor: tutors[indexPath.row])
             return cell
         }
@@ -51,17 +51,6 @@ class ConnectViewController: UIViewController {
                 secondaryVc.subjectName = selectedTutor.subject
                             navigationController?.pushViewController(secondaryVc, animated: true)
             }
-//
-         
-            
-//            let selectedTutor = tutorsData[indexPath.row]
-//            
-//            let vc = storyboard?.instantiateViewController(withIdentifier: CustomOptionsTableViewController.identifier) as? CustomOptionsTableViewController
-//            
-//            
-//            vc?.tutorProfileImage = UIImage(named: selectedTutor.imageName)
-//            vc?.tutorName = selectedTutor.name
-//            vc?.subjectName = selectedTutor.subjects
-//            print("tapped")
+
         }
 }

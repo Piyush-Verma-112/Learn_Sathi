@@ -7,9 +7,9 @@
 
 import UIKit
 
-class ConnectCollectionViewCell: UICollectionViewCell {
+class TutorListCollectionViewCell: UICollectionViewCell {
 
-    static let identifier = String(describing: ConnectCollectionViewCell.self)
+    static let identifier = String(describing: TutorListCollectionViewCell.self)
     
     
     @IBOutlet var tutorProfilePicImageView: UIImageView!

@@ -11,7 +11,7 @@ protocol DoubtDelegate: AnyObject {
     func didAddDoubt(_ newDoubt: DoubtsListTableViewController.Subject)
 }
 
-class DoubtTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class AskDoubtTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     weak var delegate: DoubtDelegate?
     var selectedImages: [UIImage] = []
@@ -40,11 +40,10 @@ class DoubtTableViewController: UITableViewController, UIImagePickerControllerDe
     override func viewDidLoad() {
         super.viewDidLoad()
         setupMenus()
-        let nib = UINib(nibName: "ImageCollectionViewCell", bundle: nil)
-            collectionView.register(nib, forCellWithReuseIdentifier: "ImageCell")
+        let nib = UINib(nibName: "QuestionImageCollectionViewCell", bundle: nil)
+        collectionView.register(nib, forCellWithReuseIdentifier: "ImageCell")
         setupCollectionView()
-        
-    }
+        }
     private func setupMenus() {
         var subjectActions: [UIAction] = []
         for subject in subjects {
@@ -55,8 +54,8 @@ class DoubtTableViewController: UITableViewController, UIImagePickerControllerDe
             subjectActions.append(action)
         }
 
-        let subjectMenu = UIMenu(title: "Choose Subject", children: subjectActions)
-        subjectButton.menu = subjectMenu // Ensure this line is present
+        let subjectMenu = UIMenu(title: "", children: subjectActions)
+        subjectButton.menu = subjectMenu
         subjectButton.showsMenuAsPrimaryAction = true
         updateLessons(for: subjects.first ?? "")
     }
@@ -70,8 +69,8 @@ class DoubtTableViewController: UITableViewController, UIImagePickerControllerDe
             }
             lessonActions.append(action)
         }
-        let lessonMenu = UIMenu(title: "Choose Lesson", children: lessonActions)
-        lessonButton.menu = lessonMenu // Ensure this line is present
+        let lessonMenu = UIMenu(title: "", children: lessonActions)
+        lessonButton.menu = lessonMenu
         lessonButton.showsMenuAsPrimaryAction = true
     }
 
@@ -124,51 +123,53 @@ class DoubtTableViewController: UITableViewController, UIImagePickerControllerDe
 
     // MARK: - Done Button Action
     @IBAction func doneButtonTapped(_ sender: UIBarButtonItem) {
-        print("Done button tapped")
-        guard let subjectText = subjectLabel.text, !subjectText.isEmpty,
-                  let lessonText = lessonLabel.text, !lessonText.isEmpty,
-                  let questionText = questionTextView.text, !questionText.isEmpty else {
-                
-                // If any of them are missing, show an alert
-                let alertController = UIAlertController(
-                    title: "Incomplete Information",
-                    message: "Please select a subject, lesson, and type or scan a question.",
-                    preferredStyle: .alert
-                )
+        guard
+               let subjectText = subjectLabel.text, subjectText != "Select Subject",
+               let lessonText = lessonLabel.text, lessonText != "Select Lesson",
+               let questionText = questionTextView.text, !questionText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+           else {
+               let missingFields = [
+                   subjectLabel.text == "Select Subject" ? "Subject" : nil,
+                   lessonLabel.text == "Select Lesson" ? "Lesson" : nil,
+                   questionTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Question" : nil
+               ].compactMap { $0 }.joined(separator: ", ")
+
+               let alertController = UIAlertController(
+                   title: "Incomplete Information",
+                   message: "Please select or fill in the following: \(missingFields).",
+                   preferredStyle: .alert
+               )
                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                present(alertController, animated: true, completion: nil)
                return
            }
            
            let newDoubt = DoubtsListTableViewController.Subject(
-               image: "defaultImage", // Provide a default or selected image
+               image: "defaultImage",
                subjectName: subjectText,
                lessonName: lessonText,
-               status: "Pending", // Set default status
+               status: "Pending",
                date: DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .none), // Current date
                question: questionText,
-               solution: "Solution will be added later", // Placeholder solution
-               solutionImage: nil // Optionally add image for the solution
+               solution: "Solution will be added later",
+               solutionImage: nil
            )
           
-          // Pass the new doubt to the delegate (DoubtsListTableViewController)
           delegate?.didAddDoubt(newDoubt)
 
-          // Optionally, close this view controller
           navigationController?.popViewController(animated: true)
       }
-        // Continue with doubt submission...
     }
 
 
 // MARK: - UICollectionView DataSource and Delegate
-extension DoubtTableViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension AskDoubtTableViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return selectedImages.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! ImageCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! QuestionImageCollectionViewCell
         cell.imageView.image = selectedImages[indexPath.item]
         cell.removeButton.tag = indexPath.item
         cell.removeButton.addTarget(self, action: #selector(removeImage(_:)), for: .touchUpInside)
@@ -186,13 +187,12 @@ extension DoubtTableViewController: UICollectionViewDataSource, UICollectionView
         collectionView.reloadData()
     }
 
-    // Layout for the collection view
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 100, height: 100)
     }
 }
 
-class ImageCollectionViewCell: UICollectionViewCell {
+class QuestionImageCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
     

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MyCustomTableViewCell: UITableViewCell {
+class DoubtListCardTableViewCell: UITableViewCell {
 
 
     @IBOutlet weak var subjectNameLabel: UILabel!

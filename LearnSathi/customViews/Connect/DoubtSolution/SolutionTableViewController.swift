@@ -32,10 +32,6 @@ class SolutionTableViewController: UITableViewController {
     @IBOutlet weak var solutionImageCollectionView: UICollectionView!
     
     
-    
-    
-    
-    
     // MARK: - Populate Data
         private func populateData() {
             guard let doubt = doubt else { return }
@@ -80,9 +76,6 @@ class SolutionTableViewController: UITableViewController {
             return CGSize(width: 100, height: 100)
         }
 
-        override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-            return 20.0 // Minimal height to remove default spacing
-        }
     }
 class SolutionImageCollectionViewCell: UICollectionViewCell {
     

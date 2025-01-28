@@ -9,7 +9,6 @@ import UIKit
 
 class CustomOptionsTableViewController: UITableViewController {
     
-    static let identifier = "CustomOptionsTableViewController"
     var tutorProfileImage: UIImage?
     var tutorName: String?
     var subjectName: String?
