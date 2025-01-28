@@ -11,7 +11,22 @@ class PersonalInformationTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Personal Info"
+        
+      
     }
+    
+    
+    @IBAction func unwindToUserProfileTableViewController(segue: UIStoryboardSegue) {
+        dismiss(animated: true,completion: nil)
+    }
+    
+    
+    @IBAction func unwindToUserProfile(segue: UIStoryboardSegue) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
+    
+    
 
 }

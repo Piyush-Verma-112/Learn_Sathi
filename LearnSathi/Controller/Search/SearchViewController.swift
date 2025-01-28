@@ -16,6 +16,7 @@ class SearchViewController: UIViewController {
         TutorSearch(tutorProfile: "profileImage", tutorName: "Ashish Singh", tutorRating: 5.0, tutorExperience: "Experience 5yrs", tutorCharges: 3000, tutorSubjects: "English, Science, Maths", tutorLocation: "10Km")
     ]
     var allSubjects = ["Mathematics", "Science", "History", "Geography", "English", "Computer Science", "Biology", "Physics", "Chemistry"]
+    
     var filteredSubjects: [String] = []
     var selectedSubjects: [String] = []
     
@@ -66,6 +67,8 @@ class SearchViewController: UIViewController {
         searchResultcollectionView.register(UINib(nibName: TutorCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: TutorCollectionViewCell.identifier)
         classCollectionView.register(UINib(nibName: ClassListCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: ClassListCollectionViewCell.identifier)
         subjectBubbleCollectionView.register(UINib(nibName: SubjectBubbleCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: SubjectBubbleCollectionViewCell.identifier)
+        
+        
     }
     
     @IBAction func DoneBtnClicked(_ sender: UIButton) {
@@ -115,6 +118,20 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TutorCollectionViewCell.identifier, for: indexPath) as! TutorCollectionViewCell
             cell.setup(search: searchResults[indexPath.row])
             return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == searchResultcollectionView {
+            let selectedTutor = searchResults[indexPath.row]
+            navigateToTutorProfile(with: selectedTutor)
+        }
+    }
+        
+    private func navigateToTutorProfile(with tutor: TutorSearch) {
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let tutorProfileVC = storyboard?.instantiateViewController(withIdentifier: "TutorProfileCollectionViewController") as? TutorProfileCollectionViewController {
+            navigationController?.pushViewController(tutorProfileVC, animated: true)
         }
     }
 
@@ -199,6 +216,9 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, UITe
         cell.textLabel?.text = filteredSubjects[indexPath.row]
         return cell
     }
+    
+    
+    
     
     // MARK: - UITableViewDelegate
     
