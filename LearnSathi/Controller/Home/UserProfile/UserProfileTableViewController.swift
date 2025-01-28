@@ -2,7 +2,7 @@
 //  UserProfileTableViewController.swift
 //  LearnSathi
 //
-//  Created by iSDP on 21/01/25.
+//  Created by Akhlak iSDP on 21/01/25.
 //
 
 import UIKit
@@ -21,41 +21,27 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
     
     @IBOutlet var switchAccount: UITableViewCell!
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.prefersLargeTitles = false
+    }
+      
     
 //    MARK: - ViewDidLoad
     override func viewDidLoad() {
+        
         super.viewDidLoad()
-
+        
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationController?.navigationBar.isHidden = false
+        
         self.tabBarController?.tabBar.scrollEdgeAppearance = .init()
         self.tabBarController?.tabBar.barTintColor = .white
-                    
-        self.tabBarController?.tabBar.isTranslucent = false
+        
         title = "User Profile"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
-        // Add tap gesture to changeProfile cell
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(changeProfileTapped))
-        changeProfile.addGestureRecognizer(tapGesture)
-        changeProfile.isUserInteractionEnabled = true
-        
-        // Add the edit button to the navigation bar
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
-        
-    }
-    
-    
-    func changeAccount() {
-        
-    }
-    
-    
-    @objc func editTapped() {
-        print("Edit button tapped")
-        
         addTapGestureToProfileImage()
         
-        let controller = storyboard?.instantiateViewController(identifier: "PersonalInformationTableViewController") as! PersonalInformationTableViewController
-//        navigationController?.pushViewController(controller, animated: true)
-        present(controller, animated: true)
     }
     
     private func addTapGestureToProfileImage() {

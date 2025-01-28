@@ -58,4 +58,19 @@ extension TutorListViewController: UICollectionViewDelegate, UICollectionViewDat
         cell.setup(filter: filterTutor[indexPath.row])
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == tutorListCollectionView {
+            let selectedTutor = searchResults[indexPath.row]
+            
+            navigateToTutorProfile(with: selectedTutor)
+        }
+    }
+        
+    private func navigateToTutorProfile(with tutor: TutorSearch) {
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let tutorProfileVC = storyboard?.instantiateViewController(withIdentifier: "TutorProfileCollectionViewController") as? TutorProfileCollectionViewController {
+            navigationController?.pushViewController(tutorProfileVC, animated: true)
+        }
+    }
 }
