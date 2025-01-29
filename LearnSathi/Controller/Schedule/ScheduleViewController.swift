@@ -26,11 +26,22 @@ class ScheduleViewController: UIViewController {
     var selectedDate: Date?
     var noScheduleLabel: UILabel?
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if !hasInitialScroll {
+            scrollToToday()
+            hasInitialScroll = true
+        }
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
     
 //  MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
         registerCalendarCells()
         registerCells()
         customizeCollectionView()
@@ -44,13 +55,14 @@ class ScheduleViewController: UIViewController {
 
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        if !hasInitialScroll {
-            scrollToToday()
-            hasInitialScroll = true
-        }
+    
+    
+    @IBAction func profileTapped(_ sender: Any) {
+        let storyboard = storyboard?.instantiateViewController(withIdentifier: "UserProfileTableViewController") as? UserProfileTableViewController
+        
+        navigationController?.pushViewController(storyboard!, animated: true)
     }
+    
     
     //MARK: -  setUp function
     private func setupNoScheduleLabel() {

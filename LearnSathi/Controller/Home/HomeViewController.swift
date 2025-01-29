@@ -24,7 +24,6 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
         addTapGesture()
         registerTableCells()

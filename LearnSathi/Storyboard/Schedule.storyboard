@@ -82,9 +82,13 @@
                             <constraint firstItem="pzE-57-fIj" firstAttribute="top" secondItem="o3U-px-xCG" secondAttribute="top" constant="6" id="ztN-ql-y2H"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Schedule" id="xgB-D3-ulu">
+                    <navigationItem key="navigationItem" title="Schedule" largeTitleDisplayMode="always" id="xgB-D3-ulu">
                         <rightBarButtonItems>
-                            <barButtonItem title="Item" image="person.circle" catalog="system" id="Kch-bW-unn"/>
+                            <barButtonItem image="profileImage" largeContentSizeImage="profileImage" width="20" id="1Sf-7G-Gb6">
+                                <connections>
+                                    <action selector="profileTapped:" destination="h3j-0q-x1l" id="okq-Cd-HEA"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem title="Item" image="calendar" catalog="system" id="muW-lI-b8B">
                                 <connections>
                                     <segue destination="3hu-W0-VVP" kind="show" id="C9g-2t-WNS"/>
@@ -96,11 +100,22 @@
                         <outlet property="calendarCollectionView" destination="GLS-GL-oPi" id="c6j-rX-qHS"/>
                         <outlet property="datePicker" destination="pzE-57-fIj" id="Sdf-ai-iKM"/>
                         <outlet property="scheduleCollectionView" destination="rUC-Q9-OXp" id="7K5-Ag-03l"/>
+                        <segue destination="AQW-Ap-JhU" kind="show" id="F5s-ah-OQw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Esg-KW-3rE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2595" y="-75"/>
+            <point key="canvasLocation" x="2636" y="-75"/>
+        </scene>
+        <!--UserProfile-->
+        <scene sceneID="6jL-rX-EcX">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="UserProfileTableViewController" storyboardName="UserProfile" id="AQW-Ap-JhU" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="dRx-64-lr3"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pHp-VR-2xA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3665" y="165"/>
         </scene>
         <!--Classes-->
         <scene sceneID="GNX-dz-u9M">
@@ -127,7 +142,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SE4-kn-mjq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3506" y="12"/>
+            <point key="canvasLocation" x="3665" y="-327"/>
         </scene>
         <!--Schedule-->
         <scene sceneID="QvY-e7-PAa">
@@ -151,7 +166,7 @@
     </scenes>
     <resources>
         <image name="calendar" catalog="system" width="128" height="107"/>
-        <image name="person.circle" catalog="system" width="128" height="123"/>
+        <image name="profileImage" width="50" height="50"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
