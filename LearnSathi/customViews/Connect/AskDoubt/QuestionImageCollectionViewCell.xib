@@ -67,8 +67,8 @@
             </constraints>
             <size key="customSize" width="75" height="58"/>
             <connections>
-                <outlet property="imageView" destination="MFd-YY-72O" id="49u-Tl-8HA"/>
-                <outlet property="removeButton" destination="Nfi-zB-VBg" id="rHH-c3-3hP"/>
+                <outlet property="imageView" destination="MFd-YY-72O" id="jWK-xj-7vq"/>
+                <outlet property="removeButton" destination="Nfi-zB-VBg" id="AH5-me-NwJ"/>
             </connections>
             <point key="canvasLocation" x="158.01526717557252" y="16.549295774647888"/>
         </collectionViewCell>

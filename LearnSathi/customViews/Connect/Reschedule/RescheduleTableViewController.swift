@@ -49,7 +49,7 @@ class RescheduleTableViewController: UITableViewController{
             })
             subjectActions.append(action)
         }
-        let subjectMenu = UIMenu(title: "Choose Subject", children: subjectActions)
+        let subjectMenu = UIMenu(title: "", children: subjectActions)
         subjectButton.menu = subjectMenu
         subjectButton.showsMenuAsPrimaryAction = true
         updateLessons(for: subjects.first ?? "")
@@ -64,21 +64,20 @@ class RescheduleTableViewController: UITableViewController{
             })
             lessonActions.append(action)
         }
-        let lessonMenu = UIMenu(title: "Choose Lesson", children: lessonActions)
+        let lessonMenu = UIMenu(title: "", children: lessonActions)
         lessonButton.menu = lessonMenu
         lessonButton.showsMenuAsPrimaryAction = true
     }
 @IBAction func doneButtonTapped(_ sender: UIBarButtonItem) {
         let alertController = UIAlertController(
             title: "Request Sent",
-            message: "Your request has been sent to the tutor successfully.",
+            message: "Your reschedule request has been sent successfully.",
             preferredStyle: .alert
         )
-        
-        let okAction = UIAlertAction(title: "OK", style: .default)
-        alertController.addAction(okAction)
-        
-        self.present(alertController, animated: true, completion: nil)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+            self.navigationController?.popViewController(animated: true)
+        })
+        present(alertController, animated: true, completion: nil)
     }
 
 }
