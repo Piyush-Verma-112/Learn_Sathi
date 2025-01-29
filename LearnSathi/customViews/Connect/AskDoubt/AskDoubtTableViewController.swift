@@ -8,20 +8,14 @@
 import UIKit
 
 protocol DoubtDelegate: AnyObject {
-    func didAddDoubt(_ newDoubt: DoubtsListTableViewController.Subject)
+    func didAddDoubt(_ newDoubt: Doubts)
 }
+
 
 class AskDoubtTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     weak var delegate: DoubtDelegate?
     var selectedImages: [UIImage] = []
-    let subjects = ["English", "Hindi", "Mathematics", "Social Science"]
-    var lessonsMapping: [String: [String]] = [
-        "English": chapterDetailsEnglish.map { $0.chapterName },
-        "Hindi": chapterDetailsHindi.map { $0.chapterName },
-        "Mathematics": chapterDetailsMaths.map { $0.chapterName },
-        "Social Science": chapterDetailsSocialStudies.map { $0.chapterName }
-    ]
     var currentLessons: [String] = []
 
     @IBOutlet weak var subjectLabel: UILabel!
@@ -37,12 +31,20 @@ class AskDoubtTableViewController: UITableViewController, UIImagePickerControlle
     
     @IBOutlet weak var collectionView: UICollectionView!
     
+    @IBOutlet weak var addImageButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupMenus()
         let nib = UINib(nibName: "QuestionImageCollectionViewCell", bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: "ImageCell")
         setupCollectionView()
+        lessonButton.isEnabled = false
+        addImageButton.isEnabled = false
+        questionTextView.delegate = self
+            questionTextView.text = "Type your question here..."
+            questionTextView.textColor = UIColor.lightGray
+        
         }
     private func setupMenus() {
         var subjectActions: [UIAction] = []
@@ -50,6 +52,7 @@ class AskDoubtTableViewController: UITableViewController, UIImagePickerControlle
             let action = UIAction(title: subject) { [weak self] _ in
                 self?.subjectLabel.text = subject
                 self?.updateLessons(for: subject)
+                self?.lessonButton.isEnabled = true
             }
             subjectActions.append(action)
         }
@@ -57,23 +60,24 @@ class AskDoubtTableViewController: UITableViewController, UIImagePickerControlle
         let subjectMenu = UIMenu(title: "", children: subjectActions)
         subjectButton.menu = subjectMenu
         subjectButton.showsMenuAsPrimaryAction = true
-        updateLessons(for: subjects.first ?? "")
     }
 
     private func updateLessons(for subject: String) {
         currentLessons = lessonsMapping[subject] ?? []
         var lessonActions: [UIAction] = []
+        
         for lesson in currentLessons {
             let action = UIAction(title: lesson) { [weak self] _ in
                 self?.lessonLabel.text = lesson
+                self?.addImageButton.isEnabled = true
             }
             lessonActions.append(action)
         }
+        
         let lessonMenu = UIMenu(title: "", children: lessonActions)
         lessonButton.menu = lessonMenu
         lessonButton.showsMenuAsPrimaryAction = true
     }
-
     // MARK: - Setup CollectionView
     private func setupCollectionView() {
         collectionView.dataSource = self
@@ -144,17 +148,16 @@ class AskDoubtTableViewController: UITableViewController, UIImagePickerControlle
                return
            }
            
-           let newDoubt = DoubtsListTableViewController.Subject(
-               image: "defaultImage",
-               subjectName: subjectText,
-               lessonName: lessonText,
-               status: "Pending",
-               date: DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .none), // Current date
-               question: questionText,
-               solution: "Solution will be added later",
-               solutionImage: nil
-           )
-          
+        let newDoubt = Doubts(
+            image: "defaultImage",
+            subjectName: subjectText,
+            lessonName: lessonText,
+            status: "Pending",
+            date: DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .none),
+            question: questionText,
+            solution: "Solution will be added later",
+            solutionImages: []
+        )
           delegate?.didAddDoubt(newDoubt)
 
           navigationController?.popViewController(animated: true)
@@ -192,13 +195,6 @@ extension AskDoubtTableViewController: UICollectionViewDataSource, UICollectionV
     }
 }
 
-class QuestionImageCollectionViewCell: UICollectionViewCell {
-    
-    @IBOutlet weak var imageView: UIImageView!
-    
-    @IBOutlet weak var removeButton: UIButton!
-    
-}
 
 class FullScreenImageViewController: UIViewController {
     var image: UIImage?
@@ -219,5 +215,21 @@ class FullScreenImageViewController: UIViewController {
     
     @objc private func closeTapped() {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+}
+extension AskDoubtTableViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == "Type your question here..." {
+            textView.text = ""
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            textView.text = "Type your question here..."
+            textView.textColor = UIColor.lightGray
+        }
     }
 }

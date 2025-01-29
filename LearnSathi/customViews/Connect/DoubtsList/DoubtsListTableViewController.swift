@@ -10,22 +10,9 @@ import UIKit
 class DoubtsListTableViewController: UITableViewController, DoubtDelegate {
     
     // MARK: - Subject Struct
-    struct Subject {
-        let image: String
-        let subjectName: String
-        let lessonName: String
-        let status: String
-        let date: String
-        let question: String
-        let solution: String
-        let solutionImage: String?
-    }
+  
     
-    var subjects: [Subject] = [
-        Subject(image: "profileImage", subjectName: "Mathematics", lessonName: "Addition", status: "Complete", date: "22/01/2024", question: "3 + 4 = ?", solution: "3 + 4 = 7", solutionImage: nil)
-    ]
-    
-    var filteredSubjects: [Subject] = []
+    var filteredSubjects: [Doubts] = []
     var filterStatus: String = "All"
     
     private let placeholderView: UIView = {
@@ -60,7 +47,7 @@ class DoubtsListTableViewController: UITableViewController, DoubtDelegate {
     
     // MARK: - Segmented Control
     private func setupFilterSegmentedControl() {
-        let segmentedControl = UISegmentedControl(items: ["All", "Complete", "Pending"])
+        let segmentedControl = UISegmentedControl(items: ["All", "Resolved", "Pending"])
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.addTarget(self, action: #selector(filterChanged(_:)), for: .valueChanged)
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
@@ -87,7 +74,7 @@ class DoubtsListTableViewController: UITableViewController, DoubtDelegate {
     @objc private func filterChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 1:
-            filterStatus = "Complete"
+            filterStatus = "Resolved"
         case 2:
             filterStatus = "Pending"
         default:
@@ -98,9 +85,9 @@ class DoubtsListTableViewController: UITableViewController, DoubtDelegate {
     
     private func applyFilter() {
         if filterStatus == "All" {
-            filteredSubjects = subjects
+            filteredSubjects = doubts
         } else {
-            filteredSubjects = subjects.filter { $0.status == filterStatus }
+            filteredSubjects = doubts.filter { $0.status == filterStatus }
         }
         
         updatePlaceholderMessage()
@@ -116,7 +103,7 @@ class DoubtsListTableViewController: UITableViewController, DoubtDelegate {
     private func updatePlaceholderMessage() {
           let message: String
           switch filterStatus {
-          case "Complete":
+          case "Resolved":
               message = "No doubts have been resolved yet."
           case "Pending":
               message = "No doubts are pending yet."
@@ -151,7 +138,7 @@ class DoubtsListTableViewController: UITableViewController, DoubtDelegate {
         
         if subject.status.lowercased() == "pending" {
             cell.statusLabel.textColor = UIColor.systemOrange
-        } else if subject.status.lowercased() == "complete" {
+        } else if subject.status.lowercased() == "resolved" {
             cell.statusLabel.textColor = UIColor.systemGreen
         }
         
@@ -159,8 +146,8 @@ class DoubtsListTableViewController: UITableViewController, DoubtDelegate {
     }
     
     // MARK: - DoubtDelegate
-    func didAddDoubt(_ newDoubt: Subject) {
-        subjects.insert(newDoubt, at: 0)
+    func didAddDoubt(_ newDoubt: Doubts) {
+        doubts.insert(newDoubt, at: 0)
         applyFilter()
         print("New doubt added: \(newDoubt.question)")
             tableView.reloadData()
@@ -189,19 +176,13 @@ class DoubtsListTableViewController: UITableViewController, DoubtDelegate {
             }
         } else  if segue.identifier == "ShowSolutionSegue" {
             if let destination = segue.destination as? SolutionTableViewController,
-               let selectedDoubt = sender as? Subject {
+               let selectedDoubt = sender as? Doubts {
                 destination.doubt = SolutionTableViewController.Doubt(
                     subject: selectedDoubt.subjectName,
                     lesson: selectedDoubt.lessonName,
                     question: selectedDoubt.question,
                     status: selectedDoubt.status,
-                    solution: selectedDoubt.solution,
-                    solutionImages: selectedDoubt.solutionImage.flatMap {
-                        if let imageName = UIImage(named: $0) {
-                            return [imageName]
-                        }
-                        return []
-                    } ?? [] 
+                    solution: selectedDoubt.solution, solutionImages: []
                 )
             }
         }

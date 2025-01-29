@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 struct Tutor {
     let id: Int
     let tutorName: String
@@ -35,9 +36,24 @@ let tutors: [Tutor] = [
     Tutor(id: 6, tutorName: "Rohit Yadav", tutorProfileImage: "profileImage", subject: "Science", subjectIcon: "Maths")
 ]
 
-struct Doubt {
-    let subject: String
-    let lesson: String
-    let question: String
+let subjects = ["English", "Hindi", "Mathematics", "Social Science"]
+var lessonsMapping: [String: [String]] = [
+    "English": chapterDetailsEnglish.map { $0.chapterName },
+    "Hindi": chapterDetailsHindi.map { $0.chapterName },
+    "Mathematics": chapterDetailsMaths.map { $0.chapterName },
+    "Social Science": chapterDetailsSocialStudies.map { $0.chapterName }
+]
+struct Doubts {
+    let image: String
+    let subjectName: String
+    let lessonName: String
     let status: String
+    let date: String
+    let question: String
+    let solution: String
+    let solutionImages: [UIImage]
 }
+
+var doubts: [Doubts] = [
+    Doubts(image: "profileImage", subjectName: "Mathematics", lessonName: "Chapter 1", status: "Resolved", date: "12/07/2021", question: "4+4 = ?", solution: "8", solutionImages: [])]
+    

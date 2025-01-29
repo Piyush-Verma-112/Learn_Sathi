@@ -52,7 +52,7 @@ class SolutionTableViewController: UITableViewController {
         private func setupCollectionView() {
             solutionImageCollectionView.dataSource = self
             solutionImageCollectionView.delegate = self
-            let nib = UINib(nibName: "SolutionImageCell", bundle: nil)
+            let nib = UINib(nibName: "SolutionImageCollectionViewCell", bundle: nil)
             solutionImageCollectionView.register(nib, forCellWithReuseIdentifier: "SolutionImageCell")
         }
     }
@@ -77,9 +77,4 @@ class SolutionTableViewController: UITableViewController {
         }
 
     }
-class SolutionImageCollectionViewCell: UICollectionViewCell {
-    
-  
-    @IBOutlet weak var solutionImageView: UIImageView!
-    
-}
+
