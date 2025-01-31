@@ -55,5 +55,5 @@ struct Doubts {
 }
 
 var doubts: [Doubts] = [
-    Doubts(image: "profileImage", subjectName: "Mathematics", lessonName: "Chapter 1", status: "Resolved", date: "12/07/2021", question: "4+4 = ?", solution: "8", solutionImages: [])]
-    
+    Doubts(image: "profileImage", subjectName: "Mathematics", lessonName: "Derivatives", status: "Resolved", date: "12/07/25", question: "f(x) = (2x-1)+g(x)?", solution: "In the image", solutionImages: [UIImage(named: "solutionImage") ?? UIImage()])
+]

@@ -8,17 +8,8 @@
 import UIKit
 
 class SolutionTableViewController: UITableViewController {
-    // MARK: - Doubt Data Model
-    struct Doubt {
-        let subject: String
-        let lesson: String
-        let question: String
-        let status: String
-        let solution: String
-        let solutionImages: [UIImage]
-    }
 
-    var doubt: Doubt?
+    var doubt: Doubts?
     
     
     @IBOutlet weak var subjectLabel: UILabel!
@@ -35,8 +26,8 @@ class SolutionTableViewController: UITableViewController {
     // MARK: - Populate Data
         private func populateData() {
             guard let doubt = doubt else { return }
-            subjectLabel.text = doubt.subject
-            lessonLabel.text = doubt.lesson
+            subjectLabel.text = doubt.subjectName
+            lessonLabel.text = doubt.lessonName
             questionLabel.text = doubt.question
             solutionLabel.text = doubt.solution
             print("Doubt passed successfully: \(doubt)")
@@ -55,7 +46,21 @@ class SolutionTableViewController: UITableViewController {
             let nib = UINib(nibName: "SolutionImageCollectionViewCell", bundle: nil)
             solutionImageCollectionView.register(nib, forCellWithReuseIdentifier: "SolutionImageCell")
         }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let image = doubt?.solutionImages[indexPath.item] else { return }
+        
+        let fullScreenVC = FullScreenImageViewController()
+        fullScreenVC.image = image
+        fullScreenVC.modalPresentationStyle = .overFullScreen
+        fullScreenVC.modalTransitionStyle = .crossDissolve
+        present(fullScreenVC, animated: true, completion: nil)
     }
+
+    @IBAction func cancelButtonTapped(_ sender: Any) {
+        dismiss(animated: true)
+    }
+}
 
     // MARK: - UICollectionView DataSource & Delegate
     extension SolutionTableViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {

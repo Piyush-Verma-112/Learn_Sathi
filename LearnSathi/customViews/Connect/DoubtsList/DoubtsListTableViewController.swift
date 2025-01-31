@@ -174,15 +174,20 @@ class DoubtsListTableViewController: UITableViewController, DoubtDelegate {
             if let destination = segue.destination as? AskDoubtTableViewController {
                 destination.delegate = self
             }
-        } else  if segue.identifier == "ShowSolutionSegue" {
-            if let destination = segue.destination as? SolutionTableViewController,
+        } else if segue.identifier == "ShowSolutionSegue" {
+            if let navController = segue.destination as? UINavigationController,
+               let destination = navController.topViewController as? SolutionTableViewController,
                let selectedDoubt = sender as? Doubts {
-                destination.doubt = SolutionTableViewController.Doubt(
-                    subject: selectedDoubt.subjectName,
-                    lesson: selectedDoubt.lessonName,
-                    question: selectedDoubt.question,
+                
+                destination.doubt = Doubts(
+                    image: "",
+                    subjectName: selectedDoubt.subjectName,
+                    lessonName: selectedDoubt.lessonName,
                     status: selectedDoubt.status,
-                    solution: selectedDoubt.solution, solutionImages: []
+                    date: selectedDoubt.date,
+                    question: selectedDoubt.question,
+                    solution: selectedDoubt.solution,
+                    solutionImages: selectedDoubt.solutionImages
                 )
             }
         }
