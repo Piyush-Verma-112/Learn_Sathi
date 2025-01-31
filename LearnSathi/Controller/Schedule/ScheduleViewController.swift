@@ -40,10 +40,10 @@ class ScheduleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         navigationController?.navigationBar.prefersLargeTitles = true
         registerCalendarCells()
         registerCells()
+        
         customizeCollectionView()
         setupNoScheduleLabel()
         setupDatePicker()
@@ -52,17 +52,17 @@ class ScheduleViewController: UIViewController {
         // Initialize with today's date
         selectedDate = Calendar.current.startOfDay(for: Date())
         filterSchedules(for: selectedDate!)
-
     }
     
-    
-    
-    @IBAction func profileTapped(_ sender: Any) {
-        let storyboard = storyboard?.instantiateViewController(withIdentifier: "UserProfileTableViewController") as? UserProfileTableViewController
-        
-        navigationController?.pushViewController(storyboard!, animated: true)
+    @IBAction func refreshButtonTapped(_ sender: Any) {
+        let today = Calendar.current.startOfDay(for: Date())
+            selectedDate = today
+            datePicker.setDate(today, animated: true)
+            
+            scrollToToday()
+            filterSchedules(for: today)
+            calendarCollectionView.reloadData()
     }
-    
     
     //MARK: -  setUp function
     private func setupNoScheduleLabel() {
@@ -202,6 +202,7 @@ class ScheduleViewController: UIViewController {
 }
 
 
+
 //MARK: -  Extension function
 extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -331,6 +332,6 @@ extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewData
         }
         
     }
-
+    
 }
 

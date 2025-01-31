@@ -18,13 +18,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scheduled Classes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FSW-cg-hsN">
-                                <rect key="frame" x="26" y="291" width="159" height="22"/>
+                                <rect key="frame" x="26" y="301" width="159" height="22"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="GLS-GL-oPi">
-                                <rect key="frame" x="0.0" y="204" width="393" height="75"/>
+                                <rect key="frame" x="0.0" y="214" width="393" height="75"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="75" id="RXe-ZA-FVz"/>
@@ -47,7 +47,7 @@
                                 </connections>
                             </collectionView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="rUC-Q9-OXp">
-                                <rect key="frame" x="0.0" y="328" width="393" height="524"/>
+                                <rect key="frame" x="0.0" y="338" width="393" height="514"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="0.0" id="ZwB-BQ-lGK">
                                     <size key="itemSize" width="128" height="128"/>
@@ -62,14 +62,27 @@
                                 </connections>
                             </collectionView>
                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" translatesAutoresizingMaskIntoConstraints="NO" id="pzE-57-fIj">
-                                <rect key="frame" x="0.0" y="161" width="141" height="34.333333333333343"/>
+                                <rect key="frame" x="0.0" y="161" width="141" height="44.333333333333343"/>
                             </datePicker>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ih8-6s-Dic">
+                                <rect key="frame" x="317" y="155" width="45" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="igB-K5-MlV"/>
+                                    <constraint firstAttribute="width" constant="45" id="jS3-Fs-Ctz"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="arrow.clockwise" catalog="system"/>
+                                <connections>
+                                    <action selector="refreshButtonTapped:" destination="h3j-0q-x1l" eventType="touchUpInside" id="8AV-jE-lHa"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="o3U-px-xCG"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="rUC-Q9-OXp" firstAttribute="top" secondItem="FSW-cg-hsN" secondAttribute="bottom" constant="15" id="07Y-TX-ABd"/>
                             <constraint firstItem="pzE-57-fIj" firstAttribute="leading" secondItem="o3U-px-xCG" secondAttribute="leading" id="0ya-QN-weC"/>
+                            <constraint firstItem="GLS-GL-oPi" firstAttribute="top" secondItem="Ih8-6s-Dic" secondAttribute="bottom" constant="14" id="7a7-ZU-GNB"/>
                             <constraint firstItem="GLS-GL-oPi" firstAttribute="top" secondItem="pzE-57-fIj" secondAttribute="bottom" constant="8.6699999999999999" id="CZr-VU-Zoh"/>
                             <constraint firstAttribute="trailing" secondItem="GLS-GL-oPi" secondAttribute="trailing" id="EFZ-pU-pAC"/>
                             <constraint firstItem="rUC-Q9-OXp" firstAttribute="trailing" secondItem="o3U-px-xCG" secondAttribute="trailing" id="Ref-7n-3eo"/>
@@ -78,6 +91,8 @@
                             <constraint firstItem="rUC-Q9-OXp" firstAttribute="leading" secondItem="o3U-px-xCG" secondAttribute="leading" id="ZW3-1f-qSQ"/>
                             <constraint firstItem="GLS-GL-oPi" firstAttribute="leading" secondItem="o3U-px-xCG" secondAttribute="leading" id="eSE-ip-yJJ"/>
                             <constraint firstAttribute="bottom" secondItem="rUC-Q9-OXp" secondAttribute="bottom" id="gdy-1F-cn0"/>
+                            <constraint firstItem="Ih8-6s-Dic" firstAttribute="leading" secondItem="pzE-57-fIj" secondAttribute="trailing" constant="176" id="oAb-b1-1uW"/>
+                            <constraint firstItem="Ih8-6s-Dic" firstAttribute="top" secondItem="o3U-px-xCG" secondAttribute="top" id="syM-5h-3ef"/>
                             <constraint firstItem="FSW-cg-hsN" firstAttribute="leading" secondItem="o3U-px-xCG" secondAttribute="leading" constant="26" id="yxd-tN-cL0"/>
                             <constraint firstItem="pzE-57-fIj" firstAttribute="top" secondItem="o3U-px-xCG" secondAttribute="top" constant="6" id="ztN-ql-y2H"/>
                         </constraints>
@@ -86,7 +101,7 @@
                         <rightBarButtonItems>
                             <barButtonItem image="profileImage" largeContentSizeImage="profileImage" width="20" id="1Sf-7G-Gb6">
                                 <connections>
-                                    <action selector="profileTapped:" destination="h3j-0q-x1l" id="okq-Cd-HEA"/>
+                                    <segue destination="jZu-R9-yCu" kind="presentation" id="iuc-gI-TYT"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="Item" image="calendar" catalog="system" id="muW-lI-b8B">
@@ -100,7 +115,6 @@
                         <outlet property="calendarCollectionView" destination="GLS-GL-oPi" id="c6j-rX-qHS"/>
                         <outlet property="datePicker" destination="pzE-57-fIj" id="Sdf-ai-iKM"/>
                         <outlet property="scheduleCollectionView" destination="rUC-Q9-OXp" id="7K5-Ag-03l"/>
-                        <segue destination="AQW-Ap-JhU" kind="show" id="F5s-ah-OQw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Esg-KW-3rE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -108,14 +122,14 @@
             <point key="canvasLocation" x="2636" y="-75"/>
         </scene>
         <!--UserProfile-->
-        <scene sceneID="6jL-rX-EcX">
+        <scene sceneID="VUt-Oq-Egp">
             <objects>
-                <viewControllerPlaceholder storyboardIdentifier="UserProfileTableViewController" storyboardName="UserProfile" id="AQW-Ap-JhU" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="dRx-64-lr3"/>
+                <viewControllerPlaceholder storyboardName="UserProfile" id="jZu-R9-yCu" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="9KL-R8-QDE"/>
                 </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="pHp-VR-2xA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="To6-od-bsw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3665" y="165"/>
+            <point key="canvasLocation" x="3665" y="171"/>
         </scene>
         <!--Classes-->
         <scene sceneID="GNX-dz-u9M">
@@ -165,6 +179,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="arrow.clockwise" catalog="system" width="110" height="128"/>
         <image name="calendar" catalog="system" width="128" height="107"/>
         <image name="profileImage" width="50" height="50"/>
         <systemColor name="systemBackgroundColor">

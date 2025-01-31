@@ -20,7 +20,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fp2-xp-eMX" customClass="CardView" customModule="LearnSathi" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="300" height="80"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profileImage" translatesAutoresizingMaskIntoConstraints="NO" id="ZZn-8c-5HI">
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profileImage" translatesAutoresizingMaskIntoConstraints="NO" id="ZZn-8c-5HI">
                                 <rect key="frame" x="10" y="15" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="gpY-rm-dML"/>
@@ -38,7 +38,7 @@
                                     <constraint firstAttribute="height" constant="25" id="5oo-VB-kVJ"/>
                                     <constraint firstAttribute="width" constant="240" id="n14-er-es7"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
