@@ -9,8 +9,6 @@ import UIKit
 
 class UserProfileTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    @IBOutlet var changeProfile: UITableViewCell!
-    
     @IBOutlet var userProfileImageView: UIImageView!
     
     @IBOutlet var userNameLabel: UILabel!
@@ -79,10 +77,6 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         alertController.addAction(cancelAction)
     
-        if let popoverController = alertController.popoverPresentationController {
-            popoverController.sourceView = changeProfile
-            popoverController.sourceRect = changeProfile.bounds
-        }
         present(alertController, animated: true)
     }
     
