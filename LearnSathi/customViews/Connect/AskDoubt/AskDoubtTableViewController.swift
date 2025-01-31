@@ -33,19 +33,31 @@ class AskDoubtTableViewController: UITableViewController, UIImagePickerControlle
     
     @IBOutlet weak var addImageButton: UIButton!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupMenus()
-        let nib = UINib(nibName: "QuestionImageCollectionViewCell", bundle: nil)
-        collectionView.register(nib, forCellWithReuseIdentifier: "ImageCell")
-        setupCollectionView()
-        lessonButton.isEnabled = false
-        addImageButton.isEnabled = false
-        questionTextView.delegate = self
-            questionTextView.text = "Type your question here..."
-            questionTextView.textColor = UIColor.lightGray
+            override func viewDidLoad() {
+                super.viewDidLoad()
+                setupMenus()
+                let nib = UINib(nibName: "QuestionImageCollectionViewCell", bundle: nil)
+                collectionView.register(nib, forCellWithReuseIdentifier: "ImageCell")
+                setupCollectionView()
+                lessonButton.isEnabled = false
+                addImageButton.isEnabled = false
+                questionTextView.delegate = self
+                    questionTextView.text = "Type your question here..."
+                    questionTextView.textColor = UIColor.lightGray
+                
+                }
+    private func configureCollectionViewLayout() {
+        let layout = UICollectionViewFlowLayout()
         
-        }
+        layout.minimumInteritemSpacing = 25
+        layout.minimumLineSpacing = 10
+        
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        
+        
+        collectionView.collectionViewLayout = layout
+        
+    }
     private func setupMenus() {
         var subjectActions: [UIAction] = []
         for subject in subjects {
@@ -147,7 +159,17 @@ class AskDoubtTableViewController: UITableViewController, UIImagePickerControlle
                present(alertController, animated: true, completion: nil)
                return
            }
-           
+        let confirmationAlert = UIAlertController(
+                title: "Request Sent",
+                message: "Your request has been sent to the tutor.",
+                preferredStyle: .alert
+            )
+            
+            confirmationAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+                self.navigationController?.popViewController(animated: true)
+            }))
+            
+            present(confirmationAlert, animated: true, completion: nil)
         let newDoubt = Doubts(
             image: "defaultImage",
             subjectName: subjectText,
@@ -209,6 +231,7 @@ class FullScreenImageViewController: UIViewController {
         
         let closeButton = UIButton(frame: CGRect(x: 20, y: 50, width: 50, height: 50))
         closeButton.setTitle("Close", for: .normal)
+        closeButton.setTitleColor(.black, for: .normal)
         closeButton.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
         self.view.addSubview(closeButton)
     }

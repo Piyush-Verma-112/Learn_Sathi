@@ -9,14 +9,7 @@ import UIKit
 
 class RescheduleTableViewController: UITableViewController{
     
-    let subjects = ["English", "Hindi", "Mathematics", "Social Science"]
-        var lessonsMapping: [String: [String]] = [
-            "English": chapterDetailsEnglish.map { $0.chapterName },
-            "Hindi": chapterDetailsHindi.map { $0.chapterName },
-            "Mathematics": chapterDetailsMaths.map { $0.chapterName },
-            "Social Science": chapterDetailsSocialStudies.map { $0.chapterName }
-        ]
-        var currentLessons: [String] = []
+    var currentLessons: [String] = []
     
     @IBOutlet weak var subjectButton: UIButton!
     @IBOutlet weak var lessonButton: UIButton!
@@ -32,6 +25,7 @@ class RescheduleTableViewController: UITableViewController{
             tableView.contentInsetAdjustmentBehavior = .never
             tableView.rowHeight = UITableView.automaticDimension
             tableView.separatorStyle = .none
+            lessonButton.isEnabled = false
             setupMenus()
         }
    
@@ -46,6 +40,7 @@ class RescheduleTableViewController: UITableViewController{
             let action = UIAction(title: subject, handler: { [weak self] _ in
                 self?.subjectLabel.text = subject
                 self?.updateLessons(for: subject)
+                self?.lessonButton.isEnabled = true
             })
             subjectActions.append(action)
         }
@@ -69,16 +64,35 @@ class RescheduleTableViewController: UITableViewController{
         lessonButton.showsMenuAsPrimaryAction = true
     }
 @IBAction func doneButtonTapped(_ sender: UIBarButtonItem) {
-        let alertController = UIAlertController(
-            title: "Request Sent",
-            message: "Your reschedule request has been sent successfully.",
-            preferredStyle: .alert
-        )
-        alertController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-            self.navigationController?.popViewController(animated: true)
-        })
-        present(alertController, animated: true, completion: nil)
-    }
+    guard
+    let subjectText = subjectLabel.text, subjectText != "Select Subject",
+    let lessonText = lessonLabel.text, lessonText != "Select Lesson"
+else {
+    let missingFields = [
+        subjectLabel.text == "Select Subject" ? "Subject" : nil,
+        lessonLabel.text == "Select Lesson" ? "Lesson" : nil
+    ].compactMap { $0 }.joined(separator: ", ")
 
+    let alertController = UIAlertController(
+        title: "Incomplete Information",
+        message: "Please select the following: \(missingFields).",
+        preferredStyle: .alert
+    )
+    alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+    present(alertController, animated: true, completion: nil)
+    return
+}
+
+let successAlert = UIAlertController(
+    title: "Request Sent",
+    message: "Your reschedule request has been sent successfully.",
+    preferredStyle: .alert
+)
+successAlert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+    self.navigationController?.popViewController(animated: true)
+})
+
+present(successAlert, animated: true, completion: nil)
+}
 }
 
