@@ -7,13 +7,7 @@
 
 import Foundation
 
-
-struct Login {
-    var id: UUID
-    var number: String
-}
-
-struct Signup {
+struct UserAuth {
     var id: UUID
     var firstName: String
     var lastName: String
