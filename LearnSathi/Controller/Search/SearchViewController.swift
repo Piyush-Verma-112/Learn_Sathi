@@ -130,7 +130,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
     private func navigateToTutorProfile(with tutor: TutorSearch) {
 //        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let tutorProfileVC = storyboard?.instantiateViewController(withIdentifier: "TutorProfileCollectionViewController") as? TutorProfileCollectionViewController {
+        if let tutorProfileVC = storyboard?.instantiateViewController(withIdentifier: "TutorProfileViewController") as? TutorProfileViewController {
             navigationController?.pushViewController(tutorProfileVC, animated: true)
         }
     }
