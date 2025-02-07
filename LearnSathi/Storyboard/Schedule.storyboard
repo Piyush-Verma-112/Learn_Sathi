@@ -100,7 +100,6 @@
                     <connections>
                         <outlet property="calendarCollectionView" destination="GLS-GL-oPi" id="c6j-rX-qHS"/>
                         <outlet property="datePicker" destination="pzE-57-fIj" id="Sdf-ai-iKM"/>
-                        <outlet property="profileBarButtonItem" destination="1Sf-7G-Gb6" id="tS8-09-8Lt"/>
                         <outlet property="scheduleCollectionView" destination="rUC-Q9-OXp" id="7K5-Ag-03l"/>
                     </connections>
                 </viewController>
