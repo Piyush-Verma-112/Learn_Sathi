@@ -11,6 +11,7 @@ import EventKit
 
 class ScheduleViewController: UIViewController {
     
+    @IBOutlet var profileBarButtonItem: UIBarButtonItem!
 
     @IBOutlet var scheduleCollectionView: UICollectionView!
     
@@ -19,7 +20,7 @@ class ScheduleViewController: UIViewController {
     @IBOutlet var datePicker: UIDatePicker!
     
     // MARK: - Properties
-    
+        
     private let dataController = ScheduleDataController.shared
     
     var isSelected: Bool = true
@@ -42,11 +43,14 @@ class ScheduleViewController: UIViewController {
     
 //  MARK: - viewDidLoad
         
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            setupUI()
-            selectedDate = Calendar.current.startOfDay(for: Date())
-            filterSchedules(for: selectedDate!)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        selectedDate = Calendar.current.startOfDay(for: Date())
+        filterSchedules(for: selectedDate!)
+        
+        _ = UIContextMenuInteraction(delegate: self)
+                profileBarButtonItem.menu = self.contextMenu()
     }
     
     private func setupUI() {
@@ -122,15 +126,12 @@ class ScheduleViewController: UIViewController {
         }
     }
     
+    //MARK: Actions
     
-    @IBAction func refreshButtonTapped(_ sender: Any) {
-        let today = Calendar.current.startOfDay(for: Date())
-        selectedDate = today
-        datePicker.setDate(today, animated: true)
+    @IBAction func profileBarButtonItemTapped(_ sender: Any) {
+        _ = UIContextMenuInteraction(delegate: self)
+        profileBarButtonItem.menu = self.contextMenu()
         
-        scrollToToday()
-        filterSchedules(for: today)
-        calendarCollectionView.reloadData()
     }
     
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
@@ -307,3 +308,30 @@ extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewData
     }
 }
 
+//MARK: - EXTENSION - UIContextMenuInteractionDelegate
+extension ScheduleViewController: UIContextMenuInteractionDelegate {
+    func contextMenu() -> UIMenu {
+        let akhlakAction = UIAction(title: "Md Akhlak", image: UIImage(named: "user2"), identifier: nil, state: .on) { _ in
+            // Handle Akhlak action
+        }
+
+        let samarAction = UIAction(title: "Abu Shahma", image: UIImage(named: "user2")) { _ in
+            // Handle Samar action
+        }
+
+        let addChildAction = UIAction(title: "Add Child", image: UIImage(systemName: "plus")) { _ in
+            // Handle Add Child action
+        }
+
+        return UIMenu(title: "", children: [akhlakAction, samarAction, addChildAction])
+    }
+
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(
+            identifier: nil,
+            previewProvider: nil
+        ) { [weak self] _ in
+            return self?.contextMenu()
+        }
+    }
+}
