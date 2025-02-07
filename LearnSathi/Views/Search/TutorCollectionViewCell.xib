@@ -139,14 +139,20 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sIF-zW-WYt">
-                                <rect key="frame" x="237.00000000000003" y="135" width="112.33333333333334" height="28"/>
+                                <rect key="frame" x="237.66666666666663" y="135" width="100" height="28"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="VgY-cM-JKN"/>
+                                </constraints>
                                 <color key="tintColor" red="0.1764705882352941" green="0.39215686274509803" blue="0.73333333333333328" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Book Session" buttonSize="mini"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Book Tutor" buttonSize="mini"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZXP-I9-f8D">
-                                <rect key="frame" x="130" y="135" width="99.333333333333314" height="28"/>
+                                <rect key="frame" x="130" y="135" width="100" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="3DH-5A-gPM"/>
+                                </constraints>
                                 <color key="tintColor" red="0.15686274510000001" green="0.3921568627" blue="0.73333333329999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="tinted" title="Book Demo" buttonSize="mini"/>

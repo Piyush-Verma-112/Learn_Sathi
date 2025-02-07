@@ -12,8 +12,10 @@ struct TutorSearch {
     var tutorProfile: String
     var tutorName: String
     var tutorRating: Float
-    var tutorExperience: String
+    var tutorExperience: Int
     var tutorCharges: Int
-    var tutorSubjects: String
+    var tutorSubjects: [String]
+    var tutorDistance: String
     var tutorLocation: String
+    
 }
