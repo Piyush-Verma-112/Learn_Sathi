@@ -14,13 +14,17 @@ class TutorListViewController: UIViewController {
     @IBOutlet var tutorsFilterCollectionView: UICollectionView!
     
     var searchResults: [TutorSearch] = [
-        TutorSearch(tutorProfile: "profileImage", tutorName: "Ashish Singh", tutorRating: 5.0, tutorExperience: "Experience 5yrs", tutorCharges: 3000, tutorSubjects: "English, Science, Maths", tutorLocation: "10Km"),
-        TutorSearch(tutorProfile: "profileImage", tutorName: "Ashish Singh", tutorRating: 5.0, tutorExperience: "Experience 5yrs", tutorCharges: 3000, tutorSubjects: "English, Science, Maths", tutorLocation: "10Km"),
-        TutorSearch(tutorProfile: "profileImage", tutorName: "Ashish Singh", tutorRating: 5.0, tutorExperience: "Experience 5yrs", tutorCharges: 3000, tutorSubjects: "English, Science, Maths", tutorLocation: "10Km"),
+        TutorSearch(tutorProfile: "user2", tutorName: "Md Akhlak", tutorRating: 5.0, tutorExperience: "Experience 5yrs", tutorCharges: 6000, tutorSubjects: "English, Science, Hindi,Mathemtics ", tutorLocation: "10Km"),
+        TutorSearch(tutorProfile: "profileImage", tutorName: "Ashish Singh", tutorRating: 5.0, tutorExperience: "Experience 5yrs", tutorCharges: 5000, tutorSubjects: "Physics, Science, Biology", tutorLocation: "10Km"),
+        TutorSearch(tutorProfile: "user2", tutorName: "Shahnawaz", tutorRating: 4.5, tutorExperience: "Experience 5yrs", tutorCharges: 4000, tutorSubjects: "English, Science, Maths", tutorLocation: "10Km"),
+        TutorSearch(tutorProfile: "profileImage", tutorName: "Abu Shahma", tutorRating: 4.0, tutorExperience: "Experience 5yrs", tutorCharges: 3000, tutorSubjects: "English, Science, Maths", tutorLocation: "10Km"),
+        TutorSearch(tutorProfile: "user2", tutorName: "Abu Shahma", tutorRating: 3.9, tutorExperience: "Experience 5yrs", tutorCharges: 2000, tutorSubjects: "English, Science, Maths", tutorLocation: "10Km"),
+        TutorSearch(tutorProfile: "profileImage", tutorName: "Abu Shahma", tutorRating: 3.5, tutorExperience: "Experience 5yrs", tutorCharges: 1000, tutorSubjects: "English, Science, Maths", tutorLocation: "10Km"),
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Tutors"
         registerCells()
     }
     
@@ -59,18 +63,20 @@ extension TutorListViewController: UICollectionViewDelegate, UICollectionViewDat
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == tutorListCollectionView {
-            let selectedTutor = searchResults[indexPath.row]
-            
-            navigateToTutorProfile(with: selectedTutor)
+        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            if collectionView == tutorListCollectionView {
+                let selectedTutor = searchResults[indexPath.row]
+                navigateToTutorProfile(with: selectedTutor)
+    
+            }
         }
-    }
-        
+    
     private func navigateToTutorProfile(with tutor: TutorSearch) {
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let tutorProfileVC = storyboard?.instantiateViewController(withIdentifier: "TutorProfileCollectionViewController") as? TutorProfileCollectionViewController {
+        //        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let tutorProfileVC = storyboard?.instantiateViewController(withIdentifier: "TutorProfileViewController") as? TutorProfileViewController {
             navigationController?.pushViewController(tutorProfileVC, animated: true)
         }
     }
+    
 }
+
