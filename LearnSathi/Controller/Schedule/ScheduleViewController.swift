@@ -55,7 +55,6 @@ class ScheduleViewController: UIViewController {
     
     private func setupUI() {
         navigationController?.navigationBar.prefersLargeTitles = true
-        registerCalendarCells()
         registerCells()
         customizeCollectionView()
         setupNoScheduleLabel()
@@ -85,15 +84,15 @@ class ScheduleViewController: UIViewController {
         datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
     }
     
-    private func registerCalendarCells() {
+    private func registerCells() {
         calendarCollectionView.register(UINib(nibName: CalendarCollectionViewCell.identifier, bundle: nil),
                                       forCellWithReuseIdentifier: CalendarCollectionViewCell.identifier)
-    }
-    
-    private func registerCells() {
+        
         scheduleCollectionView.register(UINib(nibName: ScheduleCollectionViewCell.identifier, bundle: nil),forCellWithReuseIdentifier: ScheduleCollectionViewCell.identifier)
+        
+        
     }
-    
+
     
     private func customizeCollectionView() {
         calendarCollectionView.layer.shadowColor = UIColor.black.cgColor

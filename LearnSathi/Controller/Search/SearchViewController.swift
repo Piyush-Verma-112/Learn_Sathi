@@ -9,12 +9,12 @@ import UIKit
 
 class SearchViewController: UIViewController {
     
-    
     var searchResults: [TutorSearch] = [
-        TutorSearch(tutorProfile: "profileImage", tutorName: "Ashish Singh", tutorRating: 5.0, tutorExperience: "Experience 5yrs", tutorCharges: 3000, tutorSubjects: "English, Science, Maths", tutorLocation: "10Km"),
-        TutorSearch(tutorProfile: "profileImage", tutorName: "Ashish Singh", tutorRating: 5.0, tutorExperience: "Experience 5yrs", tutorCharges: 3000, tutorSubjects: "English, Science, Maths", tutorLocation: "10Km"),
-        TutorSearch(tutorProfile: "profileImage", tutorName: "Ashish Singh", tutorRating: 5.0, tutorExperience: "Experience 5yrs", tutorCharges: 3000, tutorSubjects: "English, Science, Maths", tutorLocation: "10Km")
+        TutorSearch(tutorProfile: "user2", tutorName: "Md Akhlak", tutorRating: 5.0, tutorExperience: 5, tutorCharges: 8000, tutorSubjects: ["Biology, Science, Math"], tutorDistance: "10Km", tutorLocation: "Dav malighat"),
+        TutorSearch(tutorProfile: "profileImage", tutorName: "Ashish Singh", tutorRating: 5.0, tutorExperience: 5, tutorCharges: 4000, tutorSubjects: ["Physics, Science, Maths"], tutorDistance: "10Km", tutorLocation: "Dav malighat"),
+        TutorSearch(tutorProfile: "user2", tutorName: "Abu Shahma", tutorRating: 5.0, tutorExperience: 5, tutorCharges: 3000, tutorSubjects: ["Math, Science, Hindi"], tutorDistance: "10Km", tutorLocation: "Dav malighat")
     ]
+    
     var allSubjects = ["Mathematics", "Science", "History", "Geography", "English", "Computer Science", "Biology", "Physics", "Chemistry"]
     
     var filteredSubjects: [String] = []
@@ -29,6 +29,8 @@ class SearchViewController: UIViewController {
     
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     @IBOutlet weak var standardTop: NSLayoutConstraint!
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,6 +123,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         }
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == searchResultcollectionView {
             let selectedTutor = searchResults[indexPath.row]
@@ -128,13 +131,13 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         }
     }
         
+    
     private func navigateToTutorProfile(with tutor: TutorSearch) {
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let tutorProfileVC = storyboard?.instantiateViewController(withIdentifier: "TutorProfileViewController") as? TutorProfileViewController {
+            tutorProfileVC.selectedTutor = tutor
             navigationController?.pushViewController(tutorProfileVC, animated: true)
         }
     }
-
 }
 
 extension SearchViewController: UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {

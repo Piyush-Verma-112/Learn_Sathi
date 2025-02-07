@@ -23,9 +23,9 @@ class TutorCollectionViewCell: UICollectionViewCell {
         tutorProfileImageView.image = UIImage(named: search.tutorProfile)
         tutorNameLbl.text = search.tutorName
         tutorRatingLbl.text = String(search.tutorRating)
-        tutorExperienceLbl.text = search.tutorExperience
+        tutorExperienceLbl.text = "Year Of Experience \(search.tutorExperience)"
         tutorChargesLbl.text = String(search.tutorCharges)
-        tutorSubjectsLbl.text = search.tutorSubjects
-        tutorDistance.text = search.tutorLocation
+        tutorSubjectsLbl.text = search.tutorSubjects.joined(separator: ",")
+        tutorDistance.text = search.tutorDistance
     }
 }

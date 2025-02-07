@@ -130,7 +130,7 @@ class SchedulePopUpView: UIView {
         
         topicNameLabel.font = .systemFont(ofSize: 22, weight: .bold)
         
-        lessonLabel.text = "Lesson:"
+        lessonLabel.text = "Lesson"
         lessonLabel.font = .systemFont(ofSize: 15)
         lessonLabel.textColor = .gray
         

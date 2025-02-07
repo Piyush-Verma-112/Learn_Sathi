@@ -9,15 +9,14 @@ import UIKit
 
 class TutorProfileViewController: UIViewController , UICollectionViewDataSource, UICollectionViewDelegate {
     
-    var tutors : [TutorSearch] = []
+    var selectedTutor: TutorSearch?
     
     
     @IBOutlet var achievementsCollectionView: UICollectionView!
-    
-    
+
     @IBOutlet var experienceLabel: UILabel!
     
-    @IBOutlet var monthlyChargesLabel: UIStackView!
+    @IBOutlet var monthlyChargesLabel: UILabel!
     
     @IBOutlet var subjectTechesLabel: UILabel!
     
@@ -27,24 +26,48 @@ class TutorProfileViewController: UIViewController , UICollectionViewDataSource,
     
     @IBOutlet var tutorNameLabel: UILabel!
     
+    @IBOutlet var tutorDistanceFromYou: UILabel!
+    
+    
     @IBOutlet var tutorProfileImageView: UIImageView!
     
     @IBOutlet var ratingLabel: UILabel!
     
     
-    
-    
-    
-    
+//    MARK:- ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Profile"
-        // Do any additional setup after loading the view.
         register()
+        
+        if let tutor = selectedTutor {
+            configure(with: tutor)
+        } else {
+            print("Error: selectedTutor is nil")
+        }
     }
     
-    func setUpUI(){
+    func configure(with tutor : TutorSearch) {
+        tutorNameLabel.text = tutor.tutorName
+        ratingLabel.text = "\(tutor.tutorRating)"
+        experienceLabel.text = "Year of Experience \(tutor.tutorExperience)"
+        monthlyChargesLabel.text = "₹\(tutor.tutorCharges)/month"
+        subjectTechesLabel.text = tutor.tutorSubjects.joined(separator: ", ")
+        tutorDistanceFromYou.text = "\(tutor.tutorDistance)"
+        locationLabel.text = tutor.tutorLocation
+        tutorProfileImageView.image = UIImage(named: tutor.tutorProfile)
         
+    }
+
+    
+    func loadImage(from url: URL) {
+        DispatchQueue.global().async {
+            if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    self.tutorProfileImageView.image = image
+                }
+            }
+        }
     }
     
     func register(){
@@ -59,11 +82,9 @@ class TutorProfileViewController: UIViewController , UICollectionViewDataSource,
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: TutorAchievementsCollectionViewCell.identifier, for: indexPath) as! TutorAchievementsCollectionViewCell)
     
-        
         return cell
     }
-
-    
+     
     
 }
 
