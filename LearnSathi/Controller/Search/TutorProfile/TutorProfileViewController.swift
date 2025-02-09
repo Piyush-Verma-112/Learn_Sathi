@@ -9,7 +9,7 @@ import UIKit
 
 class TutorProfileViewController: UIViewController , UICollectionViewDataSource, UICollectionViewDelegate {
     
-    var selectedTutor: TutorSearch?
+    var selectedTutor: TutorId?
     
     
     @IBOutlet var achievementsCollectionView: UICollectionView!
@@ -47,15 +47,15 @@ class TutorProfileViewController: UIViewController , UICollectionViewDataSource,
         }
     }
     
-    func configure(with tutor : TutorSearch) {
-        tutorNameLabel.text = tutor.tutorName
-        ratingLabel.text = "\(tutor.tutorRating)"
-        experienceLabel.text = "Year of Experience \(tutor.tutorExperience)"
-        monthlyChargesLabel.text = "₹\(tutor.tutorCharges)/month"
-        subjectTechesLabel.text = tutor.tutorSubjects.joined(separator: ", ")
-        tutorDistanceFromYou.text = "\(tutor.tutorDistance)"
-        locationLabel.text = tutor.tutorLocation
-        tutorProfileImageView.image = UIImage(named: tutor.tutorProfile)
+    func configure(with tutor : TutorId) {
+        tutorNameLabel.text = tutor.fullName
+        ratingLabel.text = "\(tutor.ratings)"
+        experienceLabel.text = "Year of Experience \(tutor.experience)"
+        monthlyChargesLabel.text = "₹\(tutor.charges)/month"
+        subjectTechesLabel.text = tutor.subjects.joined(separator: ", ")
+        tutorDistanceFromYou.text = "5km"
+        locationLabel.text = tutor.address
+        tutorProfileImageView.image = UIImage(named: tutor.profileImage)
         
     }
 

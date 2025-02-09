@@ -19,13 +19,13 @@ class TutorCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var tutorSubjectsLbl: UILabel!
     @IBOutlet weak var tutorDistance: UILabel!
     
-    func setup(search: TutorSearch) {
-        tutorProfileImageView.image = UIImage(named: search.tutorProfile)
-        tutorNameLbl.text = search.tutorName
-        tutorRatingLbl.text = String(search.tutorRating)
-        tutorExperienceLbl.text = "Year Of Experience \(search.tutorExperience)"
-        tutorChargesLbl.text = String(search.tutorCharges)
-        tutorSubjectsLbl.text = search.tutorSubjects.joined(separator: ",")
-        tutorDistance.text = search.tutorDistance
+    func setup(search: TutorId) {
+        tutorProfileImageView.image = UIImage(named: search.profileImage)
+        tutorNameLbl.text = search.fullName
+        tutorRatingLbl.text = String(search.ratings)
+        tutorExperienceLbl.text = "Year Of Experience \(search.experience)"
+        tutorChargesLbl.text = String(search.charges)
+        tutorSubjectsLbl.text = search.subjects.joined(separator: ",")
+        tutorDistance.text = "5km"
     }
 }

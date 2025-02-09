@@ -11,8 +11,10 @@ import Foundation
 
 
 class ScheduleDataController {
+    
     private var schedule: [Schedule] = []
     static var shared = ScheduleDataController()
+    
     private init() {
         loadDummyData()
     }

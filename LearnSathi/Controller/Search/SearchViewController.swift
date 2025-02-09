@@ -9,15 +9,7 @@ import UIKit
 
 class SearchViewController: UIViewController {
     
-    var searchResults: [TutorSearch] = [
-        TutorSearch(tutorProfile: "user2", tutorName: "Md Akhlak", tutorRating: 5.0, tutorExperience: 5, tutorCharges: 8000, tutorSubjects: ["Biology, Science, Math"], tutorDistance: "10Km", tutorLocation: "Dav malighat"),
-        TutorSearch(tutorProfile: "profileImage", tutorName: "Ashish Singh", tutorRating: 5.0, tutorExperience: 5, tutorCharges: 4000, tutorSubjects: ["Physics, Science, Maths"], tutorDistance: "10Km", tutorLocation: "Dav malighat"),
-        TutorSearch(tutorProfile: "user2", tutorName: "Abu Shahma", tutorRating: 5.0, tutorExperience: 5, tutorCharges: 3000, tutorSubjects: ["Math, Science, Hindi"], tutorDistance: "10Km", tutorLocation: "Dav malighat")
-    ]
-    
-    var allSubjects = ["Mathematics", "Science", "History", "Geography", "English", "Computer Science", "Biology", "Physics", "Chemistry"]
-    
-    var filteredSubjects: [String] = []
+    private let dataController = SearchDataController.shared
     var selectedSubjects: [String] = []
     
     @IBOutlet weak var subjectTextField: UITextField!
@@ -33,53 +25,39 @@ class SearchViewController: UIViewController {
     
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+            super.viewDidLoad()
+            
+            subjectBubbleCollectionView.isHidden = true
+            
+            configureCollectionViewLayout()
+            classCollectionViewConfig()
+            subjectTableViewDelegates()
+            subjectTableViewConfig()
+            registerCells()
+        }
         
-        subjectBubbleCollectionView.isHidden = true
+        private func configureCollectionViewLayout() {
+            let layout = UICollectionViewFlowLayout()
+            layout.minimumInteritemSpacing = 25
+            layout.minimumLineSpacing = 10
+            layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            layout.scrollDirection = .vertical
+            subjectBubbleCollectionView.collectionViewLayout = layout
+        }
         
-        configureCollectionViewLayout()
-        classCollectionViewConfig()
-        subjectTableViewDelegates()
-        subjectTableViewConfig()
-        registerCells()
+        private func registerCells() {
+            searchResultcollectionView.register(UINib(nibName: TutorCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: TutorCollectionViewCell.identifier)
+            classCollectionView.register(UINib(nibName: ClassListCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: ClassListCollectionViewCell.identifier)
+            subjectBubbleCollectionView.register(UINib(nibName: SubjectBubbleCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: SubjectBubbleCollectionViewCell.identifier)
+        }
         
-        
-    }
-    
-    private func configureCollectionViewLayout() {
-        // Create and configure the flow layout
-        let layout = UICollectionViewFlowLayout()
-        
-        // Set the spacing between items and sections
-        layout.minimumInteritemSpacing = 25
-        layout.minimumLineSpacing = 10
-        
-        // Set the section insets to start from the left edge
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        
-        // Set the scroll direction to horizontal
-        layout.scrollDirection = .vertical
-        
-        // Apply the layout to the collection view
-        subjectBubbleCollectionView.collectionViewLayout = layout
+        @IBAction func DoneBtnClicked(_ sender: UIButton) {
+            let controller = storyboard?.instantiateViewController(identifier: "TutorListViewController") as! TutorListViewController
+            navigationController?.pushViewController(controller, animated: true)
+        }
     }
 
-    
-    private func registerCells() {
-        searchResultcollectionView.register(UINib(nibName: TutorCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: TutorCollectionViewCell.identifier)
-        classCollectionView.register(UINib(nibName: ClassListCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: ClassListCollectionViewCell.identifier)
-        subjectBubbleCollectionView.register(UINib(nibName: SubjectBubbleCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: SubjectBubbleCollectionViewCell.identifier)
-        
-        
-    }
-    
-    @IBAction func DoneBtnClicked(_ sender: UIButton) {
-        let controller = storyboard?.instantiateViewController(identifier: "TutorListViewController") as! TutorListViewController
-        
-        navigationController?.pushViewController(controller, animated: true)
-    }
-}
-
+// MARK: - Collection View Delegates
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     private func classCollectionViewConfig() {
@@ -90,49 +68,45 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         classCollectionView.layer.masksToBounds = false
         classCollectionView.layer.cornerRadius = 10
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
         switch collectionView {
         case classCollectionView:
-            return standards.count
+            return dataController.getAllStandards().count
         case subjectBubbleCollectionView:
             return selectedSubjects.count
         default:
-            return searchResults.count
+            return dataController.allSearchResults().count
         }
-
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch collectionView {
         case classCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ClassListCollectionViewCell.identifier, for: indexPath) as! ClassListCollectionViewCell
-            cell.setup(standard: standards[indexPath.row])
+            cell.setup(standard: dataController.getAllStandards()[indexPath.row])
             return cell
-
+            
         case subjectBubbleCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SubjectBubbleCollectionViewCell.identifier, for: indexPath) as! SubjectBubbleCollectionViewCell
             cell.setup(subject: selectedSubjects[indexPath.row])
             return cell
-
+            
         default:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TutorCollectionViewCell.identifier, for: indexPath) as! TutorCollectionViewCell
-            cell.setup(search: searchResults[indexPath.row])
+            cell.setup(search: dataController.allSearchResults()[indexPath.row])
             return cell
         }
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == searchResultcollectionView {
-            let selectedTutor = searchResults[indexPath.row]
+            let selectedTutor = dataController.allSearchResults()[indexPath.row]
             navigateToTutorProfile(with: selectedTutor)
         }
     }
-        
     
-    private func navigateToTutorProfile(with tutor: TutorSearch) {
+    private func navigateToTutorProfile(with tutor: TutorId) {
         if let tutorProfileVC = storyboard?.instantiateViewController(withIdentifier: "TutorProfileViewController") as? TutorProfileViewController {
             tutorProfileVC.selectedTutor = tutor
             navigationController?.pushViewController(tutorProfileVC, animated: true)
@@ -140,6 +114,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
 }
 
+// MARK: - TableView and TextField Delegates
 extension SearchViewController: UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     
     private func subjectTableViewDelegates() {
@@ -159,75 +134,50 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, UITe
         subjectTableView.layer.shadowOffset = CGSize(width: 0, height: 2)
         subjectTableView.layer.shadowRadius = 5
         subjectTableView.layer.masksToBounds = false
-        subjectTableView.layer.cornerRadius = 10
     }
-    
-    
     
     func updateTableViewHeight() {
-        let cellHeight: CGFloat = 44.0 // Approximate height of one cell (adjust as needed)
-        let maxVisibleCells = 5 // Maximum number of cells to show without scrolling
-        let totalHeight = CGFloat(min(filteredSubjects.count, maxVisibleCells)) * cellHeight
-
-        tableViewHeight.constant = totalHeight
-        subjectTableView.isScrollEnabled = filteredSubjects.count > maxVisibleCells
-    }
-
-    
-    // MARK: - UITextFieldDelegate
+        let cellHeight: CGFloat = 44.0
+        let maxVisibleCells = 5
+        let totalHeight = CGFloat(min(dataController.getFilteredSubjects().count, maxVisibleCells)) * cellHeight
         
+        tableViewHeight.constant = totalHeight
+        subjectTableView.isScrollEnabled = dataController.getFilteredSubjects().count > maxVisibleCells
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        // Update the text in the text field
         let currentText = (textField.text ?? "") as NSString
         let updatedText = currentText.replacingCharacters(in: range, with: string)
         
-        filterSubjects(for: updatedText)
+        dataController.filterSubjects(for: updatedText)
+        subjectTableView.isHidden = dataController.getFilteredSubjects().isEmpty
+        subjectTableView.reloadData()
+        updateTableViewHeight()
         
         return true
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if let text = textField.text, !text.isEmpty, !allSubjects.contains(text) {
-            allSubjects.append(text)
+        if let text = textField.text, !text.isEmpty {
+            dataController.addNewSubject(text)
             textField.text = ""
             subjectTableView.reloadData()
         }
         return true
     }
     
-    
-    // MARK: - Filter and Update
-        
-    private func filterSubjects(for query: String) {
-        if query.isEmpty {
-            filteredSubjects = []
-            subjectTableView.isHidden = true
-        } else {
-            filteredSubjects = allSubjects.filter { $0.lowercased().contains(query.lowercased()) }
-            subjectTableView.isHidden = filteredSubjects.isEmpty
-        }
-        subjectTableView.reloadData()
-        updateTableViewHeight()
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataController.getFilteredSubjects().count
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return filteredSubjects.count
-        }
-        
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "suggestionCell", for: indexPath)
-        cell.textLabel?.text = filteredSubjects[indexPath.row]
+        cell.textLabel?.text = dataController.getFilteredSubjects()[indexPath.row]
         return cell
     }
     
-    
-    
-    
-    // MARK: - UITableViewDelegate
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let selectedSubject = filteredSubjects[indexPath.row]
+        let selectedSubject = dataController.getFilteredSubjects()[indexPath.row]
         if !selectedSubjects.contains(selectedSubject) {
             selectedSubjects.append(selectedSubject)
         }
@@ -244,4 +194,3 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, UITe
         }
     }
 }
-
