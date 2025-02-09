@@ -13,13 +13,14 @@ class TutorListViewController: UIViewController {
     @IBOutlet var tutorListCollectionView: UICollectionView!
     @IBOutlet var tutorsFilterCollectionView: UICollectionView!
     
-    var searchResults: [TutorSearch] = [
-        TutorSearch(tutorProfile: "user2", tutorName: "Md Akhlak", tutorRating: 5.0, tutorExperience: 5, tutorCharges: 6000, tutorSubjects: ["English, Science, Hindi,Mathemtics "], tutorDistance: "2km", tutorLocation: "Sir Syed Colony"),
-        TutorSearch(tutorProfile: "profileImage", tutorName: "Ashish Singh", tutorRating: 5.0, tutorExperience: 1, tutorCharges: 5000, tutorSubjects: ["Physics, Science, Biology"], tutorDistance: "5Km", tutorLocation: "DAV Malighat"),
-        TutorSearch(tutorProfile: "user2", tutorName: "Shahnawaz", tutorRating: 4.5, tutorExperience: 4, tutorCharges: 4000, tutorSubjects: ["English, Science, Maths"], tutorDistance: "7Km", tutorLocation: "Khabra"),
-        TutorSearch(tutorProfile: "profileImage", tutorName: "Abu Shahma", tutorRating: 4.0, tutorExperience: 3, tutorCharges: 3000, tutorSubjects: ["English, Science, Maths"], tutorDistance: "10Km", tutorLocation: "Dav malighat"),
-        TutorSearch(tutorProfile: "user2", tutorName: "Abu Shahma", tutorRating: 3.9, tutorExperience: 3, tutorCharges: 2000, tutorSubjects: ["English, Science, Maths"], tutorDistance: "12Km", tutorLocation: "Maripur"),
-        TutorSearch(tutorProfile: "profileImage", tutorName: "Abu Shahma", tutorRating: 3.5, tutorExperience: 2, tutorCharges: 1000, tutorSubjects: ["English, Science, Maths"], tutorDistance: "15Km", tutorLocation: "Mithanpura"),
+    var searchResults: [TutorId] = [
+        TutorId(id: UUID(), fullName: "Md Akhlak", gender: Gender.Male, profileImage: "profileImage", bio: "The best science and maths teacher in your nearby locality.", experience: "3yrs", charges: 5000, subjects: ["Science", "Maths"], Standard: [5, 6, 1, 2], gradInstitute: "Galgotias University", address: "Greater Noida, UP", ratings: 4.7),
+        
+        TutorId(id: UUID(), fullName: "Rohit Sharma", gender: Gender.Male, profileImage: "profileImage1", bio: "Passionate about making learning fun and effective.", experience: "5yrs", charges: 6000, subjects: ["English", "Social Science"], Standard: [3, 4, 5, 6], gradInstitute: "Delhi University", address: "New Delhi, DL", ratings: 4.8),
+
+        TutorId(id: UUID(), fullName: "Anjali Verma", gender: Gender.Female, profileImage: "profileImage2", bio: "Dedicated tutor with a knack for simplifying complex topics.", experience: "4yrs", charges: 5500, subjects: ["Maths", "Physics"], Standard: [7, 8, 9, 10], gradInstitute: "IIT Kanpur", address: "Lucknow, UP", ratings: 4.6),
+
+        TutorId(id: UUID(), fullName: "Suresh Patil", gender: Gender.Male, profileImage: "profileImage3", bio: "Expert in conceptual learning with hands-on experience.", experience: "6yrs", charges: 7000, subjects: ["Chemistry", "Biology"], Standard: [9, 10, 11, 12], gradInstitute: "Mumbai University", address: "Mumbai, MH", ratings: 4.9)
     ]
     
     override func viewDidLoad() {
@@ -69,7 +70,7 @@ extension TutorListViewController: UICollectionViewDelegate, UICollectionViewDat
         }
     }
     
-    private func navigateToTutorProfile(with tutor: TutorSearch) {
+    private func navigateToTutorProfile(with tutor: TutorId) {
         if let tutorProfileVC = storyboard?.instantiateViewController(withIdentifier: "TutorProfileViewController") as? TutorProfileViewController {
             tutorProfileVC.selectedTutor = tutor 
             navigationController?.pushViewController(tutorProfileVC, animated: true)

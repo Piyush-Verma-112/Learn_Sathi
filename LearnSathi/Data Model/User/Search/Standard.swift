@@ -9,7 +9,6 @@ struct Standard {
     var name: String
 }
 
-
 var standards: [Standard] = [
     Standard(name: "Class 1"),
     Standard(name: "Class 2"),
