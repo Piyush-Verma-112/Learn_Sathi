@@ -12,3 +12,8 @@ struct Search {
     var subjects: [String]
     var standard: String
 }
+
+struct Standard {
+    var name: String
+}
+

@@ -6,18 +6,7 @@
 
 import Foundation
 
-//
-//struct TutorSearch {
-//    var tutorProfile: String
-//    var tutorName: String
-//    var tutorRating: Float
-//    var tutorExperience: String
-//    var tutorCharges: Int
-//    var tutorSubjects: String
-//    var tutorLocation: String
-//}
-
-struct TutorId{
+struct TutorId: Decodable{
     var id: UUID = UUID()
     var fullName: String
     var gender: Gender
@@ -32,10 +21,10 @@ struct TutorId{
     var ratings: Float
 }
 
-enum Gender {
+enum Gender: String, Codable {
     case Male, Female, PreferNotToSay
 }
-enum BookingStatus {
+enum BookingStatus: Codable {
     case Session
     case Demo
 }
