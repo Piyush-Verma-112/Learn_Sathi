@@ -11,11 +11,8 @@ class DoubtListCardTableViewCell: UITableViewCell {
 
 
     @IBOutlet weak var subjectNameLabel: UILabel!
-    
     @IBOutlet weak var lessonNameLabel: UILabel!
-    
     @IBOutlet weak var questionLabel: UILabel!
-    
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     

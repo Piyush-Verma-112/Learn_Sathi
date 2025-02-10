@@ -10,6 +10,5 @@ import UIKit
 class QuestionImageCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
-    
     @IBOutlet weak var removeButton: UIButton!
 }
