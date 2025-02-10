@@ -14,21 +14,16 @@ class SearchViewController: UIViewController {
     
     @IBOutlet weak var subjectTextField: UITextField!
     @IBOutlet weak var subjectTableView: UITableView!
-    
     @IBOutlet var searchResultcollectionView: UICollectionView!
     @IBOutlet var classCollectionView: UICollectionView!
     @IBOutlet var subjectBubbleCollectionView: UICollectionView!
-    
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     @IBOutlet weak var standardTop: NSLayoutConstraint!
-    
-    
     
     override func viewDidLoad() {
             super.viewDidLoad()
             
             subjectBubbleCollectionView.isHidden = true
-            
             configureCollectionViewLayout()
             classCollectionViewConfig()
             subjectTableViewDelegates()

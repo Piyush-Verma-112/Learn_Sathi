@@ -13,8 +13,8 @@ class ClassListCollectionViewCell: UICollectionViewCell {
     
     static let identifier: String = "ClassListCollectionViewCell"
     
-    func setup(standard: Standard) {
-        standardLbl.text = standard.name
+    func setup(standard: String) {
+        standardLbl.text = standard
     }
 }
 
