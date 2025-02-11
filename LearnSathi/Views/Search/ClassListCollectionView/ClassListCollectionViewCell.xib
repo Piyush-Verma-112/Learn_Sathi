@@ -46,7 +46,8 @@
                 <constraint firstItem="A4P-YI-E5c" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="xBg-bB-hZO"/>
             </constraints>
             <connections>
-                <outlet property="standardLbl" destination="lgh-QE-OqA" id="aE6-7g-Q8j"/>
+                <outlet property="cardView" destination="A4P-YI-E5c" id="zbd-BV-ShH"/>
+                <outlet property="standardLbl" destination="lgh-QE-OqA" id="GF5-lL-LEL"/>
             </connections>
             <point key="canvasLocation" x="138.93129770992365" y="19.366197183098592"/>
         </collectionViewCell>

@@ -11,6 +11,7 @@ class SearchViewController: UIViewController {
     
     private let dataController = SearchDataController.shared
     var selectedSubjects: [String] = []
+    var selectedClassIndex: IndexPath?
     
     @IBOutlet weak var subjectTextField: UITextField!
     @IBOutlet weak var subjectTableView: UITableView!
@@ -75,6 +76,9 @@ class SearchViewController: UIViewController {
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     private func classCollectionViewConfig() {
+        classCollectionView.allowsSelection = true // Enable selection
+        classCollectionView.allowsMultipleSelection = false // Only allow one selection
+        
         classCollectionView.layer.cornerRadius = 10
         classCollectionView.layer.shadowColor = UIColor.black.cgColor
         classCollectionView.layer.shadowOpacity = 0.1
@@ -99,6 +103,11 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         case classCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ClassListCollectionViewCell.identifier, for: indexPath) as! ClassListCollectionViewCell
             cell.setup(standard: dataController.getAllStandards()[indexPath.row])
+            
+        // Restore selection state if this cell was previously selected
+           if let selectedClassIndex = selectedClassIndex {
+               cell.isSelected = indexPath == selectedClassIndex
+           }
             return cell
             
         case subjectBubbleCollectionView:
@@ -114,9 +123,24 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == searchResultcollectionView {
+        if collectionView == classCollectionView {
+            // Store the selected index
+            selectedClassIndex = indexPath
+            
+            // Trigger any additional actions you want when a class is selected
+            let _ = dataController.getAllStandards()[indexPath.row]
+            // Handle the selected standard (e.g., filter tutors, update UI, etc.)
+            
+        } else if collectionView == searchResultcollectionView {
             let selectedTutor = dataController.allSearchResults()[indexPath.row]
             navigateToTutorProfile(with: selectedTutor)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if collectionView == classCollectionView {
+            selectedClassIndex = nil
+            // Handle deselection if needed
         }
     }
     

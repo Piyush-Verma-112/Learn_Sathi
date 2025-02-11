@@ -588,11 +588,12 @@
                     <connections>
                         <outlet property="achievementsCollectionView" destination="Bga-s8-rIn" id="9cp-e4-gSY"/>
                         <outlet property="experienceLabel" destination="wqJ-Nf-uuN" id="WTh-xA-xu2"/>
-                        <outlet property="graudationCollageLabel" destination="f2g-HV-CwH" id="ZJB-IA-hpL"/>
+                        <outlet property="graduationCollageLabel" destination="f2g-HV-CwH" id="ZJB-IA-hpL"/>
                         <outlet property="locationLabel" destination="wtU-uj-7er" id="XR2-88-5Cn"/>
                         <outlet property="monthlyChargesLabel" destination="7CW-c5-oGb" id="mf2-ZL-2Om"/>
                         <outlet property="ratingLabel" destination="E0T-74-azJ" id="Kg6-Hp-Cxh"/>
                         <outlet property="subjectTechesLabel" destination="gHC-nT-cSM" id="RlW-YP-0mg"/>
+                        <outlet property="tutorBio" destination="ozw-es-GS4" id="yey-kS-beP"/>
                         <outlet property="tutorDistanceFromYou" destination="gZQ-oX-n2w" id="Yi4-ZS-Cqg"/>
                         <outlet property="tutorNameLabel" destination="et3-A6-hmw" id="Cd2-WA-Apd"/>
                         <outlet property="tutorProfileImageView" destination="140-dR-oye" id="3X6-he-8Mk"/>
@@ -674,7 +675,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemOrangeColor">
-            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
