@@ -21,36 +21,55 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var standardTop: NSLayoutConstraint!
     
     override func viewDidLoad() {
-            super.viewDidLoad()
-            
-            subjectBubbleCollectionView.isHidden = true
-            configureCollectionViewLayout()
-            classCollectionViewConfig()
-            subjectTableViewDelegates()
-            subjectTableViewConfig()
-            registerCells()
-        }
+        super.viewDidLoad()
         
-        private func configureCollectionViewLayout() {
-            let layout = UICollectionViewFlowLayout()
-            layout.minimumInteritemSpacing = 25
-            layout.minimumLineSpacing = 10
-            layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-            layout.scrollDirection = .vertical
-            subjectBubbleCollectionView.collectionViewLayout = layout
+        subjectBubbleCollectionView.isHidden = true
+        configureCollectionViewLayout()
+        classCollectionViewConfig()
+        subjectTableViewDelegates()
+        subjectTableViewConfig()
+        registerCells()
+    
+        // Add observer for data updates
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(handleDataUpdate),
+                name: .tutorDataUpdated,
+                object: nil
+            )
         }
-        
-        private func registerCells() {
-            searchResultcollectionView.register(UINib(nibName: TutorCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: TutorCollectionViewCell.identifier)
-            classCollectionView.register(UINib(nibName: ClassListCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: ClassListCollectionViewCell.identifier)
-            subjectBubbleCollectionView.register(UINib(nibName: SubjectBubbleCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: SubjectBubbleCollectionViewCell.identifier)
-        }
-        
-        @IBAction func DoneBtnClicked(_ sender: UIButton) {
-            let controller = storyboard?.instantiateViewController(identifier: "TutorListViewController") as! TutorListViewController
-            navigationController?.pushViewController(controller, animated: true)
-        }
+    
+    @objc private func handleDataUpdate() {
+        // Reload all collection views when data is updated
+        searchResultcollectionView.reloadData()
+        classCollectionView.reloadData()
+        subjectBubbleCollectionView.reloadData()
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    private func configureCollectionViewLayout() {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumInteritemSpacing = 25
+        layout.minimumLineSpacing = 10
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.scrollDirection = .vertical
+        subjectBubbleCollectionView.collectionViewLayout = layout
+    }
+    
+    private func registerCells() {
+        searchResultcollectionView.register(UINib(nibName: TutorCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: TutorCollectionViewCell.identifier)
+        classCollectionView.register(UINib(nibName: ClassListCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: ClassListCollectionViewCell.identifier)
+        subjectBubbleCollectionView.register(UINib(nibName: SubjectBubbleCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: SubjectBubbleCollectionViewCell.identifier)
+    }
+    
+    @IBAction func DoneBtnClicked(_ sender: UIButton) {
+        let controller = storyboard?.instantiateViewController(identifier: "TutorListViewController") as! TutorListViewController
+        navigationController?.pushViewController(controller, animated: true)
+    }
+}
 
 // MARK: - Collection View Delegates
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
