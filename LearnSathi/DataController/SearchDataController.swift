@@ -1,80 +1,93 @@
-//
-//  SearchDataController.swift
-//  LearnSathi
-//
-//  Created by Shahma Ansari on 09/02/25.
-//
-
-//
-//  SearchDataController.swift
-//  LearnSathi
-//
-
 import Foundation
 
-class SearchDataController: @unchecked Sendable {
-    
+extension Notification.Name {
+    static let tutorDataUpdated = Notification.Name("com.projectx.tutorDataUpdated")
+}
+
+class SearchDataController {
     private var searchResults: [TutorId] = []
     private var allSubjects: [String] = []
     private var filteredSubjects: [String] = []
-    var standards: [String] = []
-
+    private var standards: [String] = []
+    
     static var shared = SearchDataController()
     private let baseURL = "http://localhost:3000"
     
     private init() {
         loadDummyData()
-        Task {
-            do {
-                try await fetchTutors()
-            } catch {
-                print("Error fetching tutors:", error)
-            }
-        }
+        fetchTutors()
     }
-    func fetchTutors() async throws{
-        
-        guard let url = URL(string: "\(baseURL)/tutorAuth/tutors") else { throw NetworkError.invalidURL }
-            
-        print("Fetching from:", url)  // Debugging
-
-        let (data, response) = try await URLSession.shared.data(from: url)
-        
-        if let httpResponse = response as? HTTPURLResponse {
-            print("Response Code:", httpResponse.statusCode)  // Debugging
-        }
-
-        guard let httpResponse = response as? HTTPURLResponse,
-              httpResponse.statusCode == 200 else {
-            throw NetworkError.invalidResponse
-        }
-        
-        print(response)
-
-        do {
-            let tutors = try JSONDecoder().decode([TutorId].self, from: data)
-            DispatchQueue.main.async {
-                self.searchResults = tutors
-            }
-        } catch {
-            print("Decoding Error:", error)  // Debugging
-            throw NetworkError.decodingError
-        }
-    }
+    
     func loadDummyData() {
-        searchResults = [
-            TutorId(id: UUID(), fullName: "Md Akhlak", gender: Gender.Male, profileImage: "profileImage", bio: "The best science and maths teacher in your nearby locality.", experience: "3yrs", charges: 5000, subjects: ["Science", "Maths"], Standard: [5, 6, 1, 2], gradInstitute: "Galgotias University", address: "Greater Noida, UP", ratings: 4.7),
-            
-            TutorId(id: UUID(), fullName: "Rohit Sharma", gender: Gender.Male, profileImage: "profileImage1", bio: "Passionate about making learning fun and effective.", experience: "5yrs", charges: 6000, subjects: ["English", "Social Science"], Standard: [3, 4, 5, 6], gradInstitute: "Delhi University", address: "New Delhi, DL", ratings: 4.8),
-            
-            TutorId(id: UUID(), fullName: "Anjali Verma", gender: Gender.Female, profileImage: "profileImage2", bio: "Dedicated tutor with a knack for simplifying complex topics.", experience: "4yrs", charges: 5500, subjects: ["Maths", "Physics"], Standard: [7, 8, 9, 10], gradInstitute: "IIT Kanpur", address: "Lucknow, UP", ratings: 4.6),
-            
-            TutorId(id: UUID(), fullName: "Suresh Patil", gender: Gender.Male, profileImage: "profileImage3", bio: "Expert in conceptual learning with hands-on experience.", experience: "6yrs", charges: 7000, subjects: ["Chemistry", "Biology"], Standard: [9, 10, 11, 12], gradInstitute: "Mumbai University", address: "Mumbai, MH", ratings: 4.9)
-        ]
-        
         allSubjects = ["Mathematics", "Science", "History", "Geography", "English", "Computer Science", "Biology", "Physics", "Chemistry"]
         standards = ["Class 1", "Class 2", "Class 3", "Class 4", "Class 5", "Class 6", "Class 7", "Class 8"]
 
+    }
+
+    
+    // MARK: - Network Methods
+    
+    func fetchTutors() {
+        print("🔍 Starting to fetch tutors...")
+        guard let url = URL(string: "\(baseURL)/tutor/all") else {
+            print("❌ Invalid URL: \(baseURL)/tutor/all")
+            return
+        }
+        
+        print("📡 Making network request to: \(url)")
+        
+        let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let self = self else {
+                print("❌ Self was deallocated")
+                return
+            }
+            
+            if let error = error {
+                print("❌ Network error: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                print("❌ Invalid response status code: \((response as? HTTPURLResponse)?.statusCode ?? -1)")
+                return
+            }
+            
+            guard let data = data else {
+                print("❌ No data received")
+                return
+            }
+            
+            print("📦 Received data of size: \(data.count) bytes")
+            
+            do {
+                let tutors = try JSONDecoder().decode([TutorId].self, from: data)
+                print("✅ Successfully decoded \(tutors.count) tutors")
+                
+                if let firstTutor = tutors.first {
+                    print("📝 Sample tutor data: \(firstTutor.fullName), Subjects: \(firstTutor.subjects)")
+                }
+                
+                DispatchQueue.main.async {
+                    self.searchResults = tutors
+                    
+                    print("📊 Processed data:")
+                    print("- Total tutors: \(self.searchResults.count)")
+                    print("- Unique subjects: \(self.allSubjects.count)")
+                    print("- Unique standards: \(self.standards.count)")
+                    
+                    NotificationCenter.default.post(name: .tutorDataUpdated, object: nil)
+                    print("✉️ Posted tutorDataUpdated notification")
+                }
+            } catch {
+                print("❌ Decoding error: \(error)")
+                if let dataString = String(data: data, encoding: .utf8) {
+                    print("📄 Received data string: \(dataString)")
+                }
+            }
+        }
+        task.resume()
+        print("🚀 Network request started")
     }
     
     // MARK: - Data Access Methods
@@ -84,7 +97,7 @@ class SearchDataController: @unchecked Sendable {
     }
     
     func getAllSubjects() -> [String] {
-        return allSubjects
+        return Array(allSubjects).sorted()
     }
     
     func getFilteredSubjects() -> [String] {
@@ -107,7 +120,7 @@ class SearchDataController: @unchecked Sendable {
         if query.isEmpty {
             filteredSubjects = []
         } else {
-            filteredSubjects = allSubjects.filter { $0.lowercased().contains(query.lowercased()) }
+            filteredSubjects = getAllSubjects().filter { $0.lowercased().contains(query.lowercased()) }
         }
     }
     
@@ -124,11 +137,4 @@ class SearchDataController: @unchecked Sendable {
     func searchTutors(byPriceRange min: Double, max: Double) -> [TutorId] {
         return searchResults.filter { $0.charges >= Int(min) && $0.charges <= Int(max) }
     }
-}
-
-
-enum NetworkError: Error {
-    case invalidURL
-    case invalidResponse
-    case decodingError
 }
