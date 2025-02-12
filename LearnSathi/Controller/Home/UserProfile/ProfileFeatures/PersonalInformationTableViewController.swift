@@ -10,8 +10,8 @@ import UIKit
 class PersonalInformationTableViewController: UITableViewController , UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
     var user: UserAuth?
-   var currentUserIndex = 0
-   var onSave: ((UserAuth) -> Void)?
+    var currentUserIndex = 0
+    var onSave: ((UserAuth) -> Void)?
 
     
     @IBOutlet var editFirstNameTextField: UITextField!
@@ -83,7 +83,11 @@ class PersonalInformationTableViewController: UITableViewController , UIImagePic
 
         return user?.profileImage ?? "defaultProfileImage"
     }
-
+    
+    @IBAction func saveButtonTapped(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     
     @IBAction func cancelButtonTapped(_ sender: Any) {
         dismiss(animated: true)

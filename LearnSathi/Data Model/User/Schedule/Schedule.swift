@@ -5,7 +5,8 @@ import Foundation
 struct Schedule {
     var tutorLogo, tutorName, duration, subjectLogo, subjectName, chapterName: String
     var date : Date
-    var startTime, endTime: String
+    var startTime: Date
+    var endTime: Date
     var topicDescription: [String]
     var lessonNumber: Int
     
@@ -17,8 +18,28 @@ struct Schedule {
         self.subjectName = subjectName
         self.chapterName = topicName
         self.date = date
-        self.startTime = startTime
-        self.endTime = endTime
+        
+        // Convert string times to Date objects
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm a"
+        
+        let calendar = Calendar.current
+        self.startTime = formatter.date(from: startTime) ?? date
+        self.endTime = formatter.date(from: endTime) ?? date
+        
+        // Set the dates to the same day as the schedule date
+        let startComponents = calendar.dateComponents([.hour, .minute], from: self.startTime)
+        let endComponents = calendar.dateComponents([.hour, .minute], from: self.endTime)
+        
+        self.startTime = calendar.date(bySettingHour: startComponents.hour ?? 0,
+                                      minute: startComponents.minute ?? 0,
+                                      second: 0,
+                                      of: date) ?? date
+        self.endTime = calendar.date(bySettingHour: endComponents.hour ?? 0,
+                                    minute: endComponents.minute ?? 0,
+                                    second: 0,
+                                    of: date) ?? date
+        
         self.topicDescription = topicDescription
         self.lessonNumber = lessonNumber
     }

@@ -563,6 +563,11 @@
                                 <action selector="cancelButtonTapped:" destination="cv3-eW-WpV" id="iEE-Wb-MOA"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="6At-MV-8qT">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="cv3-eW-WpV" id="0bY-8L-uBW"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="editBirthDateDatePicker" destination="jgI-LH-Zxa" id="Fmc-UJ-bdB"/>

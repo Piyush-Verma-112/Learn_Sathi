@@ -7,9 +7,6 @@
 
 import Foundation
 
-
-
-
 class ScheduleDataController {
     
     private var schedule: [Schedule] = []
@@ -19,15 +16,43 @@ class ScheduleDataController {
         loadDummyData()
     }
     
-    // MARK: - Data Loading
     func loadDummyData() {
-        schedule = [
-            Schedule(tutorLogo: "person", tutorName: "Pradeep Gupta", duration: "1 hr", subjectLogo: "EnglishLogo", subjectName: "English Grammar", topicName: "Modals", date: Calendar.current.date(from: DateComponents(year: 2025, month: 1, day: 20))!, startTime: "10:00 AM", endTime: "11:00 AM", topicDescription: ["Basics", "Usage", "Examples"], lessonNumber: 1),
-            Schedule(tutorLogo: "person", tutorName: "Shahma Ansari", duration: "2 hr", subjectLogo: "ScienceLogo", subjectName: "Science", topicName: "Photosynthesis", date: Calendar.current.date(from: DateComponents(year: 2025, month: 1, day: 20))!, startTime: "11:00 AM", endTime: "1:00 PM", topicDescription: ["Definition", "Process", "Applications"], lessonNumber: 8),
-            Schedule(tutorLogo: "person", tutorName: "Pradeep Gupta", duration: "1 hr", subjectLogo: "HindiLogo", subjectName: "Hindi", topicName: "Nibandh Lekhan", date: Calendar.current.date(from: DateComponents(year: 2025, month: 1, day: 20))!, startTime: "9:00 AM", endTime: "10:00 AM", topicDescription: ["Format", "Examples", "Practice"], lessonNumber: 3),
-            Schedule(tutorLogo: "person", tutorName: "Shahma Ansari", duration: "1.5 hr", subjectLogo: "Maths", subjectName: "Mathematics", topicName: "Algebra Basics", date: Calendar.current.date(from: DateComponents(year: 2025, month: 1, day: 21))!, startTime: "2:00 PM", endTime: "3:30 PM", topicDescription: ["Linear Equations", "Variables", "Graphing"], lessonNumber: 5)
+        let calendar = Calendar.current
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "h:mm a"
+        
+        let today = calendar.startOfDay(for: Date())
+        let scheduleDates = (0...10).map { dayOffset in
+            calendar.date(byAdding: .day, value: dayOffset, to: today)!
+        }
+        
+        schedule = []
+        
+        let scheduleTemplates = [
+            ("Pradeep Gupta", "English Grammar", "Modals", "EnglishLogo", "9:00 AM", "10:00 AM", ["Basics", "Usage", "Examples"]),
+            ("Shahma Ansari", "Science", "Photosynthesis", "ScienceLogo", "11:00 AM", "1:00 PM", ["Definition", "Process", "Applications"]),
+            ("Ayush Singh", "Physics", "Newton's Laws", "PhysicsLogo", "2:00 PM", "3:00 PM", ["First Law", "Second Law", "Third Law"])
         ]
+
+        for (index, date) in scheduleDates.enumerated() {
+            let template = scheduleTemplates[index % scheduleTemplates.count]
+            
+            schedule.append(
+                Schedule(tutorLogo: "person",
+                         tutorName: template.0,
+                         duration: "1 hr",
+                         subjectLogo: template.3,
+                         subjectName: template.1,
+                         topicName: template.2,
+                         date: date,
+                         startTime: template.4,
+                         endTime: template.5,
+                         topicDescription: template.6,
+                         lessonNumber: index + 1)
+            )
+        }
     }
+
     
     // MARK: - Data Access
     func allSchedules() -> [Schedule] {
@@ -57,9 +82,10 @@ class ScheduleDataController {
     // MARK: - Schedule Filtering
     func getSchedules(for date: Date) -> [Schedule] {
         let calendar = Calendar.current
-        return schedule.filter { calendar.isDate($0.date, inSameDayAs: date) }
+        let schedules = schedule.filter { calendar.isDate($0.date, inSameDayAs: date) }
+        
+        return schedules.sorted { $0.startTime < $1.startTime }
     }
-    
     // MARK: - Date Utilities
     func isToday(_ date: Date) -> Bool {
         return Calendar.current.isDate(date, inSameDayAs: Date())
