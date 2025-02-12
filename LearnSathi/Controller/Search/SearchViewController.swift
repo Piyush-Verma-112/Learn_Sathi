@@ -73,7 +73,7 @@ class SearchViewController: UIViewController {
 }
 
 // MARK: - Collection View Delegates
-extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource, SubjectBubbleCellDelegate {
     
     private func classCollectionViewConfig() {
         classCollectionView.allowsSelection = true // Enable selection
@@ -113,6 +113,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         case subjectBubbleCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SubjectBubbleCollectionViewCell.identifier, for: indexPath) as! SubjectBubbleCollectionViewCell
             cell.setup(subject: selectedSubjects[indexPath.row])
+            cell.delegate = self
             return cell
             
         default:
@@ -143,6 +144,22 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
             // Handle deselection if needed
         }
     }
+    
+    func didTapRemoveButton(cell: SubjectBubbleCollectionViewCell) {
+            if let indexPath = subjectBubbleCollectionView.indexPath(for: cell) {
+                selectedSubjects.remove(at: indexPath.row)
+                subjectBubbleCollectionView.deleteItems(at: [indexPath])
+                
+                // Hide collection view if empty
+                if selectedSubjects.isEmpty {
+                    subjectBubbleCollectionView.isHidden = true
+                    UIView.animate(withDuration: 0.3) {
+                        self.standardTop.constant = 0
+                        self.view.layoutIfNeeded()
+                    }
+                }
+            }
+        }
     
     private func navigateToTutorProfile(with tutor: TutorId) {
         if let tutorProfileVC = storyboard?.instantiateViewController(withIdentifier: "TutorProfileViewController") as? TutorProfileViewController {
