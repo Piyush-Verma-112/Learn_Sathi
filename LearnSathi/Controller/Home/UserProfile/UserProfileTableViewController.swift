@@ -9,6 +9,13 @@ import UIKit
 
 class UserProfileTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    var users: [UserAuth] = [
+            UserAuth(id: UUID(), firstName: "Ayush", lastName: "Singh", standard: "7", email: "xyz@gmail.com", number: "203232302039", profileImage: "profileImage"),
+            UserAuth(id: UUID(), firstName: "Md", lastName: "Akhlak", standard: "8", email: "xyz@gmail.com", number: "203232302039", profileImage: "user2")
+        ]
+        
+        var currentUserIndex: Int = 0
+    
     @IBOutlet var userProfileImageView: UIImageView!
     
     @IBOutlet var userNameLabel: UILabel!
@@ -28,7 +35,6 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
     
 //    MARK: - ViewDidLoad
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         
         navigationController?.navigationBar.prefersLargeTitles = false
@@ -39,7 +45,22 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
         
         title = "User Profile"
         addTapGestureToProfileImage()
+        updateProfileUI()
         
+        // Add observer for profile updates
+        NotificationCenter.default.addObserver(self,
+                                             selector: #selector(handleProfileUpdate),
+                                             name: NSNotification.Name("ProfileUpdated"),
+                                             object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc private func handleProfileUpdate() {
+        updateProfileUI()
+        tableView.reloadData()
     }
     
     private func addTapGestureToProfileImage() {
@@ -103,6 +124,79 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
         dismiss(animated: true)
     }
     
+    
+    // MARK: - Switch Account Functionality
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath), cell == switchAccount {
+            switchUser()
+        }
+
+    }
+    
+    func openEditProfile() {
+        func openEditProfile() {
+                print("Opening edit profile with user:", users[currentUserIndex]) // Debug print
+                
+                guard let editVC = storyboard?.instantiateViewController(withIdentifier: "PersonalInformationTableViewController") as? PersonalInformationTableViewController else {
+                    print("Failed to instantiate PersonalInformationTableViewController")
+                    return
+                }
+
+                // Pass the current user as a direct reference
+                let currentUser = users[currentUserIndex]
+                editVC.user = currentUser
+                editVC.currentUserIndex = currentUserIndex
+
+                // Set the onSave closure
+                editVC.onSave = { [weak self] updatedUser in
+                    guard let self = self else { return }
+                    print("Saving updated user in UserProfileTableViewController") // Debug print
+                    
+                    // Update both arrays
+                    self.users[self.currentUserIndex] = updatedUser
+                    users[self.currentUserIndex] = updatedUser // Update global array
+                    
+                    // Update UI
+                    DispatchQueue.main.async {
+                        self.updateProfileUI()
+                        self.tableView.reloadData()
+                    }
+                }
+                
+                // Present the view controller
+                let navController = UINavigationController(rootViewController: editVC)
+                present(navController, animated: true)
+            }
+    }
+
+    
+    private func switchUser() {
+        currentUserIndex = (currentUserIndex + 1) % users.count
+        updateProfileUI()
+    }
+    
+    
+    
+    private func updateProfileUI() {
+        let user = users[currentUserIndex]
+        userNameLabel.text = "\(user.firstName) \(user.lastName)"
+        userClassLabel.text = "Class \(user.standard)"
+
+        if let profileImageName = user.profileImage {
+            // First try to load from documents directory
+            if let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+                let imagePath = documentsPath.appendingPathComponent(profileImageName)
+                if let image = UIImage(contentsOfFile: imagePath.path) {
+                    userProfileImageView.image = image
+                    return
+                }
+            }
+            // If not found in documents, try loading from assets
+            if let image = UIImage(named: profileImageName) {
+                userProfileImageView.image = image
+            }
+        } else {
+            userProfileImageView.image = UIImage(named: "defaultProfileImage")
+        }
+    }
 }
-
-
