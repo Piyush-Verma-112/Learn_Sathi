@@ -42,7 +42,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Profile" image="person.crop.circle.fill" catalog="system" id="Kcc-Bg-pBw"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="collectionView" destination="i4N-0p-Rk2" id="pOK-4P-zts"/>
+                        <outlet property="tutorListCollectionView" destination="i4N-0p-Rk2" id="1OO-Q0-kn8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LCW-6E-RPE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

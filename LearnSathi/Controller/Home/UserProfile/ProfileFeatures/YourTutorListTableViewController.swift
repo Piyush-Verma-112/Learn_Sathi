@@ -20,48 +20,26 @@ class YourTutorListTableViewController: UITableViewController {
     }
     
     private func registerCell() {
-        tutorListTableView.register(UINib(nibName:YouTutorListTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: YouTutorListTableViewCell.identifier)
+        tutorListTableView.register(UINib(nibName: YouTutorListTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: YouTutorListTableViewCell.identifier)
     }
-    
-//    private func setupMenus() {
-//        var subjectActions: [UIAction] = []
-//        
-//        
-//        
-//        var lessonActions: [UIAction] = []
-//        for lesson in lessons {
-//            let action = UIAction(title: lesson, handler: { [weak self] _ in
-//                self?.lessonLabel.text = "\(lesson)"
-//            })
-//            lessonActions.append(action)
-//        }
-//        let lessonMenu = UIMenu(title: "Choose Lesson", children: lessonActions)
-//        lessonButton.menu = lessonMenu
-//        lessonButton.showsMenuAsPrimaryAction = true
-//    }
 
-
-    // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return "Current Tutors"
-        }
-        return "Past Tutors"
+        return section == 0 ? "Current Tutors" : "Past Tutors"
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return tutors.count
+        return ConnectDataController.shared.getTutors().count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: YouTutorListTableViewCell.identifier, for: indexPath) as? YouTutorListTableViewCell else {
-            fatalError("Error while dequing cell")
+            fatalError("Error while dequeuing cell")
         }
+        let tutors = ConnectDataController.shared.getTutors()
         cell.setup(tutors: tutors[indexPath.row])
         return cell
     }

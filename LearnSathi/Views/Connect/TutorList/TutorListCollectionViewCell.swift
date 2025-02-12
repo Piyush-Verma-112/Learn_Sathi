@@ -14,9 +14,7 @@ class TutorListCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var tutorProfilePicImageView: UIImageView!
     @IBOutlet var tutorNameLabel: UILabel!
-    
     @IBOutlet var subjectNameLabel: UILabel!
-    
     @IBOutlet var subjectIconImageView: UIImageView!
     
     func setup(tutor: Tutor) {

@@ -14,28 +14,26 @@ class CustomOptionsTableViewController: UITableViewController {
     var subjectName: String?
     
     @IBOutlet weak var tutorProfileImageView: UIImageView!
-    
     @IBOutlet weak var tutorNameLabel: UILabel!
-    
     @IBOutlet weak var subjectNameLabel: UILabel!
-
     @IBOutlet var connectTableView: UITableView!
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        updateUi()
-        connectTableView.delegate = self
-        connectTableView.dataSource = self
-        
-    }
+            super.viewDidLoad()
+            setupTableView()
+            updateUI()
+        }
 
-    func updateUi() {
-        tutorProfileImageView.image = tutorProfileImage
-        tutorNameLabel.text = tutorName
-        subjectNameLabel.text = subjectName
+        private func setupTableView() {
+            tableView.delegate = self
+            tableView.dataSource = self
+        }
 
-    }
-    
+        private func updateUI() {
+            tutorProfileImageView.image = tutorProfileImage
+            tutorNameLabel.text = tutorName ?? "Unknown Tutor"
+            subjectNameLabel.text = subjectName ?? "Unknown Subject"
+        }
 }
-
+    
 

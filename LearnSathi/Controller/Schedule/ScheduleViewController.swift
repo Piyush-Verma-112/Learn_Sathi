@@ -310,11 +310,11 @@ extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewData
 //MARK: - EXTENSION - UIContextMenuInteractionDelegate
 extension ScheduleViewController: UIContextMenuInteractionDelegate {
     func contextMenu() -> UIMenu {
-        let akhlakAction = UIAction(title: "Md Akhlak", image: UIImage(named: "user2"), identifier: nil, state: .on) { _ in
+        let akhlakAction = UIAction(title: "Ayush Singh", image: UIImage(named: "profileImage"), identifier: nil, state: .on) { _ in
             // Handle Akhlak action
         }
 
-        let samarAction = UIAction(title: "Abu Shahma", image: UIImage(named: "user2")) { _ in
+        let samarAction = UIAction(title: "Md Akhlak", image: UIImage(named: "user2")) { _ in
             // Handle Samar action
         }
 
