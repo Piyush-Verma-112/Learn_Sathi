@@ -25,7 +25,9 @@ class ScheduleCollectionViewCell: UICollectionViewCell {
         subjectLogoImageView.image = UIImage(named: schedule.subjectLogo)
         classDurationLbl.text = schedule.duration
         lessonNumberLbl.text =  String(schedule.lessonNumber)
-        startTimeLbl.text = schedule.startTime
+        
+        
+        
     }
 
 }

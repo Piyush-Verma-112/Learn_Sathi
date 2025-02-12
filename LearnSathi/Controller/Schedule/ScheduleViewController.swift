@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import FSCalendar
 import EventKit
 
 class ScheduleViewController: UIViewController {
@@ -52,6 +51,14 @@ class ScheduleViewController: UIViewController {
         _ = UIContextMenuInteraction(delegate: self)
                 profileBarButtonItem.menu = self.contextMenu()
     }
+    
+    
+    @IBAction func calendarButtonTapped(_ sender: Any) {
+        let eventKitVC = EventKitViewController()
+        let navigationController = UINavigationController(rootViewController: eventKitVC)
+        present(navigationController, animated: true)
+    }
+    
     
     private func setupUI() {
         navigationController?.navigationBar.prefersLargeTitles = true

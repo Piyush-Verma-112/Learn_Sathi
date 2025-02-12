@@ -28,8 +28,6 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        navigationController?.navigationBar.isHidden = false
-        navigationController?.navigationBar.prefersLargeTitles = false
     }
       
     
