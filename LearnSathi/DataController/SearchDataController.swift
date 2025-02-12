@@ -15,7 +15,6 @@ class SearchDataController {
     
     private init() {
         loadDummyData()
-        fetchTutors()
     }
     
     func loadDummyData() {
@@ -27,67 +26,51 @@ class SearchDataController {
     
     // MARK: - Network Methods
     
-    func fetchTutors() {
-        print("🔍 Starting to fetch tutors...")
+    func fetchTutors(completion: @escaping (Result<[TutorId], Error>) -> Void) {
         guard let url = URL(string: "\(baseURL)/tutor/all") else {
-            print("❌ Invalid URL: \(baseURL)/tutor/all")
+            DispatchQueue.main.async {
+                completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
+            }
             return
         }
         
-        print("📡 Making network request to: \(url)")
-        
-        let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            guard let self = self else {
-                print("❌ Self was deallocated")
-                return
-            }
-            
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
-                print("❌ Network error: \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
-                print("❌ Invalid response status code: \((response as? HTTPURLResponse)?.statusCode ?? -1)")
+                DispatchQueue.main.async {
+                    completion(.failure(NSError(domain: "Invalid response", code: -1, userInfo: nil)))
+                }
                 return
             }
             
             guard let data = data else {
-                print("❌ No data received")
+                DispatchQueue.main.async {
+                    completion(.failure(NSError(domain: "No data received", code: -1, userInfo: nil)))
+                }
                 return
             }
             
-            print("📦 Received data of size: \(data.count) bytes")
-            
             do {
                 let tutors = try JSONDecoder().decode([TutorId].self, from: data)
-                print("✅ Successfully decoded \(tutors.count) tutors")
-                
-                if let firstTutor = tutors.first {
-                    print("📝 Sample tutor data: \(firstTutor.fullName), Subjects: \(firstTutor.subjects)")
-                }
-                
                 DispatchQueue.main.async {
-                    self.searchResults = tutors
-                    
-                    print("📊 Processed data:")
-                    print("- Total tutors: \(self.searchResults.count)")
-                    print("- Unique subjects: \(self.allSubjects.count)")
-                    print("- Unique standards: \(self.standards.count)")
-                    
-                    NotificationCenter.default.post(name: .tutorDataUpdated, object: nil)
-                    print("✉️ Posted tutorDataUpdated notification")
+                    self.searchResults = tutors // Update the searchResults property
+                    print("Fetched tutors: \(tutors.count)") // Debug print
+                    completion(.success(tutors))
                 }
             } catch {
-                print("❌ Decoding error: \(error)")
-                if let dataString = String(data: data, encoding: .utf8) {
-                    print("📄 Received data string: \(dataString)")
+                DispatchQueue.main.async {
+                    completion(.failure(error))
                 }
             }
         }
         task.resume()
-        print("🚀 Network request started")
     }
     
     // MARK: - Data Access Methods
