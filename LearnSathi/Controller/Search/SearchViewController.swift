@@ -6,18 +6,22 @@
 //
 
 import UIKit
+import CoreLocation
 
-class SearchViewController: UIViewController {
+class SearchViewController: UIViewController, CLLocationManagerDelegate{
     
     private let dataController = SearchDataController.shared
     var selectedSubjects: [String] = []
     var selectedClassIndex: IndexPath?
     
+    private let locationManager = CLLocationManager()
+    @IBOutlet weak var locationTextField: UISearchBar!
+    
     @IBOutlet weak var subjectTextField: UITextField!
     @IBOutlet weak var subjectTableView: UITableView!
-    @IBOutlet var searchResultcollectionView: UICollectionView!
-    @IBOutlet var classCollectionView: UICollectionView!
-    @IBOutlet var subjectBubbleCollectionView: UICollectionView!
+    @IBOutlet weak var searchResultcollectionView: UICollectionView!
+    @IBOutlet weak var classCollectionView: UICollectionView!
+    @IBOutlet weak var subjectBubbleCollectionView: UICollectionView!
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     @IBOutlet weak var standardTop: NSLayoutConstraint!
     
@@ -38,6 +42,11 @@ class SearchViewController: UIViewController {
                 name: .tutorDataUpdated,
                 object: nil
             )
+        
+        // Set up location manager
+            locationManager.delegate = self
+            locationManager.requestWhenInUseAuthorization()
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
         }
     
     @objc private func handleDataUpdate() {
@@ -70,8 +79,48 @@ class SearchViewController: UIViewController {
         let controller = storyboard?.instantiateViewController(identifier: "TutorListViewController") as! TutorListViewController
         navigationController?.pushViewController(controller, animated: true)
     }
+    
+    @IBAction func enterLocationButtonTapped(_ sender: UIButton) {
+        locationManager.startUpdatingLocation()
+    }
+    
+    // MARK: - CLLocationManagerDelegate
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last {
+            let geocoder = CLGeocoder()
+            geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
+                if let error = error {
+                    print("Geocoding error: \(error.localizedDescription)")
+                    return
+                }
+                
+                if let placemark = placemarks?.first {
+                    let locality = placemark.locality ?? ""
+                    let administrativeArea = placemark.administrativeArea ?? ""
+                    let country = placemark.country ?? ""
+                    
+                    // Update the text field with the location
+                    self.locationTextField.text = "\(locality), \(administrativeArea), \(country)"
+                    
+                    // Stop updating location to save battery
+                    self.locationManager.stopUpdatingLocation()
+                }
+            }
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Location manager error: \(error.localizedDescription)")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .denied {
+            // Handle the case where the user denies location permissions
+            print("Location access denied")
+        }
+    }
 }
-
 // MARK: - Collection View Delegates
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -232,3 +281,5 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, UITe
         }
     }
 }
+
+

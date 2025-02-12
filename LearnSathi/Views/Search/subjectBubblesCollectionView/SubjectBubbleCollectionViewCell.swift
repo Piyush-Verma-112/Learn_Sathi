@@ -16,5 +16,4 @@ class SubjectBubbleCollectionViewCell: UICollectionViewCell {
     func setup(subject: String) {
         subjectNameLbl.text = subject
     }
-    
 }
