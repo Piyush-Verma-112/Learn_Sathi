@@ -9,7 +9,7 @@ import UIKit
 
 class TutorListViewController: UIViewController {
 
-    private let dataController = SearchDataController.shared
+    var tutors: [TutorId] = [] // Add this property
     
     @IBOutlet var tutorSearchBar: UISearchBar!
     @IBOutlet var tutorListCollectionView: UICollectionView!
@@ -19,6 +19,19 @@ class TutorListViewController: UIViewController {
         super.viewDidLoad()
         title = "Tutors"
         registerCells()
+        
+        // Reload collection view to display the passed data
+        tutorListCollectionView.reloadData()
+    }
+    
+    @objc private func handleDataUpdate() {
+        DispatchQueue.main.async {
+            self.tutorListCollectionView.reloadData()
+        }
+    }
+        
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     private func registerCells() {
@@ -32,10 +45,11 @@ extension TutorListViewController: UICollectionViewDelegate, UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == tutorListCollectionView {
-            return dataController.allSearchResults().count
+            return tutors.count
+        }else if collectionView == tutorsFilterCollectionView {
+            return filterTutor.count
         }
-        
-        return filterTutor.count
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -43,7 +57,7 @@ extension TutorListViewController: UICollectionViewDelegate, UICollectionViewDat
             guard let cell = tutorListCollectionView.dequeueReusableCell(withReuseIdentifier: TutorCollectionViewCell.identifier, for: indexPath) as? TutorCollectionViewCell else {
                 fatalError("Unable to dequeue TutorCollectionViewCell")
             }
-            cell.setup(search: dataController.allSearchResults()[indexPath.row])
+            cell.setup(search: tutors[indexPath.row])
             return cell
         }
         
@@ -56,9 +70,8 @@ extension TutorListViewController: UICollectionViewDelegate, UICollectionViewDat
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == tutorListCollectionView {
-            let selectedTutor = dataController.allSearchResults()[indexPath.row]
+            let selectedTutor = tutors[indexPath.row]
             navigateToTutorProfile(with: selectedTutor)
-
         }
     }
     

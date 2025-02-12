@@ -9,21 +9,25 @@ import UIKit
 import CoreLocation
 
 class SearchViewController: UIViewController, CLLocationManagerDelegate{
-    
+
     private let dataController = SearchDataController.shared
+    
     var selectedSubjects: [String] = []
     var selectedClassIndex: IndexPath?
-    
+
     private let locationManager = CLLocationManager()
     @IBOutlet weak var locationTextField: UISearchBar!
-    
     @IBOutlet weak var subjectTextField: UITextField!
     @IBOutlet weak var subjectTableView: UITableView!
+    
     @IBOutlet weak var searchResultcollectionView: UICollectionView!
     @IBOutlet weak var classCollectionView: UICollectionView!
     @IBOutlet weak var subjectBubbleCollectionView: UICollectionView!
+    
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     @IBOutlet weak var standardTop: NSLayoutConstraint!
+    
+    private let activityIndicator = UIActivityIndicatorView(style: .large)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,20 +38,20 @@ class SearchViewController: UIViewController, CLLocationManagerDelegate{
         subjectTableViewDelegates()
         subjectTableViewConfig()
         registerCells()
-    
-        // Add observer for data updates
-            NotificationCenter.default.addObserver(
-                self,
-                selector: #selector(handleDataUpdate),
-                name: .tutorDataUpdated,
-                object: nil
-            )
-        
+
         // Set up location manager
-            locationManager.delegate = self
-            locationManager.requestWhenInUseAuthorization()
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        }
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        
+        // Configure activity indicator
+        activityIndicator.color = .gray
+        activityIndicator.center = view.center
+        view.addSubview(activityIndicator)
+        
+        print("SearchViewController appeared") // Debug print
+        searchResultcollectionView.reloadData()
+    }
     
     @objc private func handleDataUpdate() {
         // Reload all collection views when data is updated
@@ -76,8 +80,44 @@ class SearchViewController: UIViewController, CLLocationManagerDelegate{
     }
     
     @IBAction func DoneBtnClicked(_ sender: UIButton) {
-        let controller = storyboard?.instantiateViewController(identifier: "TutorListViewController") as! TutorListViewController
-        navigationController?.pushViewController(controller, animated: true)
+        
+        // Show activity indicator on the main thread
+        DispatchQueue.main.async {
+            self.activityIndicator.startAnimating()
+        }
+        
+        // Fetch tutors data
+        dataController.fetchTutors { [weak self] result in
+            guard let self = self else { return }
+            
+            // Hide activity indicator on the main thread
+            DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
+            }
+            
+            switch result {
+            case .success(let tutors):
+                // Navigate to TutorListViewController on the main thread
+                DispatchQueue.main.async {
+                    let controller = self.storyboard?.instantiateViewController(identifier: "TutorListViewController") as! TutorListViewController
+                    controller.tutors = tutors // Pass the fetched data
+                    self.navigationController?.pushViewController(controller, animated: true)
+                }
+                self.searchResultcollectionView.reloadData()
+                
+            case .failure(let error):
+                // Show error message on the main thread
+                DispatchQueue.main.async {
+                    self.showError(message: error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    private func showError(message: String) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
     
     @IBAction func enterLocationButtonTapped(_ sender: UIButton) {
@@ -143,20 +183,17 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         case subjectBubbleCollectionView:
             return selectedSubjects.count
         default:
-            return dataController.allSearchResults().count
+            let count = dataController.allSearchResults().count
+            print("Number of tutors in searchResultCollectionView: \(count)") // Debug print
+            return count
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch collectionView {
         case classCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ClassListCollectionViewCell.identifier, for: indexPath) as! ClassListCollectionViewCell
             cell.setup(standard: dataController.getAllStandards()[indexPath.row])
-            
-        // Restore selection state if this cell was previously selected
-           if let selectedClassIndex = selectedClassIndex {
-               cell.isSelected = indexPath == selectedClassIndex
-           }
             return cell
             
         case subjectBubbleCollectionView:
@@ -166,7 +203,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
             
         default:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TutorCollectionViewCell.identifier, for: indexPath) as! TutorCollectionViewCell
-            cell.setup(search: dataController.allSearchResults()[indexPath.row])
+            cell.setup(search: dataController.allSearchResults()[indexPath.row]) // Use the updated searchResults
             return cell
         }
     }
