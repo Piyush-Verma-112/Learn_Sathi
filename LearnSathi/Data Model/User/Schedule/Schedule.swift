@@ -1,6 +1,9 @@
-
-
 import Foundation
+
+enum ScheduleType {
+    case regularClass
+    case test
+}
 
 struct Schedule {
     var tutorLogo, tutorName, duration, subjectLogo, subjectName, chapterName: String
@@ -9,8 +12,9 @@ struct Schedule {
     var endTime: Date
     var topicDescription: [String]
     var lessonNumber: Int
-    
-    init(tutorLogo: String, tutorName: String, duration: String, subjectLogo: String, subjectName: String, topicName: String, date: Date, startTime: String, endTime: String, topicDescription: [String], lessonNumber: Int) {
+    var type: ScheduleType
+
+    init(tutorLogo: String, tutorName: String, duration: String, subjectLogo: String, subjectName: String, topicName: String, date: Date, startTime: String, endTime: String, topicDescription: [String], lessonNumber: Int, type: ScheduleType = .regularClass) {
         self.tutorLogo = tutorLogo
         self.tutorName = tutorName
         self.duration = duration
@@ -18,7 +22,8 @@ struct Schedule {
         self.subjectName = subjectName
         self.chapterName = topicName
         self.date = date
-        
+        self.type = type
+
         // Convert string times to Date objects
         let formatter = DateFormatter()
         formatter.dateFormat = "h:mm a"
@@ -44,5 +49,3 @@ struct Schedule {
         self.lessonNumber = lessonNumber
     }
 }
-
-

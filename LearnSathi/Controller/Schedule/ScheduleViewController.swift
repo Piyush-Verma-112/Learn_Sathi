@@ -19,14 +19,13 @@ class ScheduleViewController: UIViewController {
     @IBOutlet var datePicker: UIDatePicker!
     
     // MARK: - Properties
-        
     private let dataController = ScheduleDataController.shared
     
     var isSelected: Bool = true
     var currentMonthDates: [Date] = []
     var lastSelectedMonth: Int = -1
     private var hasInitialScroll = false
-    var filteredSchedules: [Schedule] = []
+    var filteredSchedules: [String: [Schedule]] = [:]
     var selectedDate: Date?
     var noScheduleLabel: UILabel?
     
@@ -39,9 +38,7 @@ class ScheduleViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
-    
 //  MARK: - viewDidLoad
-        
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -49,7 +46,7 @@ class ScheduleViewController: UIViewController {
         filterSchedules(for: selectedDate!)
         
         _ = UIContextMenuInteraction(delegate: self)
-                profileBarButtonItem.menu = self.contextMenu()
+        profileBarButtonItem.menu = self.contextMenu()
     }
     
     
@@ -71,7 +68,7 @@ class ScheduleViewController: UIViewController {
     
     private func setupNoScheduleLabel() {
         noScheduleLabel = UILabel()
-        noScheduleLabel?.text = "No classes scheduled for today"
+        noScheduleLabel?.text = "Nothing scheduled for today"
         noScheduleLabel?.textAlignment = .center
         noScheduleLabel?.textColor = .gray
         noScheduleLabel?.font = .systemFont(ofSize: 17, weight: .medium)
@@ -92,12 +89,13 @@ class ScheduleViewController: UIViewController {
     }
     
     private func registerCells() {
-        calendarCollectionView.register(UINib(nibName: CalendarCollectionViewCell.identifier, bundle: nil),
-                                      forCellWithReuseIdentifier: CalendarCollectionViewCell.identifier)
+        calendarCollectionView.register(UINib(nibName: CalendarCollectionViewCell.identifier, bundle: nil),forCellWithReuseIdentifier: CalendarCollectionViewCell.identifier)
         
         scheduleCollectionView.register(UINib(nibName: ScheduleCollectionViewCell.identifier, bundle: nil),forCellWithReuseIdentifier: ScheduleCollectionViewCell.identifier)
         
+        scheduleCollectionView.register(UINib(nibName: "ScheduleTestCollectionViewCell", bundle: nil),forCellWithReuseIdentifier: "ScheduleTestCollectionViewCell")
         
+        scheduleCollectionView.register(SectionHeaderCollectionReusableView.self,forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,withReuseIdentifier: "header")
     }
 
     
@@ -105,6 +103,10 @@ class ScheduleViewController: UIViewController {
         calendarCollectionView.layer.shadowColor = UIColor.black.cgColor
         calendarCollectionView.layer.shadowOffset = .zero
         calendarCollectionView.layer.shadowOpacity = 0.1
+        
+        if let layout = scheduleCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.headerReferenceSize = CGSize(width: view.frame.width, height: 50)
+        }
     }
     
     // MARK: - Data Update Methods
@@ -116,7 +118,8 @@ class ScheduleViewController: UIViewController {
     private func filterSchedules(for date: Date) {
         filteredSchedules = dataController.getSchedules(for: date)
         scheduleCollectionView.reloadData()
-        noScheduleLabel?.isHidden = !filteredSchedules.isEmpty
+        let isEmpty = filteredSchedules.values.allSatisfy { $0.isEmpty }
+        noScheduleLabel?.isHidden = !isEmpty
     }
     
     // MARK: - Navigation Methods
@@ -133,11 +136,9 @@ class ScheduleViewController: UIViewController {
     }
     
     //MARK: Actions
-    
     @IBAction func profileBarButtonItemTapped(_ sender: Any) {
         _ = UIContextMenuInteraction(delegate: self)
         profileBarButtonItem.menu = self.contextMenu()
-        
     }
     
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
@@ -190,36 +191,58 @@ class ScheduleViewController: UIViewController {
 //MARK: -  Extension function
 extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        if collectionView == scheduleCollectionView {
+            return filteredSchedules.keys.count
+        }
+        return 1
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == scheduleCollectionView {
-            return filteredSchedules.count
+            let sectionKey = Array(filteredSchedules.keys).sorted()[section]
+            return filteredSchedules[sectionKey]?.count ?? 0
         } else {
             return dataController.getDaysInMonth(for: datePicker.date)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            if collectionView == scheduleCollectionView {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ScheduleCollectionViewCell.identifier,
-                                                            for: indexPath) as! ScheduleCollectionViewCell
-                cell.setup(schedule: filteredSchedules[indexPath.row])
-                return cell
-                
-            } else if collectionView == calendarCollectionView {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionViewCell.identifier,
-                                                            for: indexPath) as! CalendarCollectionViewCell
-                
-                let cellDate = currentMonthDates[indexPath.row]
-                let isToday = dataController.isToday(cellDate)
-                let isSelectedDate = Calendar.current.isDate(cellDate, inSameDayAs: selectedDate ?? Date())
-                let isCurrentMonth = dataController.isSameMonth(cellDate, datePicker.date)
-                
-                configureCellAppearance(cell, date: cellDate, isToday: isToday,isSelected: isSelectedDate, isCurrentMonth: isCurrentMonth)
-                
-                return cell
-            }
-            return UICollectionViewCell()
+        if collectionView == scheduleCollectionView {
+               let sectionKey = Array(filteredSchedules.keys).sorted()[indexPath.section]
+               guard let schedules = filteredSchedules[sectionKey] else {
+                   return UICollectionViewCell()
+               }
+               let schedule = schedules[indexPath.row]
+               
+               switch schedule.type {
+               case .regularClass:
+                   let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ScheduleCollectionViewCell.identifier,
+                                                               for: indexPath) as! ScheduleCollectionViewCell
+                   cell.setup(schedule: schedule)
+                   return cell
+                   
+               case .test:
+                   let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ScheduleTestCollectionViewCell",
+                                                               for: indexPath) as! ScheduleTestCollectionViewCell
+                   cell.setup(schedule: schedule)
+                   return cell
+               }
+           } else if collectionView == calendarCollectionView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionViewCell.identifier,
+                                                        for: indexPath) as! CalendarCollectionViewCell
+            
+            let cellDate = currentMonthDates[indexPath.row]
+            let isToday = dataController.isToday(cellDate)
+            let isSelectedDate = Calendar.current.isDate(cellDate, inSameDayAs: selectedDate ?? Date())
+            let isCurrentMonth = dataController.isSameMonth(cellDate, datePicker.date)
+            
+            configureCellAppearance(cell, date: cellDate, isToday: isToday,isSelected: isSelectedDate, isCurrentMonth: isCurrentMonth)
+            
+            return cell
         }
+        return UICollectionViewCell()
+    }
     
     private func configureCellAppearance(_ cell: CalendarCollectionViewCell, date: Date,
                                            isToday: Bool, isSelected: Bool, isCurrentMonth: Bool) {
@@ -274,7 +297,11 @@ extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     private func showSchedulePopUp(for indexPath: IndexPath) {
-        let selectedSchedule = filteredSchedules[indexPath.row]
+        let sectionKey = Array(filteredSchedules.keys).sorted()[indexPath.section]
+        guard let schedules = filteredSchedules[sectionKey] else {
+            return
+        }
+        let selectedSchedule = schedules[indexPath.row]
         let selectedCell = scheduleCollectionView.cellForItem(at: indexPath)
         
         // Create dimming view
@@ -339,5 +366,31 @@ extension ScheduleViewController: UIContextMenuInteractionDelegate {
         ) { [weak self] _ in
             return self?.contextMenu()
         }
+    }
+}
+
+extension ScheduleViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView,viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        if kind == UICollectionView.elementKindSectionHeader {
+            let headerView = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: "header",
+                for: indexPath) as! SectionHeaderCollectionReusableView
+            
+            let sectionKey = Array(filteredSchedules.keys).sorted()[indexPath.section]
+            if sectionKey == "Scheduled Class" {
+                headerView.headerLabel.text = "Scheduled Classes"
+                headerView.headerLabel.textColor = .darkGray
+            } else {
+                headerView.headerLabel.text = "Scheduled Tests"
+                headerView.headerLabel.textColor = .systemBlue
+            }
+            headerView.headerLabel.font = .systemFont(ofSize: 20, weight: .semibold)
+            
+            
+            return headerView
+        }
+        return UICollectionReusableView()
     }
 }

@@ -21,38 +21,56 @@ class ScheduleDataController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "h:mm a"
         
+        // Get the current month's first day
         let today = calendar.startOfDay(for: Date())
-        let scheduleDates = (0...10).map { dayOffset in
-            calendar.date(byAdding: .day, value: dayOffset, to: today)!
-        }
         
-        schedule = []
+        // Create some dummy schedules for today
+        let schedule1 = Schedule(
+            tutorLogo: "user2",
+            tutorName: "Md Akhlak",
+            duration: "1 hour",
+            subjectLogo: "Maths",
+            subjectName: "Mathematics",
+            topicName: "Algebra Basics",
+            date: today,
+            startTime: "9:00 AM",
+            endTime: "10:00 AM",
+            topicDescription: ["Introduction to Algebra", "Basic Operations"],
+            lessonNumber: 1
+        )
         
-        let scheduleTemplates = [
-            ("Pradeep Gupta", "English Grammar", "Modals", "EnglishLogo", "9:00 AM", "10:00 AM", ["Basics", "Usage", "Examples"]),
-            ("Shahma Ansari", "Science", "Photosynthesis", "ScienceLogo", "11:00 AM", "1:00 PM", ["Definition", "Process", "Applications"]),
-            ("Ayush Singh", "Physics", "Newton's Laws", "PhysicsLogo", "2:00 PM", "3:00 PM", ["First Law", "Second Law", "Third Law"])
-        ]
-
-        for (index, date) in scheduleDates.enumerated() {
-            let template = scheduleTemplates[index % scheduleTemplates.count]
-            
-            schedule.append(
-                Schedule(tutorLogo: "person",
-                         tutorName: template.0,
-                         duration: "1 hr",
-                         subjectLogo: template.3,
-                         subjectName: template.1,
-                         topicName: template.2,
-                         date: date,
-                         startTime: template.4,
-                         endTime: template.5,
-                         topicDescription: template.6,
-                         lessonNumber: index + 1)
-            )
-        }
+        let schedule2 = Schedule(
+            tutorLogo: "profileImage",
+            tutorName: "Jane Doe",
+            duration: "1.5 hours",
+            subjectLogo: "science",
+            subjectName: "Science",
+            topicName: "Physics Fundamentals",
+            date: today,
+            startTime: "11:00 AM",
+            endTime: "12:30 PM",
+            topicDescription: ["Newton's Laws", "Motion and Forces"],
+            lessonNumber: 2
+        )
+        
+        let schedule3 = Schedule(
+            tutorLogo: "user2",
+            tutorName: "Md Akhlak",
+            duration: "2 hours",
+            subjectLogo: "Maths",
+            subjectName: "Mathematics",
+            topicName: "Monthly Test",
+            date: today,
+            startTime: "2:00 PM",
+            endTime: "4:00 PM",
+            topicDescription: ["Algebra", "Geometry", "Trigonometry"],
+            lessonNumber: 3,
+            type: .test
+        )
+        
+        // Add schedules to the array
+        schedule = [schedule1, schedule2, schedule3]
     }
-
     
     // MARK: - Data Access
     func allSchedules() -> [Schedule] {
@@ -80,12 +98,33 @@ class ScheduleDataController {
     }
     
     // MARK: - Schedule Filtering
-    func getSchedules(for date: Date) -> [Schedule] {
+    func getSchedules(for date: Date) -> [String: [Schedule]] {
         let calendar = Calendar.current
-        let schedules = schedule.filter { calendar.isDate($0.date, inSameDayAs: date) }
+        let daySchedules = schedule.filter { calendar.isDate($0.date, inSameDayAs: date) }
         
-        return schedules.sorted { $0.startTime < $1.startTime }
+        var grouped: [String: [Schedule]] = [
+            "Scheduled Class": [],
+            "Scheduled Test": []
+        ]
+        
+        // Sort schedules by type
+        for schedule in daySchedules {
+            if schedule.type == .regularClass {
+                grouped["Scheduled Class"]?.append(schedule)
+            } else {
+                grouped["Scheduled Test"]?.append(schedule)
+            }
+        }
+        
+        // Sort schedules within each group by start time
+        grouped = grouped.mapValues { schedules in
+            schedules.sorted { $0.startTime < $1.startTime }
+        }
+        
+        // Remove empty arrays
+        return grouped.filter { !$0.value.isEmpty }
     }
+    
     // MARK: - Date Utilities
     func isToday(_ date: Date) -> Bool {
         return Calendar.current.isDate(date, inSameDayAs: Date())
@@ -98,4 +137,3 @@ class ScheduleDataController {
         return comp1.year == comp2.year && comp1.month == comp2.month
     }
 }
-

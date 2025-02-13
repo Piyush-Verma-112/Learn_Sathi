@@ -11,98 +11,104 @@ class EventKitViewController: UIViewController {
     private var hasCalendarAccess = false
     
     override func viewDidLoad() {
-            super.viewDidLoad()
-            setupCalendarView()
-            setupNavigationBar()
-            requestCalendarAccess()
-        }
-        
-        private func requestCalendarAccess() {
-            eventStore.requestAccess(to: .event) { [weak self] granted, error in
-                DispatchQueue.main.async {
-                    self?.hasCalendarAccess = granted
-                }
+        super.viewDidLoad()
+        setupCalendarView()
+        setupNavigationBar()
+        requestCalendarAccess()
+    }
+    
+    private func requestCalendarAccess() {
+        eventStore.requestAccess(to: .event) { [weak self] granted, error in
+            DispatchQueue.main.async {
+                self?.hasCalendarAccess = granted
             }
         }
+    }
+    
+    private func setupCalendarView() {
+        calendar = UICalendarView(frame: view.bounds)
+        calendar.calendar = .current
+        calendar.delegate = self
+        calendar.selectionBehavior = UICalendarSelectionSingleDate(delegate: self)
+        calendar.tintColor = .red
+        calendar.backgroundColor = .systemBackground
+        calendar.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
-        private func setupCalendarView() {
-            calendar = UICalendarView(frame: view.bounds)
-            calendar.calendar = .current
-            calendar.delegate = self
-            calendar.selectionBehavior = UICalendarSelectionSingleDate(delegate: self)
-            calendar.tintColor = .systemBlue
-            calendar.backgroundColor = .systemBackground
-            calendar.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            view.addSubview(calendar)
-        }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM yyyy"
+        calendar.fontDesign = .rounded
+        calendar.layer.cornerRadius = 12
         
-        private func setupNavigationBar() {
-            title = "Calendar"
-            navigationItem.leftBarButtonItem = UIBarButtonItem(
-                title: "Done",
-                style: .done,
-                target: self,
-                action: #selector(dismissCalendar)
-            )
-        }
+        let currentDate = Date()
+        var dateComponents = Calendar.current.dateComponents([.year], from: currentDate)
+        dateComponents.year = dateComponents.year! - 2
+        let startDate = Calendar.current.date(from: dateComponents)!
+        dateComponents.year = dateComponents.year! + 4
+        let endDate = Calendar.current.date(from: dateComponents)!
+        calendar.visibleDateComponents = Calendar.current.dateComponents([.year, .month, .day], from: currentDate)
+        calendar.availableDateRange = DateInterval(start: startDate, end: endDate)
         
-        @objc private func dismissCalendar() {
-            dismiss(animated: true)
-        }
+        view.addSubview(calendar)
+    }
+    
+    private func setupNavigationBar() {
+        title = "Calendar"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            title: "Done",
+            style: .done,
+            target: self,
+            action: #selector(dismissCalendar)
+        )
+    }
+    
+    @objc private func dismissCalendar() {
+        dismiss(animated: true)
+    }
+    
+    private func showEvents(for date: DateComponents) {
+        guard let date = Calendar.current.date(from: date) else { return }
         
-        private func showEvents(for date: DateComponents) {
-            guard let date = Calendar.current.date(from: date) else { return }
-            
-            // Check for calendar access
-            if !hasCalendarAccess {
-                let alert = UIAlertController(
-                    title: "Calendar Access Required",
-                    message: "Please grant calendar access in Settings to view events.",
-                    preferredStyle: .alert
-                )
-                
-                alert.addAction(UIAlertAction(title: "Open Settings", style: .default) { _ in
-                    if let url = URL(string: UIApplication.openSettingsURLString) {
-                        UIApplication.shared.open(url)
-                    }
-                })
-                
-                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-                
-                present(alert, animated: true)
-                return
-            }
-            
-            let schedules = dataController.getSchedules(for: date)
-            
+        let schedulesDict = dataController.getSchedules(for: date)
+        
+        if !schedulesDict.isEmpty {
             let event = EKEvent(eventStore: eventStore)
             event.title = "Schedule for \(date.formatted(date: .long, time: .omitted))"
             event.calendar = eventStore.defaultCalendarForNewEvents
             
+            var allSchedules: [Schedule] = []
+            schedulesDict.values.forEach { allSchedules.append(contentsOf: $0) }
             
-            if let firstSchedule = schedules.first {
+            if let firstSchedule = allSchedules.min(by: { $0.startTime < $1.startTime }),
+               let lastSchedule = allSchedules.max(by: { $0.endTime < $1.endTime }) {
                 event.startDate = firstSchedule.startTime
-                event.endDate = schedules.last?.endTime ?? firstSchedule.endTime
+                event.endDate = lastSchedule.endTime
                 
                 var notes = ""
-                for (index, schedule) in schedules.enumerated() {
-                    let timeFormatter = DateFormatter()
-                    timeFormatter.timeStyle = .short
+                let timeFormatter = DateFormatter()
+                timeFormatter.dateFormat = "h:mm a"
+                
+                for (sectionTitle, schedules) in schedulesDict {
+                    notes += "\n\(sectionTitle):\n"
                     
-                    notes += "\n\(index + 1). \(schedule.subjectName)\n"
-                    notes += "   Time: \(timeFormatter.string(from: schedule.startTime)) - \(timeFormatter.string(from: schedule.endTime))\n"
-                    notes += "   Teacher: \(schedule.tutorName)\n"
-                    notes += "   Chapter: \(schedule.chapterName)\n"
-                    notes += "   Lesson: \(schedule.lessonNumber)\n"
+                    for (index, schedule) in schedules.enumerated() {
+                        notes += "\n\(index + 1). \(schedule.subjectName)\n"
+                        notes += "  Time: \(timeFormatter.string(from: schedule.startTime)) - \(timeFormatter.string(from: schedule.endTime))\n"
+                        notes += "  Teacher: \(schedule.tutorName)\n"
+                        notes += "  Topic: \(schedule.subjectName)\n"
+                        notes += "  Lesson: \(schedule.lessonNumber)\n"
+                    }
+                    notes += "\n"
                 }
+                
                 event.notes = notes
                 
                 let eventViewController = EKEventViewController()
                 eventViewController.event = event
+                eventViewController.allowsEditing = false
                 navigationController?.pushViewController(eventViewController, animated: true)
             }
         }
-
+    }
 }
 
 extension EventKitViewController: UICalendarViewDelegate {
@@ -111,7 +117,14 @@ extension EventKitViewController: UICalendarViewDelegate {
         
         let schedules = dataController.getSchedules(for: date)
         if !schedules.isEmpty {
-            return .default(color: .systemBlue)
+            let defaultColor: UIColor = .systemRed
+            let customDecoration = UICalendarView.Decoration.customView {
+                let view = UIView(frame: CGRect(x: 0, y: 0, width: 6, height: 6))
+                view.backgroundColor = defaultColor
+                view.layer.cornerRadius = 3
+                return view
+            }
+            return customDecoration
         }
         return nil
     }
@@ -128,4 +141,3 @@ extension EventKitViewController: UICalendarSelectionSingleDateDelegate {
         return true
     }
 }
-
