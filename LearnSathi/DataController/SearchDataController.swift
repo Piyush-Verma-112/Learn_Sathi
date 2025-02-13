@@ -11,23 +11,28 @@ class SearchDataController {
     private var standards: [String] = []
     
     static var shared = SearchDataController()
-    private let baseURL = "http://localhost:3000"
+    private let baseURL = "http://3.7.253.70:3000"
     
     private init() {
         loadDummyData()
     }
     
     func loadDummyData() {
-        allSubjects = ["Mathematics", "Science", "History", "Geography", "English", "Computer Science", "Biology", "Physics", "Chemistry"]
+        allSubjects = ["Mathematics", "Science", "History", "Geography", "English", "Computer Science", "Biology", "Urdu", "Physics", "Chemistry", "social", "CSE"]
         standards = ["Class 1", "Class 2", "Class 3", "Class 4", "Class 5", "Class 6", "Class 7", "Class 8"]
-
     }
 
-    
     // MARK: - Network Methods
     
-    func fetchTutors(completion: @escaping (Result<[TutorId], Error>) -> Void) {
-        guard let url = URL(string: "\(baseURL)/tutor/all") else {
+    func fetchTutors(subjects: [String], standard: Int, completion: @escaping (Result<[TutorId], Error>) -> Void) {
+        // Construct the URL with query parameters
+        var urlComponents = URLComponents(string: "\(baseURL)/tutor/all")
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "subjects", value: subjects.joined(separator: ",")),
+            URLQueryItem(name: "standard", value: String(standard))
+        ]
+        
+        guard let url = urlComponents?.url else {
             DispatchQueue.main.async {
                 completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
             }
@@ -72,7 +77,6 @@ class SearchDataController {
         }
         task.resume()
     }
-    
     // MARK: - Data Access Methods
     
     func allSearchResults() -> [TutorId] {
