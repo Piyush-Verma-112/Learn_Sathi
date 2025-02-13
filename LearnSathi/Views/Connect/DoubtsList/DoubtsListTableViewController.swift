@@ -85,7 +85,7 @@ class DoubtsListTableViewController: UITableViewController, DoubtDelegate {
         cell.subjectNameLabel.text = subject.subjectName
         cell.lessonNameLabel.text = subject.lessonName
         cell.statusLabel.text = subject.status
-        cell.dateLabel.text = "Date: \(subject.date)"
+        cell.dateLabel.text = subject.date
         cell.questionLabel.text = subject.question
         cell.statusLabel.textColor = subject.status.lowercased() == "pending" ? .systemOrange : .systemGreen
         return cell

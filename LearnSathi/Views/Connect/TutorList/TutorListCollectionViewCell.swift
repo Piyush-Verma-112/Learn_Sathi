@@ -1,5 +1,5 @@
 //
-//  ConnectCollectionViewCell.swift
+//  TutorListCollectionViewCell.swift
 //  LearnSathi
 //
 //  Created by Batch - 2 on 15/01/25.
@@ -19,14 +19,12 @@ class TutorListCollectionViewCell: UICollectionViewCell {
     
     func setup(tutor: Tutor) {
         tutorNameLabel.text = tutor.tutorName
-        subjectNameLabel.text = tutor.subject
+        subjectNameLabel.text = tutor.subject.joined(separator: ", ")
         tutorProfilePicImageView.image = UIImage(named: tutor.tutorProfileImage)
         subjectIconImageView.image = UIImage(named: tutor.subjectIcon)
+                
         
     }
    
-    @IBAction func chevronAction(_ sender: UIButton) {
-    
-        }
-    }
+}
 
