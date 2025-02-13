@@ -8,11 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		C156DA572D40CF69006682E7 /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = C156DA562D40CF69006682E7 /* DGCharts */; };
+		C1901FE02D5D19CB00061041 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1901FDF2D5D19CB00061041 /* EventKit.framework */; };
+		C1901FE22D5D19D300061041 /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1901FE12D5D19D300061041 /* EventKitUI.framework */; };
 		C4CFA0562D37D4C700EA2F2A /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = C4CFA0552D37D4C700EA2F2A /* FSCalendar */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		8BD00EC02D2C22C000AEC755 /* LearnSathi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnSathi.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1901FDF2D5D19CB00061041 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
+		C1901FE12D5D19D300061041 /* EventKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKitUI.framework; path = System/Library/Frameworks/EventKitUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -41,6 +45,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1901FE22D5D19D300061041 /* EventKitUI.framework in Frameworks */,
+				C1901FE02D5D19CB00061041 /* EventKit.framework in Frameworks */,
 				C156DA572D40CF69006682E7 /* DGCharts in Frameworks */,
 				C4CFA0562D37D4C700EA2F2A /* FSCalendar in Frameworks */,
 			);
@@ -53,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				8BD00EC22D2C22C000AEC755 /* LearnSathi */,
+				C1901FDE2D5D19CB00061041 /* Frameworks */,
 				8BD00EC12D2C22C000AEC755 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -63,6 +70,15 @@
 				8BD00EC02D2C22C000AEC755 /* LearnSathi.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C1901FDE2D5D19CB00061041 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C1901FE12D5D19D300061041 /* EventKitUI.framework */,
+				C1901FDF2D5D19CB00061041 /* EventKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

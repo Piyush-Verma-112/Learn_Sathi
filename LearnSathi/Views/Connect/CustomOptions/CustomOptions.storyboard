@@ -426,6 +426,7 @@
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="22/02/25" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ABo-F5-62R">
                                             <rect key="frame" x="276.66666666666669" y="60" width="55" height="16"/>
+
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="16" id="jgy-JN-LuE"/>
                                             </constraints>

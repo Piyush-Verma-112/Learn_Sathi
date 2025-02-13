@@ -232,7 +232,9 @@ class SchedulePopUpView: UIView {
             topicsStackView.addArrangedSubview(topicStack)
         }
         
-        startTimeValueLabel.text = schedule.startTime
-        endTimeValueLabel.text = schedule.endTime
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm a"
+        startTimeValueLabel.text = formatter.string(from: schedule.startTime)
+        endTimeValueLabel.text = formatter.string(from: schedule.endTime)
     }
 }

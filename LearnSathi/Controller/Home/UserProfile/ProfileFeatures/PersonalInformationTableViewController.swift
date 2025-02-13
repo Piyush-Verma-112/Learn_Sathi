@@ -9,31 +9,83 @@ import UIKit
 
 class PersonalInformationTableViewController: UITableViewController , UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
-    @IBOutlet var editFirstNameTextField: UITextField!
-    
-    @IBOutlet var editLastNameTextField: UITextField!
-    
-    @IBOutlet var editBirthDateDatePicker: UIDatePicker!
-    
-    @IBOutlet var editPhoneNumberTextField: UITextField!
-    
+    var user: UserAuth?
+    var currentUserIndex = 0
+    var onSave: ((UserAuth) -> Void)?
 
+    
+    @IBOutlet var editFirstNameTextField: UITextField!
+    @IBOutlet var editLastNameTextField: UITextField!
+    @IBOutlet var editBirthDateDatePicker: UIDatePicker!
+    @IBOutlet var editPhoneNumberTextField: UITextField!
     @IBOutlet var setNewProfilePhotoImageViewTapped: UIImageView!
+    @IBOutlet var editStandardTextField: UITextField!
     
-    
+    private var imagePicker: UIImagePickerController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+        setupUI()
+        loadUserData()
+    }
+    
+    private func setupUI() {
+        // Setup image picker
+        imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        
+        // Setup profile image tap gesture
         addTapGestureToProfileImage()
-      
+
+    }
+    
+    private func loadUserData() {
+        let user = users[currentUserIndex]
+        editFirstNameTextField.text = user.firstName
+        editLastNameTextField.text = user.lastName
+        editStandardTextField.text = user.standard
+        editPhoneNumberTextField.text = user.number
+
+        if let profileImageName = user.profileImage {
+            if let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+                let imagePath = documentsPath.appendingPathComponent(profileImageName)
+                if let image = UIImage(contentsOfFile: imagePath.path) {
+                    setNewProfilePhotoImageViewTapped.image = image
+                    return
+                }
+            }
+            
+            if let image = UIImage(named: profileImageName) {
+                setNewProfilePhotoImageViewTapped.image = image
+            }
+        }
     }
     
     
     
     
+    private func saveImageToDocuments(_ image: UIImage) -> String {
+        let fileManager = FileManager.default
+        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let fileName = UUID().uuidString + ".jpg"
+        let fileURL = documentsDirectory.appendingPathComponent(fileName)
+
+        if let imageData = image.jpegData(compressionQuality: 0.8) {
+            do {
+                try imageData.write(to: fileURL)
+                return fileName  // Save only the file name, not the full path
+            } catch {
+                print("Error saving image: \(error)")
+                return user?.profileImage ?? "defaultProfileImage"
+            }
+        }
+
+        return user?.profileImage ?? "defaultProfileImage"
+    }
+    
     @IBAction func saveButtonTapped(_ sender: Any) {
-        dismiss(animated: true)
+        dismiss(animated: true, completion: nil)
     }
     
     
@@ -60,14 +112,12 @@ class PersonalInformationTableViewController: UITableViewController , UIImagePic
     
     func showImagePickerOptions() {
         let alertController = UIAlertController(title: "Change Profile Picture",message: "Choose your option",preferredStyle: .actionSheet)
-        // Camera option
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             let cameraAction = UIAlertAction(title: "Take Photo", style: .default) { [weak self] _ in
                 self?.showImagePicker(sourceType: .camera)
             }
             alertController.addAction(cameraAction)
         }
-        // Gallery option
         let galleryAction = UIAlertAction(title: "Choose from Gallery", style: .default) { [weak self] _ in
             self?.showImagePicker(sourceType: .photoLibrary)
         }
@@ -81,26 +131,27 @@ class PersonalInformationTableViewController: UITableViewController , UIImagePic
     }
     
     func showImagePicker(sourceType: UIImagePickerController.SourceType) {
-        let imagePicker = UIImagePickerController()
         imagePicker.sourceType = sourceType
-        
-        imagePicker.allowsEditing = true
         present(imagePicker, animated: true)
     }
     
     // MARK: - UIImagePickerControllerDelegate Methods
-    @objc func imagePickerController(_ picker: UIImagePickerController,
-                             didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+    func imagePickerController(_ picker: UIImagePickerController,
+                                 didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let editedImage = info[.editedImage] as? UIImage {
             setNewProfilePhotoImageViewTapped.image = editedImage
         } else if let originalImage = info[.originalImage] as? UIImage {
             setNewProfilePhotoImageViewTapped.image = originalImage
         }
-        dismiss(animated: true)
+        picker.dismiss(animated: true)
     }
+        
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true)
     }
+    
+    
+    
     
 }

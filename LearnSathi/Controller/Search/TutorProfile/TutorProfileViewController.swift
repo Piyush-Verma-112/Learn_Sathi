@@ -12,26 +12,17 @@ class TutorProfileViewController: UIViewController , UICollectionViewDataSource,
     var selectedTutor: TutorId?
     
     
-    @IBOutlet var achievementsCollectionView: UICollectionView!
-
-    @IBOutlet var experienceLabel: UILabel!
-    
-    @IBOutlet var monthlyChargesLabel: UILabel!
-    
-    @IBOutlet var subjectTechesLabel: UILabel!
-    
-    @IBOutlet var graudationCollageLabel: UILabel!
-    
-    @IBOutlet var locationLabel: UILabel!
-    
-    @IBOutlet var tutorNameLabel: UILabel!
-    
-    @IBOutlet var tutorDistanceFromYou: UILabel!
-    
-    
-    @IBOutlet var tutorProfileImageView: UIImageView!
-    
-    @IBOutlet var ratingLabel: UILabel!
+    @IBOutlet weak var achievementsCollectionView: UICollectionView!
+    @IBOutlet weak var experienceLabel: UILabel!
+    @IBOutlet weak var monthlyChargesLabel: UILabel!
+    @IBOutlet weak var subjectTechesLabel: UILabel!
+    @IBOutlet weak var graduationCollageLabel: UILabel!
+    @IBOutlet weak var tutorBio: UILabel!
+    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var tutorNameLabel: UILabel!
+    @IBOutlet weak var tutorDistanceFromYou: UILabel!
+    @IBOutlet weak var tutorProfileImageView: UIImageView!
+    @IBOutlet weak var ratingLabel: UILabel!
     
     
 //    MARK:- ViewDidLoad
@@ -53,6 +44,8 @@ class TutorProfileViewController: UIViewController , UICollectionViewDataSource,
         experienceLabel.text = "Year of Experience \(tutor.experience)"
         monthlyChargesLabel.text = "₹\(tutor.charges)/month"
         subjectTechesLabel.text = tutor.subjects.joined(separator: ", ")
+        tutorBio.text = tutor.bio
+        graduationCollageLabel.text = tutor.gradInstitute
         tutorDistanceFromYou.text = "5km"
         locationLabel.text = tutor.address
         tutorProfileImageView.image = UIImage(named: tutor.profileImage)

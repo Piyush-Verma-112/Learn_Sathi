@@ -99,6 +99,7 @@ class DoubtsListTableViewController: UITableViewController, DoubtDelegate {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let selectedDoubt = filteredSubjects[indexPath.row]
         if selectedDoubt.status.lowercased() == "pending" {
             let alert = UIAlertController(title: "Pending", message: "This doubt is not yet resolved.", preferredStyle: .alert)

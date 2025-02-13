@@ -6,61 +6,190 @@
 //
 
 import UIKit
+import CoreLocation
 
-class SearchViewController: UIViewController {
-    
+class SearchViewController: UIViewController, CLLocationManagerDelegate{
+
     private let dataController = SearchDataController.shared
-    var selectedSubjects: [String] = []
     
+    var selectedStandard: Int? // Store the selected standard
+    
+    var selectedSubjects: [String] = []
+    var selectedClassIndex: IndexPath?
+
+    private let locationManager = CLLocationManager()
+    @IBOutlet weak var locationTextField: UISearchBar!
     @IBOutlet weak var subjectTextField: UITextField!
     @IBOutlet weak var subjectTableView: UITableView!
     
-    @IBOutlet var searchResultcollectionView: UICollectionView!
-    @IBOutlet var classCollectionView: UICollectionView!
-    @IBOutlet var subjectBubbleCollectionView: UICollectionView!
+    @IBOutlet weak var searchResultcollectionView: UICollectionView!
+    @IBOutlet weak var classCollectionView: UICollectionView!
+    @IBOutlet weak var subjectBubbleCollectionView: UICollectionView!
     
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     @IBOutlet weak var standardTop: NSLayoutConstraint!
     
-    
+    private let activityIndicator = UIActivityIndicatorView(style: .large)
     
     override func viewDidLoad() {
-            super.viewDidLoad()
+        super.viewDidLoad()
+        
+        subjectBubbleCollectionView.isHidden = true
+        configureCollectionViewLayout()
+        classCollectionViewConfig()
+        subjectTableViewDelegates()
+        subjectTableViewConfig()
+        registerCells()
+
+        // Set up location manager
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        
+        // Configure activity indicator
+        activityIndicator.color = .gray
+        activityIndicator.center = view.center
+        view.addSubview(activityIndicator)
+        
+        print("SearchViewController appeared") // Debug print
+        searchResultcollectionView.reloadData()
+        
+        // Add tap gesture recognizer to dismiss the keyboard
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false // Ensure it doesn't interfere with other touches
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func dismissKeyboard() {
+        // Dismiss the keyboard
+        view.endEditing(true)
+    }
+    @objc private func handleDataUpdate() {
+        // Reload all collection views when data is updated
+        searchResultcollectionView.reloadData()
+        classCollectionView.reloadData()
+        subjectBubbleCollectionView.reloadData()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    private func configureCollectionViewLayout() {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumInteritemSpacing = 25
+        layout.minimumLineSpacing = 10
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.scrollDirection = .vertical
+        subjectBubbleCollectionView.collectionViewLayout = layout
+    }
+    
+    private func registerCells() {
+        searchResultcollectionView.register(UINib(nibName: TutorCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: TutorCollectionViewCell.identifier)
+        classCollectionView.register(UINib(nibName: ClassListCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: ClassListCollectionViewCell.identifier)
+        subjectBubbleCollectionView.register(UINib(nibName: SubjectBubbleCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: SubjectBubbleCollectionViewCell.identifier)
+    }
+    
+    @IBAction func DoneBtnClicked(_ sender: UIButton) {
+        // Validate that a standard is selected
+        guard let selectedStandard = selectedStandard else {
+            showError(message: "Please select a class.")
+            return
+        }
+        
+        // Validate that at least one subject is selected
+        guard !selectedSubjects.isEmpty else {
+            showError(message: "Please select at least one subject.")
+            return
+        }
+        
+        // Show activity indicator on the main thread
+        DispatchQueue.main.async {
+            self.activityIndicator.startAnimating()
+        }
+        
+        // Fetch tutors data
+        dataController.fetchTutors(subjects: selectedSubjects, standard: selectedStandard) { [weak self] result in
+            guard let self = self else { return }
             
-            subjectBubbleCollectionView.isHidden = true
+            // Hide activity indicator on the main thread
+            DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
+            }
             
-            configureCollectionViewLayout()
-            classCollectionViewConfig()
-            subjectTableViewDelegates()
-            subjectTableViewConfig()
-            registerCells()
-        }
-        
-        private func configureCollectionViewLayout() {
-            let layout = UICollectionViewFlowLayout()
-            layout.minimumInteritemSpacing = 25
-            layout.minimumLineSpacing = 10
-            layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-            layout.scrollDirection = .vertical
-            subjectBubbleCollectionView.collectionViewLayout = layout
-        }
-        
-        private func registerCells() {
-            searchResultcollectionView.register(UINib(nibName: TutorCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: TutorCollectionViewCell.identifier)
-            classCollectionView.register(UINib(nibName: ClassListCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: ClassListCollectionViewCell.identifier)
-            subjectBubbleCollectionView.register(UINib(nibName: SubjectBubbleCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: SubjectBubbleCollectionViewCell.identifier)
-        }
-        
-        @IBAction func DoneBtnClicked(_ sender: UIButton) {
-            let controller = storyboard?.instantiateViewController(identifier: "TutorListViewController") as! TutorListViewController
-            navigationController?.pushViewController(controller, animated: true)
+            switch result {
+            case .success(let tutors):
+                // Navigate to TutorListViewController on the main thread
+                DispatchQueue.main.async {
+                    let controller = self.storyboard?.instantiateViewController(identifier: "TutorListViewController") as! TutorListViewController
+                    controller.tutors = tutors // Pass the fetched data
+                    self.navigationController?.pushViewController(controller, animated: true)
+                }
+                self.searchResultcollectionView.reloadData()
+                
+            case .failure(let error):
+                // Show error message on the main thread
+                DispatchQueue.main.async {
+                    self.showError(message: error.localizedDescription)
+                }
+            }
         }
     }
-
+    
+    private func showError(message: String) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
+    
+    @IBAction func enterLocationButtonTapped(_ sender: UIButton) {
+        locationManager.startUpdatingLocation()
+    }
+    
+    // MARK: - CLLocationManagerDelegate
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last {
+            let geocoder = CLGeocoder()
+            geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
+                if let error = error {
+                    print("Geocoding error: \(error.localizedDescription)")
+                    return
+                }
+                
+                if let placemark = placemarks?.first {
+                    let locality = placemark.locality ?? ""
+                    let administrativeArea = placemark.administrativeArea ?? ""
+                    let country = placemark.country ?? ""
+                    
+                    // Update the text field with the location
+                    self.locationTextField.text = "\(locality), \(administrativeArea), \(country)"
+                    
+                    // Stop updating location to save battery
+                    self.locationManager.stopUpdatingLocation()
+                }
+            }
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Location manager error: \(error.localizedDescription)")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .denied {
+            // Handle the case where the user denies location permissions
+            print("Location access denied")
+        }
+    }
+}
 // MARK: - Collection View Delegates
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     private func classCollectionViewConfig() {
+        classCollectionView.allowsSelection = true // Enable selection
+        classCollectionView.allowsMultipleSelection = false // Only allow one selection
+        
         classCollectionView.layer.cornerRadius = 10
         classCollectionView.layer.shadowColor = UIColor.black.cgColor
         classCollectionView.layer.shadowOpacity = 0.1
@@ -76,10 +205,12 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         case subjectBubbleCollectionView:
             return selectedSubjects.count
         default:
-            return dataController.allSearchResults().count
+            let count = dataController.allSearchResults().count
+            print("Number of tutors in searchResultCollectionView: \(count)") // Debug print
+            return count
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch collectionView {
         case classCollectionView:
@@ -94,15 +225,33 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
             
         default:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TutorCollectionViewCell.identifier, for: indexPath) as! TutorCollectionViewCell
-            cell.setup(search: dataController.allSearchResults()[indexPath.row])
+            cell.setup(search: dataController.allSearchResults()[indexPath.row]) // Use the updated searchResults
             return cell
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == searchResultcollectionView {
+        if collectionView == classCollectionView {
+            // Store the selected index
+            selectedClassIndex = indexPath
+            
+            // Get the selected standard
+            let standardString = dataController.getAllStandards()[indexPath.row]
+            selectedStandard = Int(standardString.components(separatedBy: " ").last ?? "") // Extract the number from "Class X"
+            
+            print("Selected standard: \(selectedStandard ?? -1)") // Debug print
+            // Trigger any additional actions you want when a class is selected
+            
+        } else if collectionView == searchResultcollectionView {
             let selectedTutor = dataController.allSearchResults()[indexPath.row]
             navigateToTutorProfile(with: selectedTutor)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if collectionView == classCollectionView {
+            selectedClassIndex = nil
+            // Handle deselection if needed
         }
     }
     
@@ -160,9 +309,11 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, UITe
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let text = textField.text, !text.isEmpty {
             dataController.addNewSubject(text)
-            textField.text = ""
+            subjectTextField.text = ""
             subjectTableView.reloadData()
         }
+        
+        textField.resignFirstResponder()
         return true
     }
     
@@ -194,3 +345,5 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, UITe
         }
     }
 }
+
+

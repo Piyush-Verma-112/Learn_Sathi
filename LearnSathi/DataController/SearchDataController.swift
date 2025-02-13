@@ -1,41 +1,82 @@
-//
-//  SearchDataController.swift
-//  LearnSathi
-//
-//  Created by Shahma Ansari on 09/02/25.
-//
-
-//
-//  SearchDataController.swift
-//  LearnSathi
-//
-
 import Foundation
 
-class SearchDataController {
-    
-    private var searchResults: [TutorId] = []
-    private var allSubjects = ["Mathematics", "Science", "History", "Geography", "English", "Computer Science", "Biology", "Physics", "Chemistry"]
-    private var filteredSubjects: [String] = []
+extension Notification.Name {
+    static let tutorDataUpdated = Notification.Name("com.projectx.tutorDataUpdated")
+}
 
+class SearchDataController {
+    private var searchResults: [TutorId] = []
+    private var allSubjects: [String] = []
+    private var filteredSubjects: [String] = []
+    private var standards: [String] = []
+    
     static var shared = SearchDataController()
+    private let baseURL = "http://3.7.253.70:3000"
     
     private init() {
         loadDummyData()
     }
     
     func loadDummyData() {
-        searchResults = [
-            TutorId(id: UUID(), fullName: "Md Akhlak", gender: Gender.Male, profileImage: "profileImage", bio: "The best science and maths teacher in your nearby locality.", experience: "3yrs", charges: 5000, subjects: ["Science", "Maths"], Standard: [5, 6, 1, 2], gradInstitute: "Galgotias University", address: "Greater Noida, UP", ratings: 4.7),
-            
-            TutorId(id: UUID(), fullName: "Rohit Sharma", gender: Gender.Male, profileImage: "profileImage1", bio: "Passionate about making learning fun and effective.", experience: "5yrs", charges: 6000, subjects: ["English", "Social Science"], Standard: [3, 4, 5, 6], gradInstitute: "Delhi University", address: "New Delhi, DL", ratings: 4.8),
-            
-            TutorId(id: UUID(), fullName: "Anjali Verma", gender: Gender.Female, profileImage: "profileImage2", bio: "Dedicated tutor with a knack for simplifying complex topics.", experience: "4yrs", charges: 5500, subjects: ["Maths", "Physics"], Standard: [7, 8, 9, 10], gradInstitute: "IIT Kanpur", address: "Lucknow, UP", ratings: 4.6),
-            
-            TutorId(id: UUID(), fullName: "Suresh Patil", gender: Gender.Male, profileImage: "profileImage3", bio: "Expert in conceptual learning with hands-on experience.", experience: "6yrs", charges: 7000, subjects: ["Chemistry", "Biology"], Standard: [9, 10, 11, 12], gradInstitute: "Mumbai University", address: "Mumbai, MH", ratings: 4.9)
-        ]
+        allSubjects = ["Mathematics", "Science", "History", "Geography", "English", "Computer Science", "Biology", "Urdu", "Physics", "Chemistry", "social", "CSE"]
+        standards = ["Class 1", "Class 2", "Class 3", "Class 4", "Class 5", "Class 6", "Class 7", "Class 8"]
     }
+
+    // MARK: - Network Methods
     
+    func fetchTutors(subjects: [String], standard: Int, completion: @escaping (Result<[TutorId], Error>) -> Void) {
+        // Construct the URL with query parameters
+        var urlComponents = URLComponents(string: "\(baseURL)/tutor/all")
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "subjects", value: subjects.joined(separator: ",")),
+            URLQueryItem(name: "standard", value: String(standard))
+        ]
+        
+        guard let url = urlComponents?.url else {
+            DispatchQueue.main.async {
+                completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
+            }
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                DispatchQueue.main.async {
+                    completion(.failure(NSError(domain: "Invalid response", code: -1, userInfo: nil)))
+                }
+                return
+            }
+            
+            guard let data = data else {
+                DispatchQueue.main.async {
+                    completion(.failure(NSError(domain: "No data received", code: -1, userInfo: nil)))
+                }
+                return
+            }
+            
+            do {
+                let tutors = try JSONDecoder().decode([TutorId].self, from: data)
+                DispatchQueue.main.async {
+                    self.searchResults = tutors // Update the searchResults property
+                    print("Fetched tutors: \(tutors.count)") // Debug print
+                    completion(.success(tutors))
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
+            }
+        }
+        task.resume()
+    }
     // MARK: - Data Access Methods
     
     func allSearchResults() -> [TutorId] {
@@ -43,14 +84,14 @@ class SearchDataController {
     }
     
     func getAllSubjects() -> [String] {
-        return allSubjects
+        return Array(allSubjects).sorted()
     }
     
     func getFilteredSubjects() -> [String] {
         return filteredSubjects
     }
     
-    func getAllStandards() -> [Standard] {
+    func getAllStandards() -> [String] {
         return standards
     }
     
@@ -66,7 +107,7 @@ class SearchDataController {
         if query.isEmpty {
             filteredSubjects = []
         } else {
-            filteredSubjects = allSubjects.filter { $0.lowercased().contains(query.lowercased()) }
+            filteredSubjects = getAllSubjects().filter { $0.lowercased().contains(query.lowercased()) }
         }
     }
     
