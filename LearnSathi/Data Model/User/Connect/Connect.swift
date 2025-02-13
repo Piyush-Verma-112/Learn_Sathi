@@ -9,10 +9,10 @@ import Foundation
 import UIKit
 
 struct Tutor {
-    let id: Int
+    let id: UUID
     let tutorName: String
     let tutorProfileImage: String
-    let subject: String
+    let subject: [String]
     let subjectIcon: String
 }
 

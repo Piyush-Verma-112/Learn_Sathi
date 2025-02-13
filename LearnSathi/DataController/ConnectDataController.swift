@@ -21,14 +21,14 @@ class ConnectDataController {
     
     private func loadInitialData() {
         tutors = [
-            Tutor(id: 1, tutorName: "Praveen Shrivastav", tutorProfileImage: "profileImage", subject: "Mathematics", subjectIcon: "Maths"),
-            Tutor(id: 2, tutorName: "Shivam Gupta", tutorProfileImage: "profileImage", subject: "Hindi", subjectIcon: "Maths"),
-            Tutor(id: 3, tutorName: "Rohit Yadav", tutorProfileImage: "profileImage", subject: "Science", subjectIcon: "Maths")
+            Tutor(id: UUID(), tutorName: "Praveen Shrivastav", tutorProfileImage: "profileImage", subject: ["Mathematics"], subjectIcon: "Maths"),
+            Tutor(id: UUID(), tutorName: "Shivam Gupta", tutorProfileImage: "profileImage", subject: ["Mathematics"], subjectIcon: "Maths"),
+            Tutor(id: UUID(), tutorName: "Rohit Yadav", tutorProfileImage: "profileImage", subject: ["Science"], subjectIcon: "science")
             
         ]
         
         doubts = [
-            Doubts(subjectName: "Mathematics", lessonName: "Derivatives", status: "Resolved", date: "12/07/25", question: "f(x) = (2x-1)+g(x)?", solution: "In the image", solutionImages: [
+            Doubts(subjectName: "Mathematics", lessonName: "Derivatives", status: "Resolved", date: "13 Jan 25", question: "f(x) = (2x-1)+g(x)?", solution: "In the image", solutionImages: [
                 UIImage(named: "solutionImage") ?? UIImage(),
                 UIImage(named: "solutionImage") ?? UIImage(),
                 UIImage(named: "solutionImage") ?? UIImage()
@@ -55,11 +55,6 @@ class ConnectDataController {
         doubts.append(doubt)
     }
     
-    func deleteDoubt(at index: Int) {
-        if index < doubts.count {
-            doubts.remove(at: index)
-        }
-    }
 }
 
 

@@ -20,8 +20,9 @@ class YouTutorListTableViewCell: UITableViewCell {
     func setup(tutors: Tutor) {
         tutorImageView.image = UIImage(named: tutors.tutorProfileImage)
         tutorNameLabel.text = tutors.tutorName
-        subjectLabel.text = tutors.subject
+        subjectLabel.text = tutors.subject.joined(separator: ", ")
         subjectImageView.image = UIImage(named: tutors.subjectIcon)
+        
     }
     
 }

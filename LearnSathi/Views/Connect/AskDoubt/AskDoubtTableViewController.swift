@@ -133,12 +133,14 @@ class AskDoubtTableViewController: UITableViewController, UIImagePickerControlle
                 present(alertController, animated: true)
                 return
             }
-
+         let dateFormatter = DateFormatter()
+               dateFormatter.dateFormat = "d MMM YY"
+               let currentDate = dateFormatter.string(from: Date())
             let newDoubt = Doubts(
                 subjectName: subjectText,
                 lessonName: lessonText,
                 status: "Pending",
-                date: DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .none),
+                date: currentDate,
                 question: questionText,
                 solution: "Solution will be added later",
                 solutionImages: []

@@ -45,7 +45,7 @@ extension ConnectViewController: UICollectionViewDataSource, UICollectionViewDel
         if let secondaryVc = storyboard.instantiateViewController(withIdentifier: "CustomOptions") as? CustomOptionsTableViewController {
             secondaryVc.tutorProfileImage = UIImage(named: selectedTutor.tutorProfileImage)
             secondaryVc.tutorName = selectedTutor.tutorName
-            secondaryVc.subjectName = selectedTutor.subject
+            secondaryVc.subjectName = selectedTutor.subject.joined(separator: ", ")
             navigationController?.pushViewController(secondaryVc, animated: true)
         }
     }
