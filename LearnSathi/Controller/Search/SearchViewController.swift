@@ -12,6 +12,8 @@ class SearchViewController: UIViewController, CLLocationManagerDelegate{
 
     private let dataController = SearchDataController.shared
     
+    var selectedStandard: Int? // Store the selected standard
+    
     var selectedSubjects: [String] = []
     var selectedClassIndex: IndexPath?
 
@@ -51,8 +53,17 @@ class SearchViewController: UIViewController, CLLocationManagerDelegate{
         
         print("SearchViewController appeared") // Debug print
         searchResultcollectionView.reloadData()
+        
+        // Add tap gesture recognizer to dismiss the keyboard
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false // Ensure it doesn't interfere with other touches
+        view.addGestureRecognizer(tapGesture)
     }
     
+    @objc private func dismissKeyboard() {
+        // Dismiss the keyboard
+        view.endEditing(true)
+    }
     @objc private func handleDataUpdate() {
         // Reload all collection views when data is updated
         searchResultcollectionView.reloadData()
@@ -80,6 +91,17 @@ class SearchViewController: UIViewController, CLLocationManagerDelegate{
     }
     
     @IBAction func DoneBtnClicked(_ sender: UIButton) {
+        // Validate that a standard is selected
+        guard let selectedStandard = selectedStandard else {
+            showError(message: "Please select a class.")
+            return
+        }
+        
+        // Validate that at least one subject is selected
+        guard !selectedSubjects.isEmpty else {
+            showError(message: "Please select at least one subject.")
+            return
+        }
         
         // Show activity indicator on the main thread
         DispatchQueue.main.async {
@@ -87,7 +109,7 @@ class SearchViewController: UIViewController, CLLocationManagerDelegate{
         }
         
         // Fetch tutors data
-        dataController.fetchTutors { [weak self] result in
+        dataController.fetchTutors(subjects: selectedSubjects, standard: selectedStandard) { [weak self] result in
             guard let self = self else { return }
             
             // Hide activity indicator on the main thread
@@ -213,9 +235,12 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
             // Store the selected index
             selectedClassIndex = indexPath
             
+            // Get the selected standard
+            let standardString = dataController.getAllStandards()[indexPath.row]
+            selectedStandard = Int(standardString.components(separatedBy: " ").last ?? "") // Extract the number from "Class X"
+            
+            print("Selected standard: \(selectedStandard ?? -1)") // Debug print
             // Trigger any additional actions you want when a class is selected
-            let _ = dataController.getAllStandards()[indexPath.row]
-            // Handle the selected standard (e.g., filter tutors, update UI, etc.)
             
         } else if collectionView == searchResultcollectionView {
             let selectedTutor = dataController.allSearchResults()[indexPath.row]
@@ -284,9 +309,11 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, UITe
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let text = textField.text, !text.isEmpty {
             dataController.addNewSubject(text)
-            textField.text = ""
+            subjectTextField.text = ""
             subjectTableView.reloadData()
         }
+        
+        textField.resignFirstResponder()
         return true
     }
     
