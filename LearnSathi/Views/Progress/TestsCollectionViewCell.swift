@@ -17,12 +17,10 @@ class TestsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var attemptedTests: UILabel!
     @IBOutlet weak var subjectLogo: UIImageView!
     
-    func setup (testProgress: TestsProgress) {
+    func setup(testProgress: TestProgress) {
         subjectName.text = testProgress.subject
-        nextTestDate.text = testProgress.nextTest.formatted()
         averageScore.text = "\(testProgress.averageScore)%"
         attemptedTests.text = testProgress.attemptedTests.formatted()
         subjectLogo.image = UIImage(named: testProgress.subjectLogo)
     }
-
 }

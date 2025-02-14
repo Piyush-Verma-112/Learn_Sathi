@@ -35,12 +35,7 @@ class ConnectDataController {
             ])
         ]
         
-        lessonsMapping = [
-            "English": chapterDetailsEnglish.map { $0.chapterName },
-            "Hindi": chapterDetailsHindi.map { $0.chapterName },
-            "Mathematics": chapterDetailsMaths.map { $0.chapterName },
-            "Social Science": chapterDetailsSocialStudies.map { $0.chapterName }
-        ]
+        lessonsMapping = ProgressDataController.shared.getAllLessonsMapping()
     }
     
     func getTutors() -> [Tutor] {
@@ -52,7 +47,7 @@ class ConnectDataController {
     }
     
     func addDoubt(_ doubt: Doubts) {
-        doubts.append(doubt)
+        doubts.insert(doubt,at: 0)
     }
     
 }

@@ -17,18 +17,19 @@ class TestGraphCollectionViewCell: UICollectionViewCell {
         weekSelection.text = "Last Week"
         var valuesAndColors: [(value: Double, color: UIColor)] = []
         var xAxisLabels: [String] = []
-            
+        
         for subject in subjectsData {
             for test in subject {
-                valuesAndColors.append((value: Double(test.score), color: test.colorCode))
+                valuesAndColors.append((value: Double(test.score), color: test.color))
                 xAxisLabels.append(test.chapterName)
             }
         }
-            
+        
         if let firstTest = subjectsData.first?.first {
             presentResult.text = "\(String(format: "%.f", firstTest.score))% Marks"
         }
-            
+        
         barGraph.configure(valuesAndColors: valuesAndColors, xAxisLabels: xAxisLabels)
     }
 }
+

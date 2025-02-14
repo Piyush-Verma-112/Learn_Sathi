@@ -5,7 +5,6 @@
 //  Created by Batch - 2 on 15/01/25.
 //
 
-
 import UIKit
 
 class LessonsCollectionViewCell: UICollectionViewCell {
@@ -20,15 +19,18 @@ class LessonsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var totalLessons: UILabel!
     @IBOutlet var progressBar: UIProgressView!
     
-    func setup(progress: LessonsProgress) {
+    func setup(progress: LessonProgress) {
         subjectName.text = progress.subject
         imageLogo.image = UIImage(named: progress.subjectLogo)
-        ongoingLesson.text = progress.lessonOngoing.formatted()
-        progressStatus.text = "/ " + progress.lessonStatus
-        percentageCompleted.text = progress.completedPercentage.formatted() + "%"
-        percentageCompleted.textColor = progress.color
-        totalLessons.text = progress.totalLessons.formatted()
-        progressBar.progress = Float(progress.completedPercentage) / 100
+        ongoingLesson.text = "\(progress.lessonOngoing)"
+        progressStatus.text = "/ \(progress.lessonStatus.rawValue)"
+        let completionPercentage = (Double(progress.completedLessons) / Double(progress.totalLessons)) * 100
+        percentageCompleted.text = String(format: "%.0f%%", completionPercentage)
+        percentageCompleted.textColor = UIColor.systemBlue
+        totalLessons.text = "\(progress.totalLessons)"
+        progressBar.progress = Float(completionPercentage) / 100
         progressBar.tintColor = progress.color
+        percentageCompleted.textColor = progress.color
     }
 }
+

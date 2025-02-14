@@ -17,21 +17,22 @@ class TestReportsCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var pieChartView: CustomPieChartView!
     
-    //@IBOutlet var averageScore: UILabel!
-    
     func setup(testReports: TestDetails) {
         chapterName.text = testReports.chapterName
         date.text = testReports.testDate.formatted()
-        totalQuestions.text = testReports.totalQuestions.formatted()
-        correctAnswers.text = testReports.correctAnswers.formatted()
-        attemptedQuestions.text = testReports.attemptedQuestions.formatted()
-        //averageScore.text = "Score: \(String(format: "%.1f", testReports.score))%"
+        totalQuestions.text = "\(testReports.totalQuestions)"
+        correctAnswers.text = "\(testReports.correctAnswers)"
+        attemptedQuestions.text = "\(testReports.attemptedQuestions)"
+        
+        let scorePercentage = Double(testReports.score)
+        
         pieChartView.configure(
-               valuesAndColors: [
-                   (value: Double(testReports.score), color: testReports.colorCode),
-                   (value: Double(100 - testReports.score), color: .systemGray)
-               ],
-               centerText: "\(String(format: "%.f", testReports.score))%"
-           )
+            valuesAndColors: [
+                (value: scorePercentage, color: testReports.color),
+                (value: 100 - scorePercentage, color: .systemGray)
+            ],
+            centerText: "\(String(format: "%.f", scorePercentage))%"
+        )
     }
 }
+

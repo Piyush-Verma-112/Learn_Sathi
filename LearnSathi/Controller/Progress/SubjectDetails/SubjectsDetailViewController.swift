@@ -15,10 +15,10 @@ class SubjectsDetailViewController: UIViewController {
     @IBOutlet var sortingButton: UIButton!
     @IBOutlet var sortingLabel: UILabel!
     
-    var completionStatus = ["In Progress", "Completed", "UpComing"]
+    var completionStatus = ["All", "Completed", "In Progress", "UpComing"]
     
-    var subjectName: LessonsProgress?
-    
+    var subjectName: String?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         registerCells()
@@ -36,105 +36,49 @@ class SubjectsDetailViewController: UIViewController {
             })
             sortingAction.append(action)
         }
-        let statusMenu = UIMenu(title: "Sorting", options: [], children: sortingAction)
+        let statusMenu = UIMenu(title: "Sorting Menu", options: [], children: sortingAction)
         sortingButton.menu = statusMenu
         sortingButton.showsMenuAsPrimaryAction = true
+        sortingLabel.text = "All"
     }
     
     func updateNavigationTitle(with indexPath: IndexPath) {
-        navigationItem.title = progressData[indexPath.row].subject
+        let lessonProgress = ProgressDataController.shared.getAllLessonsProgress()
+        navigationItem.title = lessonProgress[indexPath.row].subject
+        subjectName = lessonProgress[indexPath.row].subject
     }
     
     private func registerCells() {
         let nib = UINib(nibName: "LessonDetailsCollectionViewCell", bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: "LessonDetailsCollectionViewCell")
     }
-
 }
+
 extension SubjectsDetailViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let selectedStatus = sortingLabel.text, completionStatus.contains(selectedStatus) else {
-            switch navigationItem.title {
-            case "Mathematics":
-                return chapterDetailsMaths.count
-            case "English":
-                return chapterDetailsEnglish.count
-            case "Science":
-                return chapterDetailsScience.count
-            case "Social Studies":
-                return chapterDetailsSocialStudies.count
-            case "Hindi":
-                return chapterDetailsHindi.count
-            default:
-                return 0
-            }
-        }
+        guard let subject = subjectName else { return 0 }
+        let allLessons = ProgressDataController.shared.getChapters(for: subject)
         
-        switch navigationItem.title {
-            case "Mathematics":
-                return chapterDetailsMaths.filter { getStatus(for: $0) == selectedStatus }.count
-            case "English":
-                return chapterDetailsEnglish.filter { getStatus(for: $0) == selectedStatus }.count
-            case "Science":
-                return chapterDetailsScience.filter { getStatus(for: $0) == selectedStatus }.count
-            case "Social Studies":
-                return chapterDetailsSocialStudies.filter { getStatus(for: $0) == selectedStatus }.count
-            case "Hindi":
-                return chapterDetailsHindi.filter { getStatus(for: $0) == selectedStatus }.count
-            default:
-                return 0
-            }
+        if sortingLabel.text == "All" { return allLessons.count }
+        return allLessons.filter { getStatus(for: $0) == sortingLabel.text }.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LessonDetailsCollectionViewCell", for: indexPath) as! LessonDetailsCollectionViewCell
         
-        guard let selectedStatus = sortingLabel.text, completionStatus.contains(selectedStatus) else {
-            switch navigationItem.title {
-            case "Mathematics":
-                cell.setup(subjectDetails: chapterDetailsMaths[indexPath.row])
-            case "English":
-                cell.setup(subjectDetails: chapterDetailsEnglish[indexPath.row])
-            case "Science":
-                cell.setup(subjectDetails: chapterDetailsScience[indexPath.row])
-            case "Social Studies":
-                cell.setup(subjectDetails: chapterDetailsSocialStudies[indexPath.row])
-            case "Hindi":
-                cell.setup(subjectDetails: chapterDetailsHindi[indexPath.row])
-            default:
-                break
-            }
-            return cell
-        }
+        guard let subject = subjectName else { return cell }
+        let allLessons = ProgressDataController.shared.getChapters(for: subject)
+        let filteredLessons = (sortingLabel.text == "All") ? allLessons : allLessons.filter { getStatus(for: $0) == sortingLabel.text }
         
-        // Filter data after sorting
-        var filteredData: [SubjectDetails] = []
-            switch navigationItem.title {
-            case "Mathematics":
-                filteredData = chapterDetailsMaths.filter { getStatus(for: $0) == selectedStatus }
-            case "English":
-                filteredData = chapterDetailsEnglish.filter { getStatus(for: $0) == selectedStatus }
-            case "Science":
-                filteredData = chapterDetailsScience.filter { getStatus(for: $0) == selectedStatus }
-            case "Social Studies":
-                filteredData = chapterDetailsSocialStudies.filter { getStatus(for: $0) == selectedStatus }
-            case "Hindi":
-                filteredData = chapterDetailsHindi.filter { getStatus(for: $0) == selectedStatus }
-            default:
-                break
-            }
-            cell.setup(subjectDetails: filteredData[indexPath.row])
-            return cell
+        cell.setup(subjectDetails: filteredLessons[indexPath.row])
+        return cell
     }
-    private func getStatus(for subjectDetails: SubjectDetails) -> String {
-        let progress = Float(subjectDetails.progressPercentage) / 100
-        if progress == 1 {
-            return "Completed"
-        } else if progress == 0 {
-            return "UpComing"
-        } else {
-            return "In Progress"
-        }
+    
+    func getStatus(for subjectDetails: SubjectDetails) -> String {
+        let progressPercentage = ProgressDataController.shared.getChapterProgress(for: subjectDetails.chapterName)
+        
+        return progressPercentage == 100 ? "Completed" :
+               (progressPercentage == 0 ? "UpComing" : "In Progress")
     }
 }
