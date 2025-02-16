@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="ProgressCollectionViewCell" customModule="LearnSathi" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="342" height="135"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="342" height="135"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tzt-iS-qaB" customClass="CardView" customModule="LearnSathi" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="342" height="135"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="progres 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JfR-nP-l2i">
+                                <rect key="frame" x="48" y="57" width="71" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="progres 2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p2y-pg-tCp">
+                                <rect key="frame" x="219" y="57" width="73" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="JfR-nP-l2i" firstAttribute="leading" secondItem="tzt-iS-qaB" secondAttribute="leading" constant="48" id="CRQ-1B-kcX"/>
+                            <constraint firstAttribute="height" constant="135" id="aQC-d6-DdM"/>
+                            <constraint firstItem="JfR-nP-l2i" firstAttribute="top" secondItem="tzt-iS-qaB" secondAttribute="top" constant="57" id="aWv-Z7-VeF"/>
+                            <constraint firstAttribute="width" constant="342" id="cCD-wL-V9q"/>
+                            <constraint firstAttribute="bottom" secondItem="p2y-pg-tCp" secondAttribute="bottom" constant="57" id="koa-ei-Soe"/>
+                            <constraint firstItem="p2y-pg-tCp" firstAttribute="leading" secondItem="JfR-nP-l2i" secondAttribute="trailing" constant="100" id="sQK-7Q-p5h"/>
+                            <constraint firstItem="p2y-pg-tCp" firstAttribute="top" secondItem="tzt-iS-qaB" secondAttribute="top" constant="57" id="tjS-15-JXJ"/>
+                            <constraint firstAttribute="bottom" secondItem="JfR-nP-l2i" secondAttribute="bottom" constant="57" id="u3S-cc-dSS"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="tzt-iS-qaB" secondAttribute="bottom" id="MB5-cT-hi7"/>
+                <constraint firstItem="tzt-iS-qaB" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Ods-93-usS"/>
+                <constraint firstItem="tzt-iS-qaB" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="QcM-Ki-Nzg"/>
+                <constraint firstAttribute="trailing" secondItem="tzt-iS-qaB" secondAttribute="trailing" id="ZXV-N9-Rnf"/>
+            </constraints>
+            <connections>
+                <outlet property="progressOne" destination="JfR-nP-l2i" id="00s-Rd-hPI"/>
+                <outlet property="progressTwo" destination="p2y-pg-tCp" id="4eZ-eZ-YYL"/>
+            </connections>
+            <point key="canvasLocation" x="146.56488549618319" y="16.549295774647888"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
