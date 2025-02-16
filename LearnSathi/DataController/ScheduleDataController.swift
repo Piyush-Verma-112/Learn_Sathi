@@ -21,55 +21,131 @@ class ScheduleDataController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "h:mm a"
         
-        // Get the current month's first day
         let today = calendar.startOfDay(for: Date())
+        let todayComponents = calendar.dateComponents([.year, .month, .day], from: today)
         
-        // Create some dummy schedules for today
-        let schedule1 = Schedule(
-            tutorLogo: "user2",
-            tutorName: "Md Akhlak",
-            duration: "1 hour",
-            subjectLogo: "Maths",
-            subjectName: "Mathematics",
-            topicName: "Algebra Basics",
-            date: today,
-            startTime: "9:00 AM",
-            endTime: "10:00 AM",
-            topicDescription: ["Introduction to Algebra", "Basic Operations"],
-            lessonNumber: 1
-        )
+        // Today's classes
+        let todayClasses = [
+            Schedule(
+                tutorLogo: "person",
+                tutorName: "Dr. Smith",
+                duration: "1 hr",
+                subjectLogo: "EnglishLogo",
+                subjectName: "English",
+                topicName: "Advanced Grammar",
+                date: calendar.date(from: DateComponents(year: todayComponents.year, month: todayComponents.month, day: todayComponents.day, hour: 9))!,
+                startTime: "9:00 AM",
+                endTime: "10:00 AM",
+                topicDescription: ["Verb Tenses", "Modals", "Conditionals"],
+                lessonNumber: 1
+            ),
+            
+            Schedule(
+                tutorLogo: "person",
+                tutorName: "Prof. Johnson",
+                duration: "1.5 hr",
+                subjectLogo: "Maths",
+                subjectName: "Mathematics",
+                topicName: "Calculus Basics",
+                date: calendar.date(from: DateComponents(year: todayComponents.year, month: todayComponents.month, day: todayComponents.day, hour: 11))!,
+                startTime: "11:00 AM",
+                endTime: "12:30 PM",
+                topicDescription: ["Derivatives", "Limits", "Integration"],
+                lessonNumber: 2
+            ),
+            
+            Schedule(
+                tutorLogo: "person",
+                tutorName: "Dr. Wilson",
+                duration: "2 hr",
+                subjectLogo: "ScienceLogo",
+                subjectName: "Science",
+                topicName: "Physics Fundamentals",
+                date: calendar.date(from: DateComponents(year: todayComponents.year, month: todayComponents.month, day: todayComponents.day, hour: 14))!,
+                startTime: "2:00 PM",
+                endTime: "4:00 PM",
+                topicDescription: ["Mechanics", "Thermodynamics", "Waves"],
+                lessonNumber: 3
+            )
+        ]
         
-        let schedule2 = Schedule(
-            tutorLogo: "profileImage",
-            tutorName: "Jane Doe",
-            duration: "1.5 hours",
-            subjectLogo: "science",
-            subjectName: "Science",
-            topicName: "Physics Fundamentals",
-            date: today,
-            startTime: "11:00 AM",
-            endTime: "12:30 PM",
-            topicDescription: ["Newton's Laws", "Motion and Forces"],
-            lessonNumber: 2
-        )
+        let febTestData = [
+            // English Test - First Sunday
+            Schedule(
+                tutorLogo: "person",
+                tutorName: "English Proctor",
+                duration: "2 hr",
+                subjectLogo: "EnglishLogo",
+                subjectName: "English",
+                topicName: "Monthly English Assessment",
+                date: calendar.date(from: DateComponents(year: 2025, month: 2, day: 2, hour: 10))!,
+                startTime: "10:00 AM",
+                endTime: "12:00 PM",
+                topicDescription: ["Grammar", "Comprehension", "Writing"],
+                lessonNumber: 1,
+                type: .test
+            ),
+            
+            // Mathematics Test - Second Sunday
+            Schedule(
+                tutorLogo: "person",
+                tutorName: "Math Proctor",
+                duration: "2 hr",
+                subjectLogo: "Maths",
+                subjectName: "Mathematics",
+                topicName: "Monthly Math Assessment",
+                date: calendar.date(from: DateComponents(year: 2025, month: 2, day: 9, hour: 10))!,
+                startTime: "10:00 AM",
+                endTime: "12:00 PM",
+                topicDescription: ["Algebra", "Geometry", "Arithmetic"],
+                lessonNumber: 2,
+                type: .test
+            ),
+            
+            // Science Test - Third Sunday
+            Schedule(
+                tutorLogo: "person",
+                tutorName: "Science Proctor",
+                duration: "2 hr",
+                subjectLogo: "ScienceLogo",
+                subjectName: "Science",
+                topicName: "Monthly Science Assessment",
+                date: calendar.date(from: DateComponents(year: 2025, month: 2, day: 16, hour: 10))!,
+                startTime: "10:00 AM",
+                endTime: "12:00 PM",
+                topicDescription: ["Physics", "Chemistry", "Biology"],
+                lessonNumber: 3,
+                type: .test
+            ),
+            
+            // Hindi Test - Fourth Sunday
+            Schedule(
+                tutorLogo: "person",
+                tutorName: "Hindi Proctor",
+                duration: "2 hr",
+                subjectLogo: "HindiLogo",
+                subjectName: "Hindi",
+                topicName: "Monthly Hindi Assessment",
+                date: calendar.date(from: DateComponents(year: 2025, month: 2, day: 23, hour: 10))!,
+                startTime: "10:00 AM",
+                endTime: "12:00 PM",
+                topicDescription: ["Vyakaran", "Sahitya", "Nibandh"],
+                lessonNumber: 4,
+                type: .test
+            )
+        ]
         
-        let schedule3 = Schedule(
-            tutorLogo: "user2",
-            tutorName: "Md Akhlak",
-            duration: "2 hours",
-            subjectLogo: "Maths",
-            subjectName: "Mathematics",
-            topicName: "Monthly Test",
-            date: today,
-            startTime: "2:00 PM",
-            endTime: "4:00 PM",
-            topicDescription: ["Algebra", "Geometry", "Trigonometry"],
-            lessonNumber: 3,
-            type: .test
-        )
+
         
-        // Add schedules to the array
-        schedule = [schedule1, schedule2, schedule3]
+        schedule = (todayClasses + febTestData).sorted { firstSchedule, secondSchedule in
+                    // First sort by date
+            if !calendar.isDate(firstSchedule.date, inSameDayAs: secondSchedule.date) {
+                return firstSchedule.date < secondSchedule.date
+            }
+            
+            // If same date, sort by comparing the dates which include hours
+            return firstSchedule.date < secondSchedule.date
+        }
     }
     
     // MARK: - Data Access

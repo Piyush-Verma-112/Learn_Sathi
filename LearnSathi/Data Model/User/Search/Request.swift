@@ -10,4 +10,5 @@ import Foundation
 struct Request {
     var tutorImage: String
     var tutorName: String
+    var requestStatus: String
 }

@@ -22,11 +22,11 @@ class HomeViewController: UIViewController {
     
     
     var requests: [Request] = [
-        Request(tutorImage: "profileImage", tutorName: "Shahma Ansari"),
-        Request(tutorImage: "profileImage", tutorName: "Shahma Ansari"),
-        Request(tutorImage: "profileImage", tutorName: "Shahma Ansari"),
-        Request(tutorImage: "profileImage", tutorName: "Shahma Ansari"),
-        Request(tutorImage: "profileImage", tutorName: "Shahma Ansari"),
+        Request(tutorImage: "profileImage", tutorName: "Shahma Ansari", requestStatus: "Pending"),
+        Request(tutorImage: "profileImage", tutorName: "Shahma Ansari", requestStatus: "Pending"),
+        Request(tutorImage: "profileImage", tutorName: "Shahma Ansari", requestStatus: "Pending"),
+        Request(tutorImage: "profileImage", tutorName: "Shahma Ansari", requestStatus: "Pending"),
+        Request(tutorImage: "profileImage", tutorName: "Shahma Ansari", requestStatus: "Pending"),
     ]
     
     override func viewDidLoad() {
