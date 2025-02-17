@@ -13,6 +13,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        // Change the tab bar background color globally
+       UITabBar.appearance().barTintColor = .white
+       UITabBar.appearance().isTranslucent = false // Optional: Set to false to ensure it's solid
+
         // Override point for customization after application launch.
         return true
     }
